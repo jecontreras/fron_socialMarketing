@@ -53,19 +53,19 @@
                             <tbody>
                                 <tr *ngFor="let row of dataTable.dataRows; let idx=index">
                                     <!--<td>{{row['codigo']}}</td>-->
-                                    <td style="width: 15%;">
+                                    <td style="width: 5%;">
                                         <a (click)="verFactura(row, false)" class="table-link mouse">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-eye fa-stack-1x fa-inverse"></i>
                                             </span>
                                         </a>
-                                        <a (click)="verFactura(row, 'pdf')" class="table-link warning mouse">
+                                        <!--<a (click)="verFactura(row, false)" class="table-link warning mouse">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-file-pdf-o fa-stack-1x fa-inverse"></i>
                                             </span>
-                                        </a>
+                                        </a>-->
                                     </td>
                                     <td>{{ row['numeroFactura'] }}</td>
                                     <td>{{ row['idContrato']?.codigo }}</td>

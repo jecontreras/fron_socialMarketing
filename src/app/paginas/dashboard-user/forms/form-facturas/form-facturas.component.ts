@@ -30,6 +30,9 @@ export class FormFacturasComponent implements OnInit {
       if(!this.data) this.router.navigate(['/dashboard/home']);
     }, error=>{console.error(error); this.router.navigate(['/dashboard/home']);});
   }
+  imprimir(){
+    window.print()
+  }
 
 
 }

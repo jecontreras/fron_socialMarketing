@@ -1,7 +1,10 @@
+//settings
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardUserRoutingModule } from './dashboard-user.routing';
 import { ContenidoComponent } from './components/contenido/contenido.component';
@@ -22,6 +25,7 @@ import { FormFacturasComponent } from './forms/form-facturas/form-facturas.compo
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxDropzoneModule,
     DashboardUserRoutingModule
   ],
   exports: [

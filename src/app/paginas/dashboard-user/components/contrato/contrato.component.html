@@ -62,19 +62,19 @@
                             <tbody>
                                 <tr *ngFor="let row of dataTable.dataRows; let idx=index">
                                     <!--<td>{{row['codigo']}}</td>-->
-                                    <td style="width: 20%;">
+                                    <td style="width: 15%;">
                                         <a (click)="editartContrato(row, false)" class="table-link mouse">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                             </span>
                                         </a>
-                                        <a (click)="editartContrato(row, 'pdf')" class="table-link warning  mouse">
+                                        <!--<a (click)="editartContrato(row, 'pdf')" class="table-link warning  mouse">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                 <i class="fa fa-file-pdf-o fa-stack-1x fa-inverse"></i>
                                             </span>
-                                        </a>
+                                        </a>-->
                                         <a (click)="eliminarContrato(row)" class="table-link danger mouse">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x"></i>
