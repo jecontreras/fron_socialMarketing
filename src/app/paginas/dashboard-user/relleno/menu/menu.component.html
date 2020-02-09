@@ -1,0 +1,68 @@
+<div id="nav-col">
+    <section id="col-left" class="col-left-nano">
+        <div id="col-left-inner" class="col-left-nano-content">
+            <div id="user-left-box" class="clearfix hidden-sm hidden-xs dropdown profile2-dropdown">
+                <img alt="" [src]="dataUser.foto || './assets/img/samples/scarlet-159.png'" />
+                <div class="user-box">
+                    <span class="name">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ dataUser.username | slice: 0: 30 }}
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="user-profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                            <!--<li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>-->
+                            <li><a (click)="loguot()"><i class="fa fa-power-off"></i>Cerra Sección</a></li>
+                        </ul>
+                    </span>
+                    <span class="status">
+                        <i class="fa fa-circle"></i> Online
+                    </span>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-header nav-header-first hidden-sm hidden-xs">
+                        Navegacion
+                    </li>
+                    <!--<li class="active">
+                        <a href="index-2.html">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Dashboard</span>
+                            <span class="label label-primary label-circle pull-right">23</span>
+                        </a>
+                    </li>-->
+                    <li *ngFor="let menu of listMenu" class="active">
+
+                        <a [routerLink]="menu.redirectTo" *ngIf="menu.submenu.length === 0">
+                            <i class="material-icons">{{ menu.icon }}</i>
+                            <span>{{ menu.name }}</span>
+                            <!--<span class="label label-primary label-circle pull-right">23</span>-->
+                        </a>
+
+                        <a class="dropdown-toggle" *ngIf="menu.submenu.length >0">
+                            <i class="material-icons">{{ menu.icon }}</i>
+                            <span>{{ menu.name }}</span>
+                            <i class="fa fa-angle-right drop-icon"></i>
+                        </a>
+
+                        <ul class="submenu" *ngIf="menu.submenu.length >0">
+                            <li *ngFor="let submenus of menu.submenu">
+                                <a [routerLink]="submenus.redirectTo">
+                                    {{ submenus.name }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="nav-header hidden-sm hidden-xs">
+                        Components
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div id="nav-col-submenu"></div>
+</div>
