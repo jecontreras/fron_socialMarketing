@@ -20,3 +20,10 @@ export interface APPINT {
     apoyo5: string;
     apoyo6: string;
 }
+
+export interface MANDADOS {
+    
+}
+export interface MENSAJES {
+    
+}

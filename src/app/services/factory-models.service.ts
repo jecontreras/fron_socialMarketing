@@ -41,7 +41,7 @@ export class FactoryModelsService {
   querys<Interfas>(query:string, datas:any, METODO:string){
     let data = datas;
     if(METODO === 'get' || METODO === 'post'){
-      data.skip = datas.skip ? datas.skip : 0;
+      data.page = datas.page ? datas.page : 0;
       data.limit = datas.limit ? datas.limit : 10;
       if(!data.where) data.where={};
     }

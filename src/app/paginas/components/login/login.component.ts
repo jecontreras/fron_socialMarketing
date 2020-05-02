@@ -12,7 +12,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  
   public data:any = {};
+  btnDisabled:boolean = false;
+
   constructor(  
     private _login: LoginService,
     private _store: Store<USER>,
@@ -31,9 +34,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   login(){
-    this._login.login(this.data).subscribe(rta=>this.llenarStore(rta), (error)=>console.error(error));
+    this.btnDisabled = true;
+    this._login.login(this.data).subscribe(rta=>this.llenarStore(rta), (error)=>{ console.error(error); this.btnDisabled = false; });
   }
   llenarStore(res:any){
+    this.btnDisabled = false;
     if( !res.success ) return false;
     let accion = new UserAction(res.data, 'post');
     this._store.dispatch(accion);

@@ -28,49 +28,22 @@
                                                 <div class="checkbox-nice">
                                                     <input type="checkbox" id="remember-me" checked="checked" />
                                                     <label for="remember-me">
-                                                        Remember me
+                                                        Recordarme
                                                     </label>
                                                 </div>
                                             </div>
-                                            <a href="forgot-password.html" id="login-forget-link" class="col-xs-6">
-                                                Forgot password?
+                                            <a href="#" id="login-forget-link" class="col-xs-6">
+                                                Recuperar Contraseña?
                                             </a>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button type="submit" (click)="login()" class="btn btn-success col-xs-12">Login</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <p class="social-text">Or login with</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6">
-                                            <button type="submit" class="btn btn-primary col-xs-12 btn-facebook">
-                                                <i class="fa fa-facebook"></i> facebook
-                                            </button>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6">
-                                            <button type="submit" class="btn btn-primary col-xs-12 btn-twitter">
-                                                <i class="fa fa-twitter"></i> Twitter
-                                            </button>
+                                            <button type="submit" [disabled]="btnDisabled" (click)="login()" class="btn btn-success col-xs-12">Login</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="login-box-footer">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            Do not have an account?
-                            <a href="registration.html">
-                                Register now
-                            </a>
                         </div>
                     </div>
                 </div>

@@ -12,9 +12,9 @@ export class LoginService {
     // this.cuerpo = this._model;
   }
   login(query: any){
-    return this._model.querys<USER>('user/login', query, 'post');
+    return this._model.querys<USER>('personas/login', query, 'post');
   }
   register (query: any){
-    return this._model.querys<USER>('user/register', query, 'post');
+    return this._model.querys<USER>('personas/register', query, 'post');
   }
 }

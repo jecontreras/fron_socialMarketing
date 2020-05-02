@@ -1,0 +1,80 @@
+<div id="content-wrapper" class="contents">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="content-header" class="clearfix">
+                        <div class="pull-left">
+                            <ol class="breadcrumb">
+                                <li><a [routerLink]="[ '/dashboard/home' ]">Home</a></li>
+                                <li><a [routerLink]="[ '/dashboard/drives' ]">Drive</a></li>
+                                <li class="active"><span>{{ titulo }}</span></li>
+                            </ol>
+                            <h1> {{ titulo }} Drive</h1>
+                        </div>
+                        <div class="text-right">
+                            <button [routerLink]="[ '/dashboard/drives' ]" class="btn btn-light" type="button">
+                                Volver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <header class="main-box-header clearfix">
+                    <h2>Drives</h2>
+                </header>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Nombre</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.nombre"
+                            placeholder="Enter nombre">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Apellido</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.apellido"
+                            placeholder="Enter nombre">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.email"
+                            placeholder="Enter email">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Numero Celular</label>
+                        <input type="number" class="form-control" [(ngModel)]="data.celular"
+                            placeholder="Enter Numero">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Cedula</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.cedula"
+                            placeholder="Enter Cedula">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Dirección</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.direccion"
+                            placeholder="Enter Dirección">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Contraseña</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.password"
+                            placeholder="Enter Dirección">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="exampleInputEmail1">Confirmar Contraseña</label>
+                        <input type="text" class="form-control" [(ngModel)]="data.confirpassword"
+                            placeholder="Enter Dirección">
+                    </div>
+                    <div class="form-group col-12">
+                        <p class="text-center">
+                            <button (click)="submit()" class="btn btn-success" type="submit" [disabled]="btnDisabled">
+                                <span *ngIf="!id">Guardar</span>
+                                <span *ngIf="id">Editar</span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

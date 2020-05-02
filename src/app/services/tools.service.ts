@@ -1,13 +1,29 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import Swal from 'sweetalert2'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToolsService {
+  
+  loading:any;
 
-  constructor() { }
+  constructor(
+    private snackBar: MatSnackBar
+  ) { }
+ 
+  async presentToast(mensaje:string, type='completado') {
+    this.snackBar.open(mensaje, type, {duration: 5000});
+  }
 
+  openSnack(message: string, type: string, config: any) {
+    if (config) {
+      this.snackBar.open(message, type, config);
+    } else {
+      this.snackBar.open(message, type, {duration: 5000});
+    }
+  }
   basic(text:string){
     Swal.fire(text)
   }
@@ -31,7 +47,7 @@ export class ToolsService {
       position: text.position || 'top-end',
       icon: text.icon || 'success',
       title: text.title || 'Your work has been saved',
-      showConfirmButton: false,
+      showConfirmButton: text.show || false,
       timer: 1500
     });
   }
@@ -51,7 +67,7 @@ export class ToolsService {
     Swal.fire({
       title:  text.title || 'Auto close alert!',
       html: 'I will close in <b></b> milliseconds.',
-      timer: text.tiempo || 2000,
+      timer: text.tiempo || 3000,
       timerProgressBar: true,
       onBeforeOpen: () => {
         Swal.showLoading()
@@ -71,6 +87,6 @@ export class ToolsService {
       }
     })
   }
-
+  
 
 }

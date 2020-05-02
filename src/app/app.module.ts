@@ -16,6 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PaginasModule } from './paginas/paginas.module';
 
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 
 
@@ -34,7 +36,9 @@ import { PaginasModule } from './paginas/paginas.module';
     PaginasModule,
     BrowserAnimationsModule,
     MyOwnCustomMaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    InfiniteScrollModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,14 +7,26 @@
     },
     {
       "icon": "assignment",
-      "name": "Contrato",
-      "redirectTo": "./contrato",
+      "name": "usuarios",
+      "redirectTo": "./usuarios",
       "submenu":[]
     },
     {
       "icon": "assignment_turned_in",
-      "name": "Facturas",
-      "redirectTo": "./facturas",
+      "name": "drive",
+      "redirectTo": "./drives",
+      "submenu":[]
+    },
+    {
+      "icon": "assignment_turned_in",
+      "name": "mensajes",
+      "redirectTo": "./mensajes",
+      "submenu":[]
+    },
+    {
+      "icon": "assignment_turned_in",
+      "name": "mandados",
+      "redirectTo": "./mandados",
       "submenu":[]
     }
   ]

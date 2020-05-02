@@ -1,17 +1,20 @@
 import {
   MatSliderModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
     MatSliderModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatSliderModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSnackBarModule,
   ],
 })
 export class MyOwnCustomMaterialModule { }
