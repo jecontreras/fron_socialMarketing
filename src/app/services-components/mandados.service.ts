@@ -20,4 +20,7 @@ export class MandadosService {
   editar (query: any){
     return this._model.querys<MANDADOS>('ordenes/'+query.id, query, 'put');
   }
+  delete (query: any){
+    return this._model.querys<MANDADOS>('ordenes/'+query.id, query, 'delete');
+  }
 }

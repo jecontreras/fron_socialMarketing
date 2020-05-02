@@ -15,6 +15,7 @@ import { MandadosComponent } from './components/mandados/mandados.component';
 import { FormDriveComponent } from './forms/form-drive/form-drive.component';
 import { FormUsuarioComponent } from './forms/form-usuario/form-usuario.component';
 import { FormMensajesComponent } from './forms/form-mensajes/form-mensajes.component';
+import { FormMandadosComponent } from './forms/form-mandados/form-mandados.component';
 
 const routes: Routes = [
     {
@@ -82,6 +83,10 @@ const routes: Routes = [
           {
             path: 'mandados',
             component: MandadosComponent
+          },
+          {
+            path: 'mandadosform/:id',
+            component: FormMandadosComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]
