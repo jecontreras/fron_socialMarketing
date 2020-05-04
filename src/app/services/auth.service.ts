@@ -6,6 +6,8 @@ import { tap } from 'rxjs/operators';
 import {Router, CanActivate } from '@angular/router';
 import { USER } from '../interfaces/user';
 import { Store } from '@ngrx/store';
+import { UsuariosService } from '../services-components/usuarios.service';
+import { UserAction } from '../redux/app.actions';
 
 export interface User {
   heroesUrl: string;
@@ -17,13 +19,25 @@ export interface User {
 })
 export class AuthService implements CanActivate {
   dataUser:any = {};
-  constructor(private http: HttpClient, private router: Router, private _store: Store<USER>,) {
+  constructor(private http: HttpClient, private router: Router, private _store: Store<USER>, private _user: UsuariosService) {
     this._store.select("name")
     .subscribe((store:any)=>{
       //console.log(store);
       this.dataUser = store.user;
     });
-    }
+      
+  }
+
+  deleteStorages(){
+    let accion = new UserAction( this.dataUser, 'drop');
+    this._store.dispatch(accion);
+    location.reload();
+  }
+
+  pushStorages(){
+    let accion = new UserAction( this.dataUser, 'put');
+    this._store.dispatch(accion);
+  }
 
    private setSession(authResult) {
         const expiresAt = moment().add(authResult.expiresIn, 'second');
@@ -66,6 +80,7 @@ export class AuthService implements CanActivate {
       const identity = this.dataUser;
       //console.log(identity)
       if (Object.keys(identity).length >0) {
+        this.validandoUser();
         return true;
       } else {
         this.router.navigate(['login']);
@@ -81,5 +96,16 @@ export class AuthService implements CanActivate {
           return false;
         }
       }
+    }
+    validandoUser(){
+      this._user.get({ where: { id: this.dataUser.id }}).subscribe((res:any)=>{ 
+        res = res.data[0]; 
+        if(!res) this.deleteStorages();
+        else{
+          this.dataUser = res;
+          this.pushStorages();
+        }
+        },(error)=> { this.deleteStorages() }
+      );
     }
 }

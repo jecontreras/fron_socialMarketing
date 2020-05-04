@@ -5,6 +5,7 @@ import { USER } from 'src/app/interfaces/user';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToolsService } from 'src/app/services/tools.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   
-  public data:any = {};
+  public data:any = {
+    rol: "admin"
+  };
   btnDisabled:boolean = false;
 
   constructor(  
@@ -21,6 +24,7 @@ export class LoginComponent implements OnInit {
     private _store: Store<USER>,
     private router: Router,
     private _authSrvice: AuthService,
+    private _tools: ToolsService
   ) { 
     this._store.select("name")
     .subscribe((store:any)=>{
@@ -39,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
   llenarStore(res:any){
     this.btnDisabled = false;
-    if( !res.success ) return false;
+    if( !res.success ) { this.data = {}; return this._tools.presentToast("Error de login"); };
     let accion = new UserAction(res.data, 'post');
     this._store.dispatch(accion);
     console.log(this.router)

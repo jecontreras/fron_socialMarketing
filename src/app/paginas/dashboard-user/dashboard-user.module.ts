@@ -27,11 +27,12 @@ import { FormDriveComponent } from './forms/form-drive/form-drive.component';
 import { FormUsuarioComponent } from './forms/form-usuario/form-usuario.component';
 import { FormMensajesComponent } from './forms/form-mensajes/form-mensajes.component';
 import { FormMandadosComponent } from './forms/form-mandados/form-mandados.component';
+import { PerfilComponent } from './relleno/perfil/perfil.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, ContratoComponent, FacturasComponent, MainComponent, FormContratoComponent, FormFacturasComponent, DriveComponent, UsuariosComponent, MensajesComponent, MandadosComponent, FormDriveComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent],
+  declarations: [DashboardComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, ContratoComponent, FacturasComponent, MainComponent, FormContratoComponent, FormFacturasComponent, DriveComponent, UsuariosComponent, MensajesComponent, MandadosComponent, FormDriveComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

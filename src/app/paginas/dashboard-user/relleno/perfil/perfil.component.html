@@ -1,0 +1,127 @@
+<div id="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a [routerLink]="['/dashboard/home']">Home</a></li>
+                        <li class="active"><span>Perfil</span></li>
+                    </ol>
+                    <h1>Usuario perfil</h1>
+                </div>
+            </div>
+            <div class="row" id="user-profile">
+                <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="main-box clearfix">
+                        <header class="main-box-header clearfix">
+                            <h2>{{ data.nombre }}</h2>
+                        </header>
+                        <div class="main-box-body clearfix">
+                            <div class="profile-status">
+                                <i class="fa fa-circle"></i> Online
+                            </div>
+                            <img [src]="data.foto || './assets/img/samples/scarlet-159.png'" alt=""
+                                class="profile-img img-responsive center-block foto" />
+                            <div class="profile-label">
+                                <span class="label label-danger">Admin</span>
+                            </div>
+                            <div class="profile-stars">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <span>Super User</span>
+                            </div>
+                            <div class="profile-since">
+                                Member since: {{ data.createdAt }}
+                            </div>
+                            <div class="profile-details">
+                                <ul class="fa-ul">
+                                    <li><i class="fa-li fa fa-truck"></i>Orders: <span>456</span></li>
+                                    <li><i class="fa-li fa fa-comment"></i>Posts: <span>828</span></li>
+                                    <li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="profile-message-btn center-block text-center">
+                                <!-- <a href="#" class="btn btn-success">
+                                    <i class="fa fa-envelope"></i>
+                                    Send message
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8">
+                    <div class="main-box clearfix">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-newsfeed"
+                                        data-toggle="tab">Perfil</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab-newsfeed">
+                                    <div id="newsfeed">
+                                        <div class="story">
+                                            <div class="row">
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Nombre</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.nombre"
+                                                        placeholder="Enter nombre">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Apellido</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.apellido"
+                                                        placeholder="Enter nombre">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Email</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.email"
+                                                        placeholder="Enter email">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Numero Celular</label>
+                                                    <input type="number" class="form-control" [(ngModel)]="data.celular"
+                                                        placeholder="Enter Numero">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Cedula</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.cedula"
+                                                        placeholder="Enter Cedula">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Dirección</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.direccion"
+                                                        placeholder="Enter Dirección">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Contraseña</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.password"
+                                                        placeholder="Enter Dirección">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="exampleInputEmail1">Confirmar Contraseña</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="data.confirpassword"
+                                                        placeholder="Enter Dirección">
+                                                </div>
+                                                <div class="form-group col-12">
+                                                    <p class="text-center">
+                                                        <button (click)="submit()" class="btn btn-success" type="submit" [disabled]="btnDisabled">
+                                                            <span *ngIf="!id">Guardar</span>
+                                                            <span *ngIf="id">Editar</span>
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

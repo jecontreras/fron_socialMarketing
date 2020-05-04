@@ -1,54 +1,43 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { APPINT } from 'src/app/interfaces/interfasapp';
 import { UsuariosService } from 'src/app/services-components/usuarios.service';
 import { ToolsService } from 'src/app/services/tools.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { UserAction } from 'src/app/redux/app.actions';
 
 @Component({
-  selector: 'app-form-usuario',
-  templateUrl: './form-usuario.component.html',
-  styleUrls: ['./form-usuario.component.scss']
+  selector: 'app-perfil',
+  templateUrl: './perfil.component.html',
+  styleUrls: ['./perfil.component.scss']
 })
-export class FormUsuarioComponent implements OnInit {
-
+export class PerfilComponent implements OnInit {
+  
   data:any = {};
   btnDisabled:boolean = false;
   id:any;
-  titulo:any =  "Agregar";
 
   constructor(
+    private _store: Store<APPINT>,
     private _user: UsuariosService,
     private _tools: ToolsService,
-    private activate: ActivatedRoute,
     private Router: Router
-  ) { }
+  ) { 
 
-  ngOnInit() {
-    this.id = (this.activate.snapshot.paramMap.get('id'));
-    if( this.id ) { this.titulo = "Editar"; this.getDrive();}
+    this._store.subscribe((store: any) => {
+      console.log(store);
+      store = store.name;
+      this.data = store.user;
+    });
+
   }
 
-  getDrive(){
-    this._user.get({
-      where:{ id: this.id }
-    }).subscribe((res:any)=>{
-      res = res.data[0];
-      if(!res) return this.Router.navigate(['/dashboard/drives']);
-      this.data = res;
-    })
+  ngOnInit() {
   }
 
   submit(){ 
-    if( this.id ) this.update();
-    else this.guardar();
-  }
-
-  guardar(){
-    this._user.registro(this.data).subscribe((res:any)=>{
-      console.log(res);
-      this.data = res.data;
-      this._tools.presentToast("Drive creado correctamente");
-    },(error)=> this._tools.presentToast("Error al crear el drive"));
+    this.update();
   }
 
   update(){
@@ -57,8 +46,10 @@ export class FormUsuarioComponent implements OnInit {
     this._user.editar(this.data).subscribe((res:any)=>{
       console.log(res);
       this.data = res;
-      this._tools.presentToast("Drive Actualizado correctamente");
-    },(error)=> this._tools.presentToast("Error al Actualizar el drive"));
+      let accion = new UserAction( res, 'put');
+      this._store.dispatch(accion);
+      this._tools.presentToast("Perfil Actualizado correctamente");
+    },(error)=> this._tools.presentToast("Error al Actualizar el Perfil"));
   }
 
   cambioPassword(){

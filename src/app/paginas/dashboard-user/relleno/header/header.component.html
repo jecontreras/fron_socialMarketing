@@ -1,9 +1,9 @@
 <header class="navbar" id="header-navbar">
     <div class="container">
         <a href="index-2.html" id="logo" class="navbar-brand">
-            <img src="./assets/img/logo.png" alt="" class="normal-logo logo-white" />
-            <img src="./assets/img/logo-black.png" alt="" class="normal-logo logo-black" />
-            <img src="./assets/img/logo-small.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
+            <img src="./assets/imagenes/logo.png" alt="" class="normal-logo logo-white" />
+            <img src="./assets/imagenes/logo.png" alt="" class="normal-logo logo-black" />
+            <img src="./assets/imagenes/logo.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
         </a>
         <div class="clearfix">
             <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
@@ -38,7 +38,7 @@
 
 
 
-                    <li class="dropdown hidden-xs">
+                    <!-- <li class="dropdown hidden-xs">
                         <a class="btn dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-tasks"></i>
                             <span class="count">5</span>
@@ -127,13 +127,13 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
 
 
 
 
 
-                    <li class="dropdown hidden-xs">
+                    <!-- <li class="dropdown hidden-xs">
                         <a class="btn dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell"></i>
                             <span class="count">8</span>
@@ -186,7 +186,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
 
                     <!--<li class="dropdown hidden-xs">
                         <a class="btn dropdown-toggle" data-toggle="dropdown">
@@ -257,13 +257,13 @@
                             <span class="hidden-xs">{{ dataUser.username | slice: 0: 30 }}</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="user-profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                            <li><a href="#" [routerLink]="['/dashboard/perfil']" ><i class="fa fa-user"></i>Profile</a></li>
                             <!--<li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
                             <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>-->
-                            <li><a (click)="logout()"><i class="fa fa-power-off"></i>Cerrar Sección</a></li>
+                            <li><a class="mouse" (click)="loguot()"><i class="fa fa-power-off"></i>Cerrar Sección</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown language hidden-xs">
+                    <!-- <li class="dropdown language hidden-xs">
                         <a class="btn dropdown-toggle" data-toggle="dropdown">
                             English
                             <i class="fa fa-caret-down"></i>
@@ -285,7 +285,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

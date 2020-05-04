@@ -64,6 +64,13 @@
                   </tr>
                 </tbody>
               </table>
+              <nav aria-label="Page navigation example" *ngIf="notEmptyPost">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item">
+                    <a class="page-link mouse" (click)="onScroll()" >VER MAS</a>
+                  </li>
+                </ul>
+              </nav>
               <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#581f87" type="ball-pulse-sync"
                 [fullScreen]="false">
               </ngx-spinner>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { USER } from 'src/app/interfaces/user';
 import { Store } from '@ngrx/store';
+import { UserAction } from 'src/app/redux/app.actions';
 
 @Component({
   selector: 'app-header',
@@ -21,8 +22,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-  logout(){
-    
+  loguot(){
+    let accion = new UserAction( this.dataUser, 'drop');
+    this._store.dispatch( accion );
+    location.reload();
   }
 
 }

@@ -11,7 +11,9 @@ import * as _ from 'lodash';
 })
 export class FormDriveComponent implements OnInit {
   
-  data:any = {};
+  data:any = {
+    rol: "conductor"
+  };
   btnDisabled:boolean = false;
   id:any;
   titulo:any =  "Agregar";
@@ -46,7 +48,7 @@ export class FormDriveComponent implements OnInit {
   guardar(){
     this._user.registro(this.data).subscribe((res:any)=>{
       console.log(res);
-      this.data = res;
+      this.data = res.data;
       this._tools.presentToast("Drive creado correctamente");
     },(error)=> this._tools.presentToast("Error al crear el drive"));
   }
