@@ -33,7 +33,7 @@ export class FormUsuarioComponent implements OnInit {
       where:{ id: this.id }
     }).subscribe((res:any)=>{
       res = res.data[0];
-      if(!res) return this.Router.navigate(['/dashboard/drives']);
+      if(!res) return this.Router.navigate(['/dashboard/usuarios']);
       this.data = res;
     })
   }
@@ -47,8 +47,8 @@ export class FormUsuarioComponent implements OnInit {
     this._user.registro(this.data).subscribe((res:any)=>{
       console.log(res);
       this.data = res.data;
-      this._tools.presentToast("Drive creado correctamente");
-    },(error)=> this._tools.presentToast("Error al crear el drive"));
+      this._tools.presentToast("Usuario creado correctamente");
+    },(error)=> this._tools.presentToast("Error al crear el usuario"));
   }
 
   update(){
@@ -57,8 +57,8 @@ export class FormUsuarioComponent implements OnInit {
     this._user.editar(this.data).subscribe((res:any)=>{
       console.log(res);
       this.data = res;
-      this._tools.presentToast("Drive Actualizado correctamente");
-    },(error)=> this._tools.presentToast("Error al Actualizar el drive"));
+      this._tools.presentToast("Usuario Actualizado correctamente");
+    },(error)=> this._tools.presentToast("Error al Actualizar el usuario"));
   }
 
   cambioPassword(){

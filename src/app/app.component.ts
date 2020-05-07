@@ -10,11 +10,11 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     console.log("Buenas")
-    localStorage.setItem('config-fixed-header', 'fixed-header');
-    localStorage.setItem('config-fixed-leftmenu', 'fixed-leftmenu');
-    localStorage.setItem('config-fixed-footer', 'fixed-footer');
-    localStorage.setItem('config-boxed-layout', '');
-    localStorage.setItem('config-skin', 'theme-navyBlue');
+    // localStorage.setItem('config-fixed-header', 'fixed-header');
+    // localStorage.setItem('config-fixed-leftmenu', 'fixed-leftmenu');
+    // localStorage.setItem('config-fixed-footer', 'fixed-footer');
+    // localStorage.setItem('config-boxed-layout', '');
+    // localStorage.setItem('config-skin', 'theme-navyBlue');
     
   }
 
