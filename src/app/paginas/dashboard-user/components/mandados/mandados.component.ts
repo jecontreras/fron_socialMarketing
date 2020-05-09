@@ -24,7 +24,7 @@ export class MandadosComponent implements OnInit {
   loader = true;
   query:any = {
     where:{
-      estado: 0
+      //estado: 0
     },
     sort: "createdAt DESC",
     page: 0

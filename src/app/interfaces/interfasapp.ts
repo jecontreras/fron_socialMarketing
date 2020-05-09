@@ -27,3 +27,6 @@ export interface MANDADOS {
 export interface MENSAJES {
     
 }
+export interface RESENA {
+    
+}

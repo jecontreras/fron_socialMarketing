@@ -1,6 +1,6 @@
 <header class="navbar" id="header-navbar">
     <div class="container">
-        <a href="index-2.html" id="logo" class="navbar-brand">
+        <a href="#" [routerLink]="['/dashboard']" id="logo" class="navbar-brand">
             <img src="./assets/imagenes/logo.png" alt="" class="normal-logo logo-white" />
             <img src="./assets/imagenes/logo.png" alt="" class="normal-logo logo-black" />
             <img src="./assets/imagenes/logo.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
@@ -253,7 +253,7 @@
                     </li>-->
                     <li class="dropdown profile-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img [src]="dataUser.foto || './assets/img/samples/messages-photo-1.png'" />
+                            <img [src]="dataUser.foto || './assets/imagenes/perfil.png'" />
                             <span class="hidden-xs">{{ dataUser.username | slice: 0: 30 }}</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">

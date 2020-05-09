@@ -42,12 +42,12 @@
                 <tbody>
                   <tr *ngFor="let row of dataTable.dataRows; let idx=index">
                     <td style="width: 15%;">
-                      <!-- <a (click)="editar(row)" class="table-link mouse">
+                      <a (click)="editar(row)" class="table-link mouse">
                         <span class="fa-stack">
                           <i class="fa fa-square fa-stack-2x"></i>
                           <i class="fa fa-eye fa-stack-1x fa-inverse"></i>
                         </span>
-                      </a> -->
+                      </a>
                       <a (click)="delete(row)" class="table-link danger mouse">
                         <span class="fa-stack">
                           <i class="fa fa-square fa-stack-2x"></i>
@@ -59,7 +59,12 @@
                     <td>{{ row['descripcion'] }}</td>
                     <td>{{ row['origentexto'] }}</td>
                     <td>{{ row['destinotext'] }}</td>
-                    <td><span *ngIf="row.estado == 0">Activo</span> <span *ngIf="row.estado == 1">Eliminado</span></td>
+                    <td>
+                      <span *ngIf="row.estado == 0">Activo</span> 
+                      <span *ngIf="row.estado == 1">Eliminado</span>
+                      <span *ngIf="row.estado == 2">Completado</span>
+                      <span *ngIf="row.estado == 3">Pactado</span>
+                    </td>
                     <td>{{ row['createdAt'] }}</td>
                   </tr>
                 </tbody>
