@@ -11,21 +11,24 @@ export class UsuariosService {
   ) {
   }
   get(query: any){
-    return this._model.querys<USER>('personas/querys', query, 'post');
+    return this._model.querys<USER>('user/querys', query, 'post');
   }
   registro (query: any){
-    return this._model.querys<USER>('personas/register', query, 'post');
+    return this._model.querys<USER>('user/register', query, 'post');
   }
   cambioPassword (query: any){
-    return this._model.querys<USER>('personas/cambioPass', query, 'post');
+    return this._model.querys<USER>('user/cambioPass', query, 'post');
   }
   saved (query: any){
-    return this._model.querys<USER>('personas/create', query, 'post');
+    return this._model.querys<USER>('user/create', query, 'post');
   }
   editar (query: any){
-    return this._model.querys<USER>('personas/'+query.id, query, 'put');
+    return this._model.querys<USER>('user/'+query.id, query, 'put');
   }
   delete (query: any){
-    return this._model.querys<USER>('personas/'+query.id, query, 'delete');
+    return this._model.querys<USER>('user/'+query.id, query, 'delete');
+  }
+  getPlataforma(url:string, query){
+    return this._model.querysHttp<USER>(url, query, 'post');
   }
 }

@@ -12,18 +12,21 @@ export class MensajesService {
   ) {
   }
   get(query: any){
-    return this._model.querys<MENSAJES>('chat/querys', query, 'post');
+    return this._model.querys<MENSAJES>('mensajes/querys', query, 'post');
   }
   getDetallado(query: any){
     return this._model.querys<MENSAJES>('chatdetallado/querys', query, 'post');
   }
   saved (query: any){
-    return this._model.querys<MENSAJES>('chat/create', query, 'post');
+    return this._model.querys<MENSAJES>('mensajes/create', query, 'post');
+  }
+  renvio (query: any){
+    return this._model.querys<MENSAJES>('mensajes/renvio', query, 'post');
   }
   editar (query: any){
-    return this._model.querys<MENSAJES>('chat/'+query.id, query, 'put');
+    return this._model.querys<MENSAJES>('mensajes/'+query.id, query, 'put');
   }
   delete (query: any){
-    return this._model.querys<MENSAJES>('chat/'+query.id, query, 'delete');
+    return this._model.querys<MENSAJES>('mensajes/'+query.id, query, 'delete');
   }
 }

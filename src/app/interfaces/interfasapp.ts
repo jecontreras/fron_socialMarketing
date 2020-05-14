@@ -30,3 +30,7 @@ export interface MENSAJES {
 export interface RESENA {
     
 }
+
+export interface EMPRESA {
+    
+}

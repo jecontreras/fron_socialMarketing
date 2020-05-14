@@ -13,20 +13,8 @@
     },
     {
       "icon": "assignment_turned_in",
-      "name": "drive",
-      "redirectTo": "./drives",
-      "submenu":[]
-    },
-    {
-      "icon": "assignment_turned_in",
       "name": "mensajes",
       "redirectTo": "./mensajes",
-      "submenu":[]
-    },
-    {
-      "icon": "assignment_turned_in",
-      "name": "mandados",
-      "redirectTo": "./mandados",
       "submenu":[]
     }
   ]

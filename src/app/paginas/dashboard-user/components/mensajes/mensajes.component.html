@@ -1,28 +1,40 @@
 <div id="content-wrapper" class="contents">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-          <div class="col-lg-12">
-            <div id="content-header" class="clearfix">
-              <div class="pull-left">
-                <ol class="breadcrumb">
-                  <li><a [routerLink]="['/dashboard/home']">Home</a></li>
-                  <li class="active"><span>Mensajes</span></li>
-                </ol>
-                <h1>Mensajes</h1>
-              </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="content-header" class="clearfix">
+            <div class="pull-left">
+              <ol class="breadcrumb">
+                <li><a [routerLink]="['/dashboard/home']">Home</a></li>
+                <li class="active"><span>Mensajes</span></li>
+              </ol>
+              <h1>Mensajes</h1>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="form-group pull-left">
-            <input type="text" class="form-control" placeholder="Buscar...">
-          </div>
-          <!-- <button [routerLink]="[ '/dashboard/usuariosform' ]" class="btn btn-primary pull-right">
-            <i class="fa fa-plus-circle fa-lg"></i> Agregar Drive
-          </button> -->
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <input type="text" class="form-control" placeholder="Buscar..." (change)="buscar()" [disabled]="loader">
         </div>
-        <div class="row">
+        <div class="col-4">
+          <div class="">
+            <button class="btn btn-primary" type="button" title="Refresh" data-toggle="tooltip" data-placement="bottom"
+              (click)="buscar()" [disabled]="loader">
+              <i class="fa fa-refresh"></i>
+            </button>
+            <button class="btn btn-primary" type="button" title="Erase" data-toggle="tooltip" data-placement="bottom"
+              (click)="procesoDelete()" [disabled]="btnDisabled">
+              <i class="fa fa-trash-o"></i>
+            </button>
+            <button [routerLink]="[ '/dashboard/mensajesform' ]" class="btn btn-primary pull-right">
+              <i class="fa fa-plus-circle fa-lg"></i> Agregar Mensaje
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
           <div class="card-body">
             <div style="overflow-x: scroll; overflow-y: scroll;" class="material-datatables" infiniteScroll
               [infiniteScrollDistance]="3" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
@@ -77,7 +89,41 @@
               </ngx-spinner>
             </div>
           </div>
+        </div> -->
+      <div id="" class="email-content-nano">
+        <div class="email-content-nano-content">
+          <ul id="email-list">
+            <li class="unread clickable-row" *ngFor="let item of this.dataTable.dataRows">
+              <div class="chbox">
+                <mat-checkbox color="primary" class="example-margin" [(ngModel)]="item.checks"></mat-checkbox>
+              </div>
+              <div class="star">
+                <a></a>
+              </div>
+              <div class="name" (click)="editar( item )">
+                <span *ngIf="item.tipoEnvio == 0">{{ item.emails | slice: 0: 200 }}</span>
+                <span *ngIf="item.tipoEnvio == 1">{{ item['empresa']?.titulo }}</span>
+              </div>
+              <div class="message">
+                <span class="label label-success">Nuevo</span>
+                <span class="subject">{{ item.subtitulo }} -</span>
+                <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
+              </div>
+              <div class="meta-info">
+                <a class="attachment pointer">
+                  <i class="fa fa-paperclip"></i>
+                </a>
+                <span class="date">{{ item.createdAt | date:'medium' }}</span>
+              </div>
+            </li>
+          </ul>
         </div>
+      </div>
+      <div class="col">
+        <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#581f87" type="ball-pulse-sync"
+          [fullScreen]="false">
+        </ngx-spinner>
       </div>
     </div>
   </div>
+</div>

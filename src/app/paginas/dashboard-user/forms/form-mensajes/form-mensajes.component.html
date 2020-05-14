@@ -21,61 +21,119 @@
                 </div>
             </div>
             <div class="row">
-                <header class="main-box-header clearfix">
-                    <h2>Drives</h2>
-                </header>
-                <div class="row">
-                    <div class="conversation-wrapper">
-                        <div class="conversation-content">
-                            <div class="conversation-inner" *ngFor="let item of listChat">
-                                <div class="conversation-item item-left clearfix">
-                                    <div class="conversation-user">
-                                        <img [src]="item.foto || './assets/img/samples/ryan.png'" alt="" />
-                                    </div>
-                                    <div class="conversation-body" *ngIf="data.emisor.id == item.emisor.id">
-                                        <div class="name">
-                                            {{ item.emisor.nombre }}
+                <div class="email-new-nano">
+                    <div class="email-new-nano-content">
+                        <div id="email-new-inner">
+                            <div id="email-new-title" class="clearfix">
+                                <span class="subject">Nuevo Mensaje</span>
+                            </div>
+                            <div>
+                                <div id="email-new-header content">
+                                    <div class="row container">
+                                        <!-- <div class="row form-group col-12">
+                                            <label for="exampleInpTo" class="col-2">To:</label>
+                                            <input type="text" placeholder="Introducir destinatarios" id="exampleInpTo"
+                                                class="form-control form-control-sm" [(ngModel)]="data.creadoEmail" />
+                                        </div> -->
+                                        <div class="row form-group col-12">
+                                            <label for="exampleInpCc" class="col-2">Tipo envio:</label>
+                                            <select class="form-control form-control-sm" [(ngModel)]="data.tipoEnvio">
+                                                <option value="0">Emails</option>
+                                                <option value="1">Plataforma</option>
+                                            </select>
                                         </div>
-                                        <div class="time hidden-xs">
-                                            {{ item.createdAt }}
+                                        <!-- <div class="row form-group col-12" *ngIf="data.tipoEnvio === '0'">
+                                            <label for="exampleInpCc" class="col-2">Email:</label>
+                                            <input type="text" placeholder="Introducir destinatarios"
+                                                    id="exampleInpCc"
+                                                    class="form-control form-control-sm"
+                                                    [(ngModel)]="data.emails"
+                                                />
+                                        </div> -->
+                                        <div class="row form-group col-12" *ngIf="data.tipoEnvio === '1'">
+                                            <label for="exampleInpCc" class="col-2">Plataforma:</label>
+                                            <select class="form-control form-control-sm" [(ngModel)]="data.empresa">
+                                                <option [value]="item.id" *ngFor="let item of listPlataforma">
+                                                    {{ item.titulo }}</option>
+                                            </select>
                                         </div>
-                                        <div class="text">
-                                            {{ item.text }}
+                                        <div class="row form-group col-12">
+                                            <mat-form-field class="example-chip-list">
+                                                <mat-chip-list #chipList aria-label="Email seleccionados">
+                                                    <mat-chip *ngFor="let item of this.data.listEmails"
+                                                        [selectable]="selectable" [removable]="removable"
+                                                        (removed)="remove( item )">
+                                                        {{ item.usu_email }}
+                                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                                    </mat-chip>
+                                                    <input placeholder="To..." [matChipInputFor]="chipList"
+                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                        [matChipInputAddOnBlur]="addOnBlur"
+                                                        (matChipInputTokenEnd)="add($event)">
+                                                </mat-chip-list>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row form-group col-12"
+                                            *ngIf="data.tipoEnvio === '1' && data.empresa">
+                                            <button type="button" [disabled]="btnDisabled || id" class="btn btn-success"
+                                                (click)="openUsurios()">Ver Usuarios</button>
+                                        </div>
+                                        <div class="row form-group col-12">
+                                            <label for="exampleInpSubject" class="col-2">Sub titulo:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.subtitulo" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12">
+                                            <label for="exampleInpSubject" class="col-2">Programada:</label>
+                                            <div class="col-10">
+                                                <mat-checkbox color="primary" class="example-margin" [(ngModel)]="data.programado"></mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12" *ngIf="data.programado">
+                                            <label for="exampleInpSubject" class="col-2">Fecha de programada:</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input [disabled]="id" type="date" class="form-control"
+                                                    [(ngModel)]="data.fechaEnio">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="conversation-item item-right clearfix" *ngIf="data.emisor.id != item.emisor.id">
-                                    <div class="conversation-user">
-                                        <img [src]="item.foto || './assets/img/samples/kunis.png'" alt="" />
-                                    </div>
-                                    <div class="conversation-body">
-                                        <div class="name">
-                                            {{ item.reseptor.nombre }}
-                                        </div>
-                                        <div class="time hidden-xs">
-                                            {{ item.createdAt }}
-                                        </div>
-                                        <div class="text">
-                                            {{ item.text }}
+                                <div id="email-new-body">
+                                    <angular-editor id="editor1" [(ngModel)]="data.descripcion" [config]="editorConfig"
+                                        (ngModelChange)="eventoDescripcion()"></angular-editor>
+                                </div>
+                                <div id="email-new-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-10 col-md-offset-2">
+                                            <div class="pull-right">
+                                                <div class="btn-group">
+                                                    <button type="button" [routerLink]="[ '/dashboard/mensajes' ]"
+                                                        class="btn btn-default"><i class="fa fa-times"></i>
+                                                        Cancelar</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="button" [disabled]="btnDisabled" *ngIf="!id"
+                                                        class="btn btn-success" (click)="enviar()"><i
+                                                            class="fa fa-send"></i>Enviar Email</button>
+                                                    <button type="button" [disabled]="btnDisabled" *ngIf="id"
+                                                        class="btn btn-success" (click)="renvio()"><i
+                                                            class="fa fa-send"></i>Renvio Email</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="conversation-new-message">
-                            <form>
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="2"
-                                        placeholder="Enter your message..."></textarea>
-                                </div>
-                                <div class="clearfix">
-                                    <button type="submit"
-                                        class="btn btn-success pull-right">Send
-                                        message</button>
-                                </div>
-                            </form>
-                        </div> -->
                     </div>
+                </div>
+                <div class="col">
+                    <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#581f87" type="ball-pulse-sync"
+                        [fullScreen]="false">
+                    </ngx-spinner>
                 </div>
             </div>
         </div>
