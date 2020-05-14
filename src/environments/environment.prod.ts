@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: "https://backendmanda.herokuapp.com"
+  url: "https://socialmarkert.herokuapp.com"
 };
