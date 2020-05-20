@@ -21,16 +21,16 @@ export interface Fruit {
 
 
 @Component({
-  selector: 'app-form-mensajes',
-  templateUrl: './form-mensajes.component.html',
-  styleUrls: ['./form-mensajes.component.scss']
+  selector: 'app-form-whatsapp',
+  templateUrl: './form-whatsapp.component.html',
+  styleUrls: ['./form-whatsapp.component.scss']
 })
-export class FormMensajesComponent implements OnInit {
+export class FormWhatsappComponent implements OnInit {
 
   id:any;
   titulo:string = "Detallado";
   data:any = {
-    tipoEnvio: '0',
+    tipoEnvio: '2',
     listEmails: []
   };
   editorConfig: any;
@@ -62,12 +62,26 @@ export class FormMensajesComponent implements OnInit {
 
   ngOnInit() {
     this.id = (this.activate.snapshot.paramMap.get('id'));
-    if( this.id ) this.getMensaje(); 
+    if( this.id ) { 
+      this.getMensaje(); 
+      setInterval(()=>{
+        this.getFoto();
+      }, 3000)
+    }
     else {
       this.data.creado = this.dataUser.id;
       this.data.creadoEmail = this.dataUser.email;
     }
     this.getEmpresas();
+  }
+
+  getFoto(){
+    this._mensajes.get( { where: { id: this.id }}).subscribe((res:any)=>{
+      res = res.data[0];
+      this.spinner.hide();
+      if( !res ) return false;
+      this.data.imagenWhat = res.imagenWhat;
+    });
   }
 
   getMensaje(){
@@ -79,7 +93,7 @@ export class FormMensajesComponent implements OnInit {
       this.data = res;
       if( this.data.empresa ) this.data.empresa = this.data.empresa.id;
       this.data.listEmails = [];
-      if( this.data.emails ){ let filtro:any = this.data.emails.split(","); for(let row of filtro) this.data.listEmails.push( { usu_email: row }); }
+      if( this.data.emails ){ let filtro:any = this.data.emails.split(","); for(let row of filtro) this.data.listEmails.push( { usu_telefono: row }); }
     });
   }
 
@@ -92,6 +106,7 @@ export class FormMensajesComponent implements OnInit {
   openUsurios(){
     let filtro:any = this.listPlataforma.find( (row:any)=> row.id == this.data.empresa );
     if(!filtro) return this._tools.presentToast("Error plataforma no seleccionada");
+    filtro.vista = "whatsapp";
     const dialogRef = this.dialog.open(FormUsuarioComponent,{
       width: '700px',
       data: filtro
@@ -120,6 +135,7 @@ export class FormMensajesComponent implements OnInit {
     this.btnDisabled=true;
     this.data.emails = this.transformar();
     this.data = _.omit(this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
+    this.data.estadoActividad = false;
     this.data = _.omitBy( this.data, _.isNull);
     this._mensajes.renvio( this.data ).subscribe((res:any)=>{
       this._tools.presentToast("Email Renviado");
@@ -130,9 +146,8 @@ export class FormMensajesComponent implements OnInit {
   transformar(){
     let obj:string = "";
     let formatiando:any = [];
-    for( let row of this.data.listEmails ) formatiando.push(row.usu_email);
+    for( let row of this.data.listEmails ) formatiando.push( row.usu_telefono );
     if( Object.keys(formatiando).length > 0 ) obj = formatiando.join();
-    console.log(obj)
     return obj;
   }
 
@@ -193,7 +208,7 @@ export class FormMensajesComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.data.listEmails.push({usu_email: value.trim(), id: this.codigo()});
+      this.data.listEmails.push({ usu_telefono: value.trim(), id: this.codigo() });
     }
 
     // Reset the input value

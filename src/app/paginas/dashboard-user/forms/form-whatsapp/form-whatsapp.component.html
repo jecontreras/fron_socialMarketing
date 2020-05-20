@@ -7,13 +7,13 @@
                         <div class="pull-left">
                             <ol class="breadcrumb">
                                 <li><a [routerLink]="[ '/dashboard/home' ]">Home</a></li>
-                                <li><a [routerLink]="[ '/dashboard/mensajes' ]">Mensajes</a></li>
+                                <li><a [routerLink]="[ '/dashboard/whatsapp' ]">Whatsapp</a></li>
                                 <li class="active"><span>{{ titulo }}</span></li>
                             </ol>
-                            <h1> {{ titulo }} Mensajes</h1>
+                            <h1> {{ titulo }} Whatsapp</h1>
                         </div>
                         <div class="text-right">
-                            <button [routerLink]="[ '/dashboard/mensajes' ]" class="btn btn-light" type="button">
+                            <button [routerLink]="[ '/dashboard/whatsapp' ]" class="btn btn-light" type="button">
                                 Volver
                             </button>
                         </div>
@@ -25,45 +25,31 @@
                     <div class="email-new-nano-content">
                         <div id="email-new-inner">
                             <div id="email-new-title" class="clearfix">
-                                <span class="subject">Nuevo Mensaje</span>
+                                <span class="subject">Nuevo Whatsapp</span>
                             </div>
                             <div>
                                 <div id="email-new-header content">
                                     <div class="row container">
-                                        <!-- <div class="row form-group col-12">
-                                            <label for="exampleInpTo" class="col-2">To:</label>
-                                            <input type="text" placeholder="Introducir destinatarios" id="exampleInpTo"
-                                                class="form-control form-control-sm" [(ngModel)]="data.creadoEmail" />
-                                        </div> -->
-                                        <div class="row form-group col-12">
-                                            <label for="exampleInpCc" class="col-2">Tipo envio:</label>
-                                            <select class="form-control form-control-sm" [(ngModel)]="data.tipoEnvio">
-                                                <option value="0">Emails</option>
-                                                <option value="1">Plataforma</option>
-                                            </select>
+
+                                        <div class="row form-group col-12" *ngIf="data.imagenWhat">
+                                            <img [src]="data.imagenWhat">
                                         </div>
-                                        <!-- <div class="row form-group col-12" *ngIf="data.tipoEnvio === '0'">
-                                            <label for="exampleInpCc" class="col-2">Email:</label>
-                                            <input type="text" placeholder="Introducir destinatarios"
-                                                    id="exampleInpCc"
-                                                    class="form-control form-control-sm"
-                                                    [(ngModel)]="data.emails"
-                                                />
-                                        </div> -->
-                                        <div class="row form-group col-12" *ngIf="data.tipoEnvio === '1' || data.tipoEnvio === '2'">
+
+                                        <div class="row form-group col-12">
                                             <label for="exampleInpCc" class="col-2">Plataforma:</label>
                                             <select class="form-control form-control-sm" [(ngModel)]="data.empresa">
                                                 <option [value]="item.id" *ngFor="let item of listPlataforma">
                                                     {{ item.titulo }}</option>
                                             </select>
                                         </div>
+
                                         <div class="row form-group col-12">
                                             <mat-form-field class="example-chip-list">
                                                 <mat-chip-list #chipList aria-label="Email seleccionados">
                                                     <mat-chip *ngFor="let item of this.data.listEmails"
                                                         [selectable]="selectable" [removable]="removable"
                                                         (removed)="remove( item )">
-                                                        {{ item.usu_email }}
+                                                        {{ item.usu_telefono }}
                                                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                                     </mat-chip>
                                                     <input placeholder="To..." [matChipInputFor]="chipList"
@@ -85,7 +71,7 @@
                                                     class="form-control form-control-sm" [(ngModel)]="data.subtitulo" />
                                             </div>
                                         </div>
-                                        <div class="row form-group col-12">
+                                        <!-- <div class="row form-group col-12">
                                             <label for="exampleInpSubject" class="col-2">Programada:</label>
                                             <div class="col-10">
                                                 <mat-checkbox color="primary" class="example-margin" [(ngModel)]="data.programado"></mat-checkbox>
@@ -98,7 +84,7 @@
                                                 <input [disabled]="id" type="date" class="form-control"
                                                     [(ngModel)]="data.fechaEnio">
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div id="email-new-body">

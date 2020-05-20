@@ -24,6 +24,8 @@ import { FormMandadosComponent } from './forms/form-mandados/form-mandados.compo
 import { PerfilComponent } from './relleno/perfil/perfil.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
+import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
+import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
 
 
 
@@ -31,7 +33,7 @@ import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

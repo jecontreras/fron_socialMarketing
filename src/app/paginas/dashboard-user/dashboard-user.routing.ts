@@ -8,8 +8,9 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { MensajesComponent } from './components/mensajes/mensajes.component';
 import { FormUsuarioComponent } from './forms/form-usuario/form-usuario.component';
 import { FormMensajesComponent } from './forms/form-mensajes/form-mensajes.component';
-import { FormMandadosComponent } from './forms/form-mandados/form-mandados.component';
 import { PerfilComponent } from './relleno/perfil/perfil.component';
+import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
+import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
 
 const routes: Routes = [
     {
@@ -55,8 +56,16 @@ const routes: Routes = [
             component: FormMensajesComponent
           },
           {
-            path: 'mandadosform/:id',
-            component: FormMandadosComponent
+            path: 'whatsapp',
+            component: WhatsappComponent
+          },
+          {
+            path: 'whatsappform',
+            component: FormWhatsappComponent
+          },
+          {
+            path: 'whatsappform/:id',
+            component: FormWhatsappComponent
           },
           {
             path: 'perfil',

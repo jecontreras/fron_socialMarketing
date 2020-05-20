@@ -74,10 +74,14 @@ export class FormUsuarioComponent implements OnInit {
           usu_nombre: row.name,
           usu_email: row.email,
           usu_imagen: row.foto,
+          usu_telefono: "57"+row.celular,
           ...row
         };
       }else{
-        return row;
+        return {
+          ...row,
+          usu_telefono: `${ ( row.usu_indicativo || 57 ) }${ row.usu_telefono }`
+        };
       }
     });
   }
@@ -128,8 +132,16 @@ export class FormUsuarioComponent implements OnInit {
 
   select( item:any ){
     item.check=!item.check;
-    if( item.check ) this.listSeleccion.push( { id: item.id, nombre: item.usu_nombre, usu_email: item.usu_email} );
+    if( item.check ) this.listSeleccion.push( { id: item.id, nombre: item.usu_nombre, usu_email: item.usu_email, usu_telefono: item.usu_telefono } );
     else this.listSeleccion = this.listSeleccion.filter( ( row:any )=> row.id !== item.id );
+  }
+
+  seleccionarTodos(){
+    for(let row of this.listRow) {
+      row.check=!row.check;
+      this.listSeleccion.push( { id: row.id, nombre: row.usu_nombre, usu_email: row.usu_email, usu_telefono: row.usu_telefono} );
+    }
+    this.listSeleccion = _.unionBy(this.listSeleccion || [], this.listSeleccion, 'id');
   }
 
   seleccionados(){

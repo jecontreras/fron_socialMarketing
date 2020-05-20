@@ -12,11 +12,11 @@ declare interface DataTable {
 }
 
 @Component({
-  selector: 'app-mensajes',
-  templateUrl: './mensajes.component.html',
-  styleUrls: ['./mensajes.component.scss']
+  selector: 'app-whatsapp',
+  templateUrl: './whatsapp.component.html',
+  styleUrls: ['./whatsapp.component.scss']
 })
-export class MensajesComponent implements OnInit {
+export class WhatsappComponent implements OnInit {
 
   dataTable: DataTable;
   pagina = 10;
@@ -25,7 +25,7 @@ export class MensajesComponent implements OnInit {
   query:any = {
     where:{
       estado: 0,
-      tipoEnvio: [ 0,1 ]
+      tipoEnvio: 2
     },
     sort: "createdAt DESC",
     page: 0
@@ -80,7 +80,7 @@ export class MensajesComponent implements OnInit {
   }
 
   editar(obj:any){
-    this.Router.navigate(['/dashboard/mensajesform', obj.id]);
+    this.Router.navigate(['/dashboard/whatsappform', obj.id]);
   }
 
   onScroll(){
@@ -114,14 +114,14 @@ export class MensajesComponent implements OnInit {
          this.loader = false;
        });
    }
-   buscar() {
+  buscar() {
     this.loader = true;
     this.notscrolly = true 
     this.notEmptyPost = true;
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
     this.dataTable.dataRows = [];
-    this.query = { where:{ estado: 0, tipoEnvio: [ 0,1 ] }, page: 0 };
+    this.query = { where:{ estado: 0, tipoEnvio: 2 }, page: 0 };
     if (this.datoBusqueda !== '') {
       this.query.page = 0;
       this.query.where.or = [

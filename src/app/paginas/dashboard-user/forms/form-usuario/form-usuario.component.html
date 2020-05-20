@@ -22,6 +22,7 @@
                 <img [src]="item.usu_imagen || './assets/imagenes/perfil.png'" mat-list-icon>
                 <div mat-line>{{ item.usu_nombre }}</div>
                 <div mat-line> {{ item.usu_email }} </div>
+                <div mat-line> {{ item.usu_telefono }} </div>
             </mat-list-item>
         </mat-list>
         <mat-paginator [disabled]="loader" [length]="count" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent($event)">
@@ -35,6 +36,9 @@
 
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cerrar</button>
+    <button mat-button cdkFocusInitial (click)="seleccionarTodos()">
+        <span>Todos en Pantalla</span>
+    </button>
     <button mat-button cdkFocusInitial (click)="seleccionados()">
         <span>Agregar</span>
     </button>
