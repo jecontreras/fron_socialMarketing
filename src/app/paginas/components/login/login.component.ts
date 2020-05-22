@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { UserAction } from 'src/app/redux/app.actions';
+import { UserAction, TokenAction } from 'src/app/redux/app.actions';
 import { USER } from 'src/app/interfaces/user';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -46,8 +46,11 @@ export class LoginComponent implements OnInit {
     if( !res.success ) { this.data = {}; return this._tools.presentToast("Error de login"); };
     let accion = new UserAction(res.data, 'post');
     this._store.dispatch(accion);
-    console.log(this.router)
-    this.router.navigate(['dashboard']);
+    accion = new TokenAction( { token: res.data.tokens }, 'post');
+    this._store.dispatch( accion );
+    setTimeout(()=>{
+      this.router.navigate(['dashboard']);
+    }, 2000 );
   }
 
 }

@@ -39,6 +39,10 @@ export class AuthService implements CanActivate {
     this._store.dispatch(accion);
   }
 
+  getToken(){
+
+  }
+
    private setSession(authResult) {
         const expiresAt = moment().add(authResult.expiresIn, 'second');
 
@@ -81,6 +85,12 @@ export class AuthService implements CanActivate {
       //console.log(identity)
       if (Object.keys(identity).length >0) {
         this.validandoUser();
+        (async ()=>{
+          while (true){
+            await this.sleep(300);
+            this.validandoUser()
+          }
+        });
         return true;
       } else {
         this.router.navigate(['login']);
@@ -96,6 +106,11 @@ export class AuthService implements CanActivate {
           return false;
         }
       }
+    }
+    async sleep(segundos) {
+      return new Promise(resolve => {
+        setTimeout(async () => { resolve(true) }, segundos * 1000)
+      })
     }
     validandoUser(){
       this._user.get({ where: { id: this.dataUser.id }}).subscribe((res:any)=>{ 

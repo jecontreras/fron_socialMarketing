@@ -21,6 +21,10 @@ export interface APPINT {
     apoyo6: string;
 }
 
+export interface TOKEN {
+    
+}
+
 export interface MANDADOS {
     
 }

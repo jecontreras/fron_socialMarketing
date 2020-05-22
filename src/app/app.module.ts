@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 //angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyOwnCustomMaterialModule } from './app.material.module';
 
 //setting angular
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { appReducer } from './redux/app';
 import { StoreModule } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
@@ -18,6 +18,8 @@ import { PaginasModule } from './paginas/paginas.module';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { AuthInterceptor } from './services/authInterceptor';
+import { GlobalErrorHandler } from './services/globalErrorHandler';
 
 
 
@@ -40,7 +42,17 @@ import { NgxSpinnerModule } from "ngx-spinner";
     InfiniteScrollModule,
     NgxSpinnerModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi   : true,
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: GlobalErrorHandler
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
