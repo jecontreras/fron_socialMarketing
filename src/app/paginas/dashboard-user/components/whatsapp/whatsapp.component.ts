@@ -68,7 +68,7 @@ export class WhatsappComponent implements OnInit {
         this._tools.presentToast("Eliminado");
         resolve(true);
       },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve(false) })
-    })
+    });
   }
 
   async procesoDelete(){
@@ -148,6 +148,23 @@ export class WhatsappComponent implements OnInit {
       ]; 
     }
     this.cargarTodos();
+  }
+
+  async activarMensaje( obj:any ){
+    console.log("Hey");
+    let confirm = await this._tools.confirm( {title:"Renviar mensaje", detalle:"Estas seguro de enviar mensaje este proceso volvera a enviar este mensaje", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;    
+    let data = {
+      id: obj.id,
+      estadoActividad: false
+    };
+    return new Promise(resolve=>{
+      this._mensajes.editar(data).subscribe((res:any)=>{
+        this._tools.presentToast("Enviando mensaje");
+        obj.estadoActividad = false;
+        resolve(true);
+      },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve(false) })
+    });
   }
 
 }

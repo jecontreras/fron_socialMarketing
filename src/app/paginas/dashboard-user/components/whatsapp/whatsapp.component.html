@@ -48,6 +48,12 @@
                   <span>{{ item['empresa']?.titulo }}</span>
                 </div>
                 <div class="message">
+                  <span class="label label-success" *ngIf="item.estadoActividad == true" (click)="activarMensaje( item )">
+                    Enviado
+                  </span>
+                  <span *ngIf="item.estadoActividad == false" class="label label-danger">
+                    Activo
+                  </span>
                   <span class="label label-success">Nuevo</span>
                   <span class="subject">{{ item.subtitulo }} -</span>
                   <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
