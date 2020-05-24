@@ -52,7 +52,6 @@ export class FormWhatsappComponent implements OnInit {
     private _tools: ToolsService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private Router: Router
   ) { 
     this.editor();
     this._store.subscribe((store: any) => {
@@ -127,8 +126,7 @@ export class FormWhatsappComponent implements OnInit {
       this._tools.presentToast("Email Enviados");
       this.id = res.data.id;
       this.data = {};
-      // this.getMensaje(); 
-      this.Router.navigate(['/dashboard/whatsappform', res.data.id]);
+      this.getMensaje(); 
       this.btnDisabled=false;
     },(error)=> { this._tools.presentToast("Error al envio de emails"); this.btnDisabled=false;})
   }

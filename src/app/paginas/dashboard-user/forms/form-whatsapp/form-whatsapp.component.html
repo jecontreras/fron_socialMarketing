@@ -88,8 +88,9 @@
                                     </div>
                                 </div>
                                 <div id="email-new-body">
-                                    <angular-editor id="editor1" [(ngModel)]="data.descripcion" [config]="editorConfig"
-                                        (ngModelChange)="eventoDescripcion()"></angular-editor>
+                                    <textarea class="form-control" [(ngModel)]="data.descripcion" id="exampleTextarea" rows="10"></textarea>
+                                    <!-- <angular-editor id="editor1" [(ngModel)]="data.descripcion" [config]="editorConfig"
+                                        (ngModelChange)="eventoDescripcion()"></angular-editor> -->
                                 </div>
                                 <div id="email-new-footer">
                                     <div class="row">
@@ -103,10 +104,10 @@
                                                 <div class="btn-group">
                                                     <button type="button" [disabled]="btnDisabled" *ngIf="!id"
                                                         class="btn btn-success" (click)="enviar()"><i
-                                                            class="fa fa-send"></i>Enviar Email</button>
+                                                            class="fa fa-send"></i>Enviar Whatsapp</button>
                                                     <button type="button" [disabled]="btnDisabled" *ngIf="id"
                                                         class="btn btn-success" (click)="renvio()"><i
-                                                            class="fa fa-send"></i>Renvio Email</button>
+                                                            class="fa fa-send"></i>Renvio Whatsapp</button>
                                                 </div>
                                             </div>
                                         </div>
