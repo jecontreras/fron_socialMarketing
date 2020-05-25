@@ -123,12 +123,12 @@ export class FormWhatsappComponent implements OnInit {
     this.btnDisabled=true;
     this.data.emails = this.transformar();
     this._mensajes.saved( this.data ).subscribe((res:any)=>{
-      this._tools.presentToast("Email Enviados");
+      this._tools.presentToast("Whatsapp Enviados");
       this.id = res.data.id;
       this.data = {};
       this.getMensaje(); 
       this.btnDisabled=false;
-    },(error)=> { this._tools.presentToast("Error al envio de emails"); this.btnDisabled=false;})
+    },(error)=> { this._tools.presentToast("Error al envio de Whatsapp"); this.btnDisabled=false;})
   }
 
   renvio(){
@@ -138,9 +138,9 @@ export class FormWhatsappComponent implements OnInit {
     this.data.estadoActividad = false;
     this.data = _.omitBy( this.data, _.isNull);
     this._mensajes.renvio( this.data ).subscribe((res:any)=>{
-      this._tools.presentToast("Email Renviado");
+      this._tools.presentToast("Whatsapp Renviado");
       this.btnDisabled=false;
-    },(error)=> { this._tools.presentToast("Error al renvio de emails"); this.btnDisabled=false;})
+    },(error)=> { this._tools.presentToast("Error al renvio de Whatsapp"); this.btnDisabled=false;})
   }
 
   transformar(){
