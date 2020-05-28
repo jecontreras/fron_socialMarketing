@@ -131,6 +131,17 @@ export class FormWhatsappComponent implements OnInit {
     },(error)=> { this._tools.presentToast("Error al envio de Whatsapp"); this.btnDisabled=false;})
   }
 
+  actualizar(){
+    this.btnDisabled=true;
+    this.data.emails = this.transformar();
+    this.data = _.omit(this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
+    this.data = _.omitBy( this.data, _.isNull);
+    this._mensajes.renvio( this.data ).subscribe((res:any)=>{
+      this._tools.presentToast("Whatsapp Renviado");
+      this.btnDisabled=false;
+    },(error)=> { this._tools.presentToast("Error al renvio de Whatsapp"); this.btnDisabled=false;})
+  }
+
   renvio(){
     this.btnDisabled=true;
     this.data.emails = this.transformar();
