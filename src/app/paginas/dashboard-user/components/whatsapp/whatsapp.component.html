@@ -41,7 +41,7 @@
                 <div class="chbox">
                   <mat-checkbox color="primary" class="example-margin" [(ngModel)]="item.checks"></mat-checkbox>
                 </div>
-                <div class="star">
+                <div class="star" (click)="editar( item )">
                   <a></a>
                 </div>
                 <div class="name" (click)="editar( item )">
@@ -56,7 +56,7 @@
                   </span>
                   <span class="label label-success">Nuevo</span>
                   <span class="subject">{{ item.subtitulo }} -</span>
-                  <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
+                  <span class="body" (click)="editar( item )" [innerHtml]="item.descripcion | slice: 0: 200"></span>
                 </div>
                 <div class="meta-info">
                   <a class="attachment pointer">

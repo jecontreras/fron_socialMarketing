@@ -64,6 +64,15 @@
                                             <button type="button" [disabled]="btnDisabled || id" class="btn btn-success"
                                                 (click)="openUsurios()">Ver Usuarios</button>
                                         </div>
+                                        
+                                        <div class="row form-group col-12" *ngIf="data.id">
+                                            <label for="exampleInpSubject" class="col-2">Mensajes Enviados:</label>
+                                            <div class="col-10">
+                                                <input type="text" class="form-control"
+                                                    [(ngModel)]="data.cantidadEnviado" />
+                                            </div>
+                                        </div>
+
                                         <div class="row form-group col-12">
                                             <label for="exampleInpSubject" class="col-2">Sub titulo:</label>
                                             <div class="col-10">
@@ -72,13 +81,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="row form-group col-12">
-                                            <label for="exampleInpSubject" class="col-2">Mensajes Enviados:</label>
-                                            <div class="col-10">
-                                                <input type="text" class="form-control"
-                                                    [(ngModel)]="data.cantidadEnviado" />
-                                            </div>
-                                        </div>
                                         <!-- <div class="row form-group col-12">
                                             <label for="exampleInpSubject" class="col-2">Programada:</label>
                                             <div class="col-10">
