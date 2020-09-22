@@ -31,7 +31,12 @@ export class FormWhatsappComponent implements OnInit {
   titulo:string = "Detallado";
   data:any = {
     tipoEnvio: '2',
-    listEmails: []
+    listEmails: [],
+    listRotador: [],
+    pausar: true,
+    cantidadTiempoMensaje: 1,
+    tiempoMsxPausa: 5,
+    cantidadMsxPausa: 10
   };
   editorConfig: any;
   listPlataforma:any = [];
@@ -71,6 +76,7 @@ export class FormWhatsappComponent implements OnInit {
     else {
       this.data.creado = this.dataUser.id;
       this.data.creadoEmail = this.dataUser.email;
+      this.agregarMasRotador();
     }
     this.getEmpresas();
   }
@@ -134,9 +140,9 @@ export class FormWhatsappComponent implements OnInit {
   actualizar(){
     this.btnDisabled=true;
     this.data.emails = this.transformar();
-    this.data = _.omit(this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
-    this.data = _.omitBy( this.data, _.isNull);
-    this._mensajes.renvio( this.data ).subscribe((res:any)=>{
+    let data = _.omit( this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
+    data = _.omitBy( data, _.isNull);
+    this._mensajes.editar( data ).subscribe((res:any)=>{
       this._tools.presentToast("Whatsapp Renviado");
       this.btnDisabled=false;
     },(error)=> { this._tools.presentToast("Error al renvio de Whatsapp"); this.btnDisabled=false;})
@@ -157,7 +163,7 @@ export class FormWhatsappComponent implements OnInit {
   transformar(){
     let obj:string = "";
     let formatiando:any = [];
-    for( let row of this.data.listEmails ) formatiando.push( row.usu_telefono );
+    for( let row of this.data.listEmails ) formatiando.push( { telefono: row.usu_telefono, username: row.usu_nombre } );
     if( Object.keys(formatiando).length > 0 ) obj = formatiando.join();
     return obj;
   }
@@ -238,6 +244,36 @@ export class FormWhatsappComponent implements OnInit {
 
   codigo(){
     return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
+  }
+
+  agregarMasRotador(){
+    if( !this.data.listRotador ) this.data.listRotador = [];
+    this.data.listRotador.push({
+      id: this.codigo()
+    });
+  }
+
+  eliminarMensajes( item:any ){
+    this.data.listRotador = this.data.listRotador.filter( ( row:any ) => row.id != item.id );
+    this.nexProceso();
+  }
+
+  guardarMensajes(){
+    if( !this.id ) return false;
+    if( this.btnDisabled ) return false;
+    this.btnDisabled = true;
+    this.nexProceso();
+  }
+
+  nexProceso(){
+    let data:any = {
+      id: this.data.id,
+      listRotador: this.data.listRotador
+    };
+    this._mensajes.editar( data ).subscribe(( res:any )=>{
+      this._tools.tooast( { title: 'Actualizado rotador mensajes...'});
+      this.btnDisabled = false;
+    },(error)=>{ this._tools.tooast( { title: 'Error al actualizar...'}); this.btnDisabled = false; });
   }
   
 

@@ -52,7 +52,7 @@
                                                         {{ item.usu_telefono }}
                                                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                                     </mat-chip>
-                                                    <input placeholder="To..." [matChipInputFor]="chipList"
+                                                    <input placeholder="Numeros..." [matChipInputFor]="chipList"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                         [matChipInputAddOnBlur]="addOnBlur"
                                                         (matChipInputTokenEnd)="add($event)">
@@ -64,7 +64,7 @@
                                             <button type="button" [disabled]="btnDisabled || id" class="btn btn-success"
                                                 (click)="openUsurios()">Ver Usuarios</button>
                                         </div>
-                                        
+
                                         <div class="row form-group col-12" *ngIf="data.id">
                                             <label for="exampleInpSubject" class="col-2">Mensajes Enviados:</label>
                                             <div class="col-10">
@@ -74,34 +74,72 @@
                                         </div>
 
                                         <div class="row form-group col-12">
-                                            <label for="exampleInpSubject" class="col-2">Sub titulo:</label>
-                                            <div class="col-10">
-                                                <input type="text" placeholder="Enter subject"
-                                                    class="form-control form-control-sm" [(ngModel)]="data.subtitulo" />
-                                            </div>
+                                            <label for="exampleInpSubject" class="col-2">Mensaje:</label>
+                                            <textarea class="form-control" [(ngModel)]="data.descripcion" placeholder="Mensajes...."
+                                                id="exampleTextarea" rows="10"></textarea>
                                         </div>
 
-                                        <!-- <div class="row form-group col-12">
-                                            <label for="exampleInpSubject" class="col-2">Programada:</label>
-                                            <div class="col-10">
-                                                <mat-checkbox color="primary" class="example-margin" [(ngModel)]="data.programado"></mat-checkbox>
+                                        <div class="row form-group col-12">
+                                            <div class="row">
+                                                <div class="col-sm-4 form-group">
+                                                    <label for="exampleInpSubject" class="col-2">Cantidad de tiempo entre mensaje ( segundos ):</label>
+                                                    <div class="col-10">
+                                                        <input type="number" placeholder="..."
+                                                            class="form-control form-control-sm" [(ngModel)]="data.cantidadTiempoMensaje" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label for="exampleInpSubject" class="col-2">Cantidad de de espera entre mensaje ( segundos ):</label>
+                                                    <div class="col-10">
+                                                        <input type="number"
+                                                            class="form-control form-control-sm" placeholder="ejemplo espera 1 minuto y pausa" [(ngModel)]="data.tiempoMsxPausa" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label for="exampleInpSubject" class="col-2">Cantidad de mensaje entre la pausa:</label>
+                                                    <div class="col-10">
+                                                        <input type="number"
+                                                            class="form-control form-control-sm" placeholder="ejemplo 10 mensajes y espera 1 minuto" [(ngModel)]="data.cantidadMsxPausa" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input type="checkbox" aria-label="..." [(ngModel)]="data.pausar">
+                                                        </span>
+                                                        <span>{{ data.pausar == true ? 'Estado del mensajes Activo' : 'Estado del mensajes Pausado' }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label for="exampleInpSubject" class="col-2">Cantidad de lista:</label>
+                                                    <div class="col-10">
+                                                        <input type="number"
+                                                            class="form-control form-control-sm" [(ngModel)]="data.cantidadLista" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input type="checkbox" aria-label="..." [(ngModel)]="data.rotadorMensajes">
+                                                        </span>
+                                                        <span> Rotador de mensajes {{  data.rotadorMensajes == true ? 'si' : 'no' }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row form-group col-12" *ngIf="data.programado">
-                                            <label for="exampleInpSubject" class="col-2">Fecha de programada:</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input [disabled]="id" type="date" class="form-control"
-                                                    [(ngModel)]="data.fechaEnio">
-                                            </div>
-                                        </div> -->
+                                        <div class="row form-group col-12" *ngIf="data.rotadorMensajes">
+                                            <ul class="list-group">
+                                                <li class="list-group-item" *ngFor="let item of data.listRotador">
+                                                    <textarea class="form-control" [(ngModel)]="item.mensajes" rows="4" placeholder="Mensajes...."></textarea>
+                                                    <button type="button" class="btn btn-danger" (click)="eliminarMensajes( item )" >Eliminar Mensajes</button>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <button type="button" class="btn btn-primary" (click)="agregarMasRotador()">Agregar Mas</button>
+                                                    <button type="button" class="btn btn-success" (click)="guardarMensajes()" *ngIf="data.id">Guardar Mensajes</button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="email-new-body">
-                                    <textarea class="form-control" [(ngModel)]="data.descripcion" id="exampleTextarea"
-                                        rows="10"></textarea>
-                                    <!-- <angular-editor id="editor1" [(ngModel)]="data.descripcion" [config]="editorConfig"
-                                        (ngModelChange)="eventoDescripcion()"></angular-editor> -->
                                 </div>
                                 <div id="email-new-footer">
                                     <div class="row">
