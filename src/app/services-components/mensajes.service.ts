@@ -29,4 +29,17 @@ export class MensajesService {
   delete (query: any){
     return this._model.querys<MENSAJES>('mensajes/'+query.id, query, 'delete');
   }
+  getPlataformas (query: any){
+    return this._model.querys<MENSAJES>('mensajes/getPlataformas', query, 'post');
+  }
+  getMensajeNumero (query: any){
+    return this._model.querys<MENSAJES>('mensajesnumeros/querys', query, 'post');
+  }
+  savedMensajeNumero (query: any){
+    return this._model.querys<MENSAJES>('mensajesnumeros', query, 'post');
+  }
+  editarMensajeNumero (query: any){
+    return this._model.querys<MENSAJES>('mensajesnumeros/'+query.id, query, 'put');
+  }
+
 }

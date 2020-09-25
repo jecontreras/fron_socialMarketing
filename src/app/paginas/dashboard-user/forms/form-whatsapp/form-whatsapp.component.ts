@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MensajesService } from 'src/app/services-components/mensajes.service';
 import { ToolsService } from 'src/app/services/tools.service';
@@ -12,6 +12,7 @@ import { FormUsuarioComponent } from '../form-usuario/form-usuario.component';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ExcelService } from 'src/app/services/excel.service';
 
 export interface Fruit {
   id?: any;
@@ -25,7 +26,7 @@ export interface Fruit {
   templateUrl: './form-whatsapp.component.html',
   styleUrls: ['./form-whatsapp.component.scss']
 })
-export class FormWhatsappComponent implements OnInit {
+export class FormWhatsappComponent implements OnInit, OnDestroy {
 
   id:any;
   titulo:string = "Detallado";
@@ -34,9 +35,10 @@ export class FormWhatsappComponent implements OnInit {
     listEmails: [],
     listRotador: [],
     pausar: true,
-    cantidadTiempoMensaje: 1,
-    tiempoMsxPausa: 5,
-    cantidadMsxPausa: 10
+    cantidadTiempoMensaje: 30,
+    tiempoMsxPausa: 120,
+    cantidadMsxPausa: 10,
+    rotadorMensajes: true
   };
   editorConfig: any;
   listPlataforma:any = [];
@@ -48,6 +50,10 @@ export class FormWhatsappComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  intervalo:any;
+
+  listNumerosGr = [];
+  listCompletaNumeroGr = [];
 
   constructor(
     private activate: ActivatedRoute,
@@ -57,6 +63,7 @@ export class FormWhatsappComponent implements OnInit {
     private _tools: ToolsService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
+    private excelSrv: ExcelService
   ) { 
     this.editor();
     this._store.subscribe((store: any) => {
@@ -69,7 +76,7 @@ export class FormWhatsappComponent implements OnInit {
     this.id = (this.activate.snapshot.paramMap.get('id'));
     if( this.id ) { 
       this.getMensaje(); 
-      setInterval(()=>{
+      this.intervalo = setInterval(()=>{
         this.getFoto();
       }, 3000)
     }
@@ -80,6 +87,12 @@ export class FormWhatsappComponent implements OnInit {
     }
     this.getEmpresas();
   }
+
+  ngOnDestroy(){
+    clearInterval( this.intervalo );
+  }
+
+
 
   getFoto(){
     this._mensajes.get( { where: { id: this.id }}).subscribe((res:any)=>{
@@ -99,7 +112,24 @@ export class FormWhatsappComponent implements OnInit {
       this.data = res;
       if( this.data.empresa ) this.data.empresa = this.data.empresa.id;
       this.data.listEmails = [];
-      if( this.data.emails ){ let filtro:any = this.data.emails.split(","); for(let row of filtro) this.data.listEmails.push( { usu_telefono: row }); }
+      this.ProsesoMensajes();
+    });
+  }
+
+  ProsesoMensajes(){
+    this._mensajes.getMensajeNumero( { where:{ mensaje: this.data.id }, sort: "createdAt ASC" } ).subscribe(( res:any )=>{
+      res = res.data;
+      for( let row of res ){
+        this.listCompletaNumeroGr.push( row );
+        for( let key of row.numerosPendientes || []){
+          this.data.listEmails.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
+          this.listNumerosGr.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id} );
+        }
+        for( let key of row.numerosCompletados || [] ){
+          this.data.listEmails.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
+          this.listNumerosGr.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
+        }
+      }
     });
   }
 
@@ -127,31 +157,45 @@ export class FormWhatsappComponent implements OnInit {
 
   enviar(){
     this.btnDisabled=true;
-    this.data.emails = this.transformar();
+    let data = _.omit( this.data, ['listEmails']);
+    this._tools.ProcessTime({ title: 'cargando', tiempo: 9000 });
     this._mensajes.saved( this.data ).subscribe((res:any)=>{
       this._tools.presentToast("Whatsapp Enviados");
       this.id = res.data.id;
+      this.procesoGuardarNumeros();
       this.data = {};
       this.getMensaje(); 
-      this.btnDisabled=false;
+      this._mensajes.getPlataformas( { url: res.data.empresa.urlRespuesta, id: this.id, cantidadLista: this.data.cantidadLista } ).subscribe(( res:any )=>{ this.btnDisabled=false; }, error => this.btnDisabled=false );
     },(error)=> { this._tools.presentToast("Error al envio de Whatsapp"); this.btnDisabled=false;})
+  }
+
+  procesoGuardarNumeros(){
+    let listaFinal:any = [];
+    for( let row of this.data.listEmails ){
+      let filtro = this.listNumerosGr.find( ( item:any )=> item.telefono == row.telefono );
+      if( !filtro ) listaFinal.push( row );
+    }
+    let data:any = {
+      mensaje: this.id,
+      numerosPendientes: listaFinal
+    };
+    this._mensajes.savedMensajeNumero( data ).subscribe(( res:any )=>{});
   }
 
   actualizar(){
     this.btnDisabled=true;
-    this.data.emails = this.transformar();
-    let data = _.omit( this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
+    let data = _.omit( this.data, ['empresa', 'creado', 'createdAt', 'updatedAt', 'listEmails']);
     data = _.omitBy( data, _.isNull);
     this._mensajes.editar( data ).subscribe((res:any)=>{
-      this._tools.presentToast("Whatsapp Renviado");
+      this._tools.presentToast("Whatsapp Actualizado");
+      this.procesoGuardarNumeros();
       this.btnDisabled=false;
-    },(error)=> { this._tools.presentToast("Error al renvio de Whatsapp"); this.btnDisabled=false;})
+    },(error)=> { this._tools.presentToast("Error en el Actualizado"); this.btnDisabled=false;})
   }
 
   renvio(){
     this.btnDisabled=true;
-    this.data.emails = this.transformar();
-    this.data = _.omit(this.data, ['empresa', 'creado', 'createdAt', 'updatedAt']);
+    this.data = _.omit(this.data, ['empresa', 'creado', 'createdAt', 'updatedAt', 'listEmails']);
     this.data.estadoActividad = false;
     this.data = _.omitBy( this.data, _.isNull);
     this._mensajes.renvio( this.data ).subscribe((res:any)=>{
@@ -225,7 +269,13 @@ export class FormWhatsappComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.data.listEmails.push({ usu_telefono: value.trim(), id: this.codigo() });
+      let validando = value.split(".");
+      if( !validando[1] ) {}
+      else{
+        let username = validando[0];
+        let telefono = validando[1];
+        this.data.listEmails.push({ username: username, telefono: telefono.trim(), id: this.codigo() });
+      }
     }
 
     // Reset the input value
@@ -234,12 +284,29 @@ export class FormWhatsappComponent implements OnInit {
     }
   }
 
-  remove(fruit: Fruit): void {
+  async remove(fruit: Fruit) {
     const index = this.data.listEmails.indexOf(fruit);
 
     if (index >= 0) {
+      console.log( this.data.listEmails[index] );
+      if( this.data.listEmails[index].id ) await this.ProcesoEliminarNumero( index );
       this.data.listEmails.splice(index, 1);
     }
+  }
+
+  async ProcesoEliminarNumero( index ){
+    return new Promise( resolve =>{
+      let filtro:any = this.listCompletaNumeroGr.find(( item:any ) => item.id == this.data.listEmails[ index ].id );
+      if( !filtro ) return false;
+      if( filtro.numerosPendientes ) filtro.numerosPendientes = filtro.numerosPendientes.filter( ( item:any )=> item.telefono !== this.data.listEmails[ index ].telefono );
+      if( filtro.numerosCompletados ) filtro.numerosCompletados = filtro.numerosCompletados.filter( ( item:any )=> item.telefono !== this.data.listEmails[ index ].telefono );
+      let data:any = {
+        id: filtro.id,
+        numerosPendientes: filtro.numerosPendientes,
+        numerosCompletados: filtro.numerosCompletados
+      };
+      this._mensajes.editarMensajeNumero( data ).subscribe(( res:any )=> { this._tools.tooast( { title: "Borrado"}); resolve( true ); }, ()=> { this._tools.tooast( { title: 'Error', icon: "error"}); resolve( false );});
+    });
   }
 
   codigo(){
@@ -268,13 +335,49 @@ export class FormWhatsappComponent implements OnInit {
   nexProceso(){
     let data:any = {
       id: this.data.id,
-      listRotador: this.data.listRotador
+      listRotador: this.data.listRotador.filter(( item:any ) => item.mensajes )
     };
     this._mensajes.editar( data ).subscribe(( res:any )=>{
       this._tools.tooast( { title: 'Actualizado rotador mensajes...'});
       this.btnDisabled = false;
     },(error)=>{ this._tools.tooast( { title: 'Error al actualizar...'}); this.btnDisabled = false; });
   }
-  
 
+  onFileChange(evt: any) {
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    if (target.files.length !== 1) return false;
+
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+
+      const bstr: string = e.target.result;
+      const data = <any[]>this.excelSrv.importFromFile(bstr);
+      const importedData = data.slice(1, -1);
+      console.log( "esto es",importedData );
+      let lista:any = [];
+      for( let row of importedData ){
+        if( !row[1] ) continue;
+        lista.push( {
+          username: row[0] || "Cliente",
+          telefono: row[1]
+        });
+      }
+      this.trasnFormVer( lista );
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+  trasnFormVer( lista:any ){
+      for(let row of lista) {
+        let filtro = this.data.listEmails.find( ( item:any ) => item.telefono == row.telefono );
+        if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } ); 
+      }
+  }
+}
+
+
+export class Contact {
+  name: string = "";
+  email: string = "";
+  phone: string = "";
+  address: string = "";
 }

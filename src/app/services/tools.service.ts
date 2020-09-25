@@ -66,7 +66,7 @@ export class ToolsService {
     let timerInterval
     Swal.fire({
       title:  text.title || 'Auto close alert!',
-      html: 'I will close in <b></b> milliseconds.',
+      html: '...',
       timer: text.tiempo || 3000,
       timerProgressBar: true,
       onBeforeOpen: () => {

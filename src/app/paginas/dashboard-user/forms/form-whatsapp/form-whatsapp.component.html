@@ -43,13 +43,21 @@
                                             </select>
                                         </div>
 
+                                        <div class="col-sm-4 form-group">
+                                            <label for="exampleInpSubject" class="col-2">idPc:</label>
+                                            <div class="col-10">
+                                                <input type="number"
+                                                    class="form-control form-control-sm" placeholder="id Pc puesto" [(ngModel)]="data.idPuesto" />
+                                            </div>
+                                        </div>
+
                                         <div class="row form-group col-12">
                                             <mat-form-field class="example-chip-list">
                                                 <mat-chip-list #chipList aria-label="Email seleccionados">
                                                     <mat-chip *ngFor="let item of this.data.listEmails"
                                                         [selectable]="selectable" [removable]="removable"
                                                         (removed)="remove( item )">
-                                                        {{ item.usu_telefono }}
+                                                        {{ item.username }} {{ item.telefono }}
                                                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                                     </mat-chip>
                                                     <input placeholder="Numeros..." [matChipInputFor]="chipList"
@@ -58,6 +66,11 @@
                                                         (matChipInputTokenEnd)="add($event)">
                                                 </mat-chip-list>
                                             </mat-form-field>
+                                        </div>
+                                        <div class="row form-group col-12">
+                                            <label for="exampleInpSubject" class="col-2">Importar excel:</label>
+                                            <input type="file" accept=".xls,.xlsx" (blur)="onFileChange($event)">
+                                            <button type="button" class="btn btn-success">Importar</button>
                                         </div>
                                         <div class="row form-group col-12"
                                             *ngIf="( data.tipoEnvio === '1' || data.tipoEnvio === '2' ) && data.empresa">
@@ -73,11 +86,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="row form-group col-12">
+                                        <!-- <div class="row form-group col-12">
                                             <label for="exampleInpSubject" class="col-2">Mensaje:</label>
                                             <textarea class="form-control" [(ngModel)]="data.descripcion" placeholder="Mensajes...."
                                                 id="exampleTextarea" rows="10"></textarea>
-                                        </div>
+                                        </div> -->
 
                                         <div class="row form-group col-12">
                                             <div class="row">
@@ -157,9 +170,9 @@
                                                     <button type="button" [disabled]="btnDisabled" *ngIf="!id"
                                                         class="btn btn-success" (click)="enviar()"><i
                                                             class="fa fa-send"></i>Enviar Whatsapp</button>
-                                                    <button type="button" [disabled]="btnDisabled" *ngIf="id"
+                                                    <!-- <button type="button" [disabled]="btnDisabled" *ngIf="id"
                                                         class="btn btn-success" (click)="renvio()"><i
-                                                            class="fas fa-redo"></i>Renvio Whatsapp</button>
+                                                            class="fas fa-redo"></i>Renvio Whatsapp</button> -->
                                                 </div>
                                             </div>
                                         </div>
