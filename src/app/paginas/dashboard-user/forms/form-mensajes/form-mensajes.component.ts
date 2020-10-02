@@ -112,7 +112,7 @@ export class FormMensajesComponent implements OnInit {
       this._tools.presentToast("Email Enviados");
       this.id = res.data.id;
       this.data = {};
-      this.Router.navigate(['/dashboard/whatsappform', res.data.id]);
+      this.Router.navigate(['/dashboard/mensajesform', res.data.id]);
       this.btnDisabled=false;
     },(error)=> { this._tools.presentToast("Error al envio de emails"); this.btnDisabled=false;})
   }
