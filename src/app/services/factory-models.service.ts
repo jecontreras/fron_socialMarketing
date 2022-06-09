@@ -62,12 +62,16 @@ export class FactoryModelsService {
 
   async createsocket(modelo: string, query: any) {
       return new Promise(async (promesa) => {
-        query.modelo = modelo;
-        await this.sock.post(URL + '/socket/emitir', query, (rta) => {
-          // console.log(rta, modelo);
-          promesa(rta)
-        });
-        promesa("exitoso");
+        try {
+          query.modelo = modelo;
+          await this.sock.post(URL + '/socket/emitir', query, (rta) => {
+            // console.log(rta, modelo);
+            promesa(rta)
+          });
+          promesa("exitoso"); 
+        } catch (error) {
+          promesa("false");
+        }
       })
 
   }

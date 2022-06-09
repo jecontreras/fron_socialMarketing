@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:1338"
+  url: "http://localhost:1339"
   //url: 'https://backsocialmarketing.herokuapp.com'
 };
 
