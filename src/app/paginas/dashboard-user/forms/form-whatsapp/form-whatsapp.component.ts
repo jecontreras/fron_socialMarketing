@@ -122,12 +122,12 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       for( let row of res ){
         this.listCompletaNumeroGr.push( row );
         for( let key of row.numerosPendientes || []){
-          this.data.listEmails.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
-          this.listNumerosGr.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id} );
+          this.data.listEmails.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
+          this.listNumerosGr.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id} );
         }
         for( let key of row.numerosCompletados || [] ){
-          this.data.listEmails.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
-          this.listNumerosGr.push( { username: key.username || 'nombre', telefono: key.telefono || '000', id: row.id } );
+          this.data.listEmails.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
+          this.listNumerosGr.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
         }
       }
     });
@@ -358,7 +358,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       for( let row of importedData ){
         if( !row[1] ) continue;
         lista.push( {
-          username: row[0] || "Cliente",
+          username: row[0] || " ",
           telefono: row[1]
         });
       }
