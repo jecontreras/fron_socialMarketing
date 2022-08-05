@@ -143,6 +143,14 @@
                                         <div class="row form-group col-12" *ngIf="data.rotadorMensajes">
                                             <ul class="list-group">
                                                 <li class="list-group-item" *ngFor="let item of data.listRotador">
+                                                    <button type="button" class="btn btn-success" (click)="pushImg( item )" >Agregar Mas Imagen</button>
+                                                    <ul *ngIf="item.galeriaList">
+                                                        <li *ngFor="let key of item.galeriaList">
+                                                            <img style="width: 155px; border-radius: 20px;" [src]="key.foto" alt="">
+                                                            <input type="text" aria-label="..." [(ngModel)]="key.foto" (change)="updateImgList( key )">
+                                                            <button type="button" class="btn btn-danger" (click)="eliminarFoto( item, key.id )" >Eliminar Foto</button>
+                                                        </li>
+                                                    </ul>
                                                     <textarea class="form-control" [(ngModel)]="item.mensajes" rows="4" placeholder="Mensajes...."></textarea>
                                                     <button type="button" class="btn btn-danger" (click)="eliminarMensajes( item )" >Eliminar Mensajes</button>
                                                 </li>

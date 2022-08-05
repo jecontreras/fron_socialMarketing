@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FactoryModelsService } from '../services/factory-models.service';
 import { ARCHIVOS } from '../interfaces/archivos';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class ArchivosService {
   }
   get(query: any){
     return this._model.querys<ARCHIVOS>('archivos/querys', query, 'post');
+  }
+  create(query: any){
+    console.log("**", query)
+    return this._model.querysHttp<ARCHIVOS>( environment.urlFile + '/archivos/file', query, 'post' );
   }
   saved (query: any){
     return this._model.querys<ARCHIVOS>('archivos', query, 'post');

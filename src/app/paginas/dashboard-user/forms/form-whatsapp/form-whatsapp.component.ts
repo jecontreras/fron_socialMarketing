@@ -337,6 +337,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       id: this.data.id,
       listRotador: this.data.listRotador.filter(( item:any ) => item.mensajes )
     };
+    if( !data.id ) { this.btnDisabled = false; return false; }
     this._mensajes.editar( data ).subscribe(( res:any )=>{
       this._tools.tooast( { title: 'Actualizado rotador mensajes...'});
       this.btnDisabled = false;
@@ -371,6 +372,21 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
         let filtro = this.data.listEmails.find( ( item:any ) => item.telefono == row.telefono );
         if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } ); 
       }
+  }
+
+  pushImg( item:any ){
+    if( !item.galeriaList ) item.galeriaList = [];
+    item.galeriaList.push( { id: this._tools.codigo() } )
+  }
+
+  eliminarFoto( item:any, id:any ){
+    //console.log( item, id )
+    item.galeriaList = item.galeriaList.filter( ( row:any ) => row.id != id );
+    this.nexProceso();
+  }
+
+  updateImgList( item:any ){
+    this.nexProceso();
   }
 }
 

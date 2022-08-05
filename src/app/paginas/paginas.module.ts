@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DashboardUserModule } from './dashboard-user/dashboard-user.module';
 import { LoginComponent } from './components/login/login.component';
 import { PaginaRoutingModule } from './paginas.routing';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 @NgModule({
@@ -14,7 +14,8 @@ import { PaginaRoutingModule } from './paginas.routing';
     CommonModule,
     PaginaRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxDropzoneModule
   ],
   exports: [
     DashboardUserModule
