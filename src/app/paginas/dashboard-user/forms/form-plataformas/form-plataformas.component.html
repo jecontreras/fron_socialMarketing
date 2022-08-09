@@ -1,0 +1,101 @@
+<div id="content-wrapper" class="contents">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="content-header" class="clearfix">
+                        <div class="pull-left">
+                            <ol class="breadcrumb">
+                                <li><a [routerLink]="[ '/dashboard/home' ]">Home</a></li>
+                                <li><a [routerLink]="[ '/dashboard/mensajes' ]">Plataforma</a></li>
+                                <li class="active"><span>{{ titulo }}</span></li>
+                            </ol>
+                            <h1> {{ titulo }} Plataforma</h1>
+                        </div>
+                        <div class="text-right">
+                            <button [routerLink]="[ '/dashboard/plataforma' ]" class="btn btn-light" type="button">
+                                Volver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="email-new-nano">
+                    <div class="email-new-nano-content">
+                        <div id="email-new-inner">
+                            <div id="email-new-title" class="clearfix">
+                                <span class="subject">Nuevo Plataforma</span>
+                            </div>
+                            <div>
+                                <div id="email-new-header content">
+                                    <div class="row container">
+                                        <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">Nit:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.nit" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">Titulo:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.titulo" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">Descripcion:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.titulo" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">UrlRespuesta:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.urlRespuesta" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">UrlConfirmacion:</label>
+                                            <div class="col-10">
+                                                <input type="text" placeholder="Enter subject"
+                                                    class="form-control form-control-sm" [(ngModel)]="data.urlConfirmacion" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="email-new-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-2">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" [routerLink]="[ '/dashboard/mensajes' ]"
+                                    class="btn btn-default"><i class="fa fa-times"></i>
+                                    Cancelar</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" [disabled]="btnDisabled" *ngIf="id"
+                                    class="btn btn-success" (click)="actualizar()"><i
+                                        class="fas fa-pencil-alt"></i>Actualizar Datos</button>
+                                <button type="button" [disabled]="btnDisabled" *ngIf="!id"
+                                    class="btn btn-success" (click)="enviar()"><i
+                                        class="fa fa-send"></i>Guardar Plataforma</button>
+                                <!-- <button type="button" [disabled]="btnDisabled" *ngIf="id"
+                                    class="btn btn-success" (click)="renvio()"><i
+                                        class="fas fa-redo"></i>Renvio Whatsapp</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

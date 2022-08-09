@@ -1,0 +1,102 @@
+<div id="content-wrapper" class="contents">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="content-header" class="clearfix">
+                        <div class="pull-left">
+                            <ol class="breadcrumb">
+                                <li><a [routerLink]="['/dashboard/home']">Home</a></li>
+                                <li class="active"><span>Plataforma</span></li>
+                            </ol>
+                            <h1>Plataforma</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <input type="text" class="form-control" placeholder="Buscar..." (change)="buscar()"
+                        [disabled]="loader">
+                </div>
+                <div class="col-4">
+                    <div class="">
+                        <button class="btn btn-primary" type="button" title="Refresh" data-toggle="tooltip"
+                            data-placement="bottom" (click)="buscar()" [disabled]="loader">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <button class="btn btn-primary" type="button" title="Erase" data-toggle="tooltip"
+                            data-placement="bottom" (click)="procesoDelete()" [disabled]="btnDisabled">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                        <button [routerLink]="[ '/dashboard/plataformaform' ]" class="btn btn-primary pull-right">
+                            <i class="fa fa-plus-circle fa-lg"></i> Agregar Plataformas
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card-body">
+                    <div>
+                        <p class="text-danger">Cantidad Total de Plataforma: {{ coint }}</p>
+                        <table style="overflow-x: scroll; overflow-y: scroll;" infiniteScroll
+                            [infiniteScrollDistance]="3" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+                            id="datatables"
+                            class="material-datatables table table-striped table-no-bordered table-hover"
+                            cellspacing="0" width="100%" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let row of dataTable.headerRow">{{ row }}</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th *ngFor="let row of dataTable.headerRow">{{ row }}</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr *ngFor="let row of dataTable.dataRows; let idx=index">
+                                    <td style="width: 15%;">
+                                        <div class="chbox">
+                                            <mat-checkbox color="primary" class="example-margin"
+                                                [(ngModel)]="row.checks"></mat-checkbox>
+                                            <a (click)="editar(row)" class="table-link mouse">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a (click)="delete(row)" class="table-link danger mouse">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>{{row['titulo']}}</td>
+                                    <td>{{row['nit']}}</td>
+                                    <td>{{row['urlRespuesta']}}</td>
+                                    <td>{{row['urlConfirmacion']}}</td>
+                                    <td>{{row['createdAt']}}</td>
+                                    <td><span *ngIf="row.estado == 0">Activo</span> <span
+                                            *ngIf="row.estado == 1">Eliminado</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation example" *ngIf="notEmptyPost">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item">
+                                    <a class="page-link mouse" (click)="onScroll()">VER MAS</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#581f87" type="ball-pulse-sync"
+                            [fullScreen]="false">
+                        </ngx-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

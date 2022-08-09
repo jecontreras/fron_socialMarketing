@@ -26,6 +26,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { MyOwnCustomMaterialModule } from 'src/app/app.material.module';
 import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
 import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
+import { PlataformasComponent } from './components/plataformas/plataformas.component';
+import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
 
 
 
@@ -33,7 +35,7 @@ import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.compo
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

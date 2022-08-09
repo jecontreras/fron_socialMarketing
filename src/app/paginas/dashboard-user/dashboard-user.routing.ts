@@ -11,6 +11,8 @@ import { FormMensajesComponent } from './forms/form-mensajes/form-mensajes.compo
 import { PerfilComponent } from './relleno/perfil/perfil.component';
 import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
 import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
+import { PlataformasComponent } from './components/plataformas/plataformas.component';
+import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
 
 const routes: Routes = [
     {
@@ -70,6 +72,18 @@ const routes: Routes = [
           {
             path: 'perfil',
             component: PerfilComponent
+          },
+          {
+            path: 'plataforma',
+            component: PlataformasComponent
+          },
+          {
+            path: 'plataformaform',
+            component: FormPlataformasComponent
+          },
+          {
+            path: 'plataformaform/:id',
+            component: FormPlataformasComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]

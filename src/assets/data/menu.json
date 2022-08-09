@@ -22,6 +22,12 @@
       "name": "Whatsapp",
       "redirectTo": "./whatsapp",
       "submenu":[]
+    },
+    {
+      "icon": "assignment_turned_in",
+      "name": "Plataforma",
+      "redirectTo": "./plataforma",
+      "submenu":[]
     }
   ]
   
