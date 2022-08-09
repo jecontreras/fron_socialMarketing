@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlataformaService } from 'src/app/services-components/plataforma.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form-plataformas',
@@ -12,12 +13,27 @@ export class FormPlataformasComponent implements OnInit {
   id:any = "";
   data:any = {};
   btnDisabled:boolean = false;
+  titulo:string = "Crear Plataforma";
   constructor(
     private _plataforma: PlataformaService,
-    private _tools: ToolsService
+    private _tools: ToolsService,
+    private activate: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.id = (this.activate.snapshot.paramMap.get('id'));
+    if( this.id) {
+      this.titulo = "Editar Plataforma";
+      this.getRow();
+    }
+  }
+
+  getRow(){
+    this._plataforma.get( { where: { id: this.id } } ).subscribe( ( res:any )=>{
+      res = res.data[0];
+      if( !res ) return false;
+      this.data = res;
+    })
   }
 
   actualizar(){

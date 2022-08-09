@@ -70,7 +70,7 @@ export class PlataformasComponent implements OnInit {
   }
 
   editar(obj:any){
-    this.Router.navigate(['/dashboard/usuariosform', obj.id]);
+    this.Router.navigate(['/dashboard/plataformaform', obj.id]);
   }
 
   onScroll(){
