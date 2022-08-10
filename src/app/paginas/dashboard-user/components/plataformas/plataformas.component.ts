@@ -111,7 +111,7 @@ export class PlataformasComponent implements OnInit {
     this.datoBusqueda = this.datoBusqueda.trim();
     this.dataTable.dataRows = [];
     if (this.datoBusqueda === '') {
-      this.query = {where:{},page: 0};
+      this.query = {where:{ estado:0 },page: 0};
       this.cargarTodos();
     } else {
       this.query.page = 0;

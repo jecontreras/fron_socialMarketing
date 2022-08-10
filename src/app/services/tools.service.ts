@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import Swal from 'sweetalert2'
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +90,10 @@ export class ToolsService {
         console.log('I was closed by the timer')
       }
     })
+  }
+
+  transSlug( text:string="" ){
+    return _.deburr( ( text.toLowerCase() ) );
   }
   
 

@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { PlataformaService } from 'src/app/services-components/plataforma.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { UsuarioPlataformaService } from 'src/app/services-components/usuario-plataforma.service';
+declare interface DataTable {
+  headerRow: string[];
+  footerRow: string[];
+  dataRows: any[][];
+}
 
 @Component({
   selector: 'app-form-plataformas',
@@ -10,14 +17,36 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./form-plataformas.component.scss']
 })
 export class FormPlataformasComponent implements OnInit {
+  
   id:any = "";
   data:any = {};
   btnDisabled:boolean = false;
   titulo:string = "Crear Plataforma";
+  dataTable: DataTable;
+  pagina = 10;
+  paginas = 0;
+  loader = true;
+  query:any = {
+    where:{},
+    sort: "createdAt DESC",
+    page: 0
+  };
+  Header:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
+  $:any;
+  public datoBusqueda = '';
+
+  notscrolly:boolean=true;
+  notEmptyPost:boolean = true;
+  coint:number;
+
+
   constructor(
     private _plataforma: PlataformaService,
     private _tools: ToolsService,
     private activate: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private Router: Router,
+    private _usuarioPlataforma: UsuarioPlataformaService
   ) { }
 
   ngOnInit() {
@@ -25,6 +54,12 @@ export class FormPlataformasComponent implements OnInit {
     if( this.id) {
       this.titulo = "Editar Plataforma";
       this.getRow();
+      this.dataTable = {
+        headerRow: this.Header,
+        footerRow: this.Header,
+        dataRows: []
+      };
+      this.cargarTodos();
     }
   }
 
@@ -47,7 +82,45 @@ export class FormPlataformasComponent implements OnInit {
   }
 
   enviar(){
-
+    this.btnDisabled = true;
+    this.data.slug = this._tools.transSlug( this.data.titulo );
+    this._plataforma.saved( this.data ).subscribe( ( res:any )=>{
+      this._tools.presentToast("Plataforma creada...");
+      this.id = res.id;
+      this.data.id = res.id;
+      this.btnDisabled = false;
+    },( error )=> { this._tools.presentToast("Error al crear la plataforma..."); this.btnDisabled = false; });
   }
+
+  onScroll(){
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       this.cargarTodos();
+     }
+   }
+
+   cargarTodos() {
+     this.spinner.show();
+     this._usuarioPlataforma.get(this.query)
+     .subscribe(
+       (response: any) => {
+        this.coint= response.count;
+         this.dataTable.headerRow = this.dataTable.headerRow;
+         this.dataTable.footerRow = this.dataTable.footerRow;
+         this.dataTable.dataRows.push(... response.data);
+         this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+         this.loader = false;
+           this.spinner.hide();
+          
+           if (response.data.length === 0 ) {
+             this.notEmptyPost =  false;
+           }
+           this.notscrolly = true;
+       },
+       error => {
+         console.log('Error', error);
+       });
+   }
 
 }

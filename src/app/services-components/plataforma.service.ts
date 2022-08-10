@@ -15,7 +15,7 @@ export class PlataformaService {
     return this._model.querys<plataforma>('empresa/querys', query, 'post');
   }
   saved (query: any){
-    return this._model.querys<plataforma>('empresa/create', query, 'post');
+    return this._model.querys<plataforma>('empresa', query, 'post');
   }
   editar (query: any){
     return this._model.querys<plataforma>('empresa/'+query.id, query, 'put');
