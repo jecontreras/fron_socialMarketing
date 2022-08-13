@@ -9,7 +9,8 @@ import {
   MatChipsModule,
   MatIconModule,
   MatFormFieldModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatTabsModule
 } from '@angular/material';
 import { NgModule } from '@angular/core';
 
@@ -25,7 +26,8 @@ import { NgModule } from '@angular/core';
     MatChipsModule,
     MatIconModule,
     MatFormFieldModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTabsModule
   ],
   exports: [
     MatSliderModule,
@@ -38,7 +40,8 @@ import { NgModule } from '@angular/core';
     MatChipsModule,
     MatIconModule,
     MatFormFieldModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTabsModule
   ],
 })
 export class MyOwnCustomMaterialModule { }

@@ -25,7 +25,7 @@
                 <div mat-line> {{ item.usu_telefono }} </div>
             </mat-list-item>
         </mat-list>
-        <mat-paginator [disabled]="loader" [length]="count" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent($event)">
+        <mat-paginator [disabled]="loader" [length]="count" (page)="pageEvent($event)">
         </mat-paginator>
         <!-- <ngx-spinner bdOpacity=0.9 bdColor="" size="default" color="#581f87" type="ball-pulse-sync"
             [fullScreen]="false">

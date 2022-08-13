@@ -36,6 +36,7 @@ export class PlataformasComponent implements OnInit {
   notscrolly:boolean=true;
   notEmptyPost:boolean = true;
   coint:number;
+  btnDisabled:boolean = false;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -56,19 +57,6 @@ export class PlataformasComponent implements OnInit {
   crear(obj:any){
 
   }
-  async delete(obj:any){
-    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
-    if(!confirm.value) return false;
-    let data = {
-      id: obj.id,
-      estado: 1
-    };
-    this._plataforma.editar(data).subscribe((res:any)=>{
-      this.dataTable.dataRows = this.dataTable.dataRows.filter( (row:any) => row.id !== obj.id );
-      this._tools.presentToast("Eliminado")
-    },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
-  }
-
   editar(obj:any){
     this.Router.navigate(['/dashboard/plataformaform', obj.id]);
   }
@@ -141,8 +129,28 @@ export class PlataformasComponent implements OnInit {
     }
   }
 
-  procesoDelete(){
+  async procesoDelete(){
+    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;
+    this.btnDisabled = true;
+    for(let row of this.dataTable.dataRows ) if( row['checks'] ) await this.delete( row );
+    this.btnDisabled = false;
+  }
 
+
+  async delete(obj:any){
+    let data = {
+      id: obj.id,
+      estado: 1
+    };
+    return new Promise(resolve=>{
+      //return resolve( true )
+      this._plataforma.editar( data ).subscribe( (res:any)=>{
+        this.dataTable.dataRows = this.dataTable.dataRows.filter( (row:any) => row.id !== obj.id );
+        this._tools.presentToast("Eliminado");
+        resolve(true);
+      },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve(false) })
+    });
   }
 
 }

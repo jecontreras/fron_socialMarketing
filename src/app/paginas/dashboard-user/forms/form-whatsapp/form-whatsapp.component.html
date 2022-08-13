@@ -35,7 +35,15 @@
                                             <img class="anchosWet" [src]="data.imagenWhat">
                                         </div>
 
-                                        <div class="row form-group col-12">
+                                        <div class="col-sm-6 form-group col-6">
+                                            <label for="exampleInpSubject" class="col-2">Titulo de la operacion:</label>
+                                            <div class="col-10">
+                                                <input type="text"
+                                                    class="form-control form-control-sm" placeholder="Titulo..." [(ngModel)]="data.subtitulo" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group col-6 col-sm-6">
                                             <label for="exampleInpCc" class="col-2">Plataforma:</label>
                                             <select class="form-control form-control-sm" [(ngModel)]="data.empresa">
                                                 <option [value]="item.id" *ngFor="let item of listPlataforma">
@@ -43,7 +51,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-4 form-group">
+                                        <div class="col-sm-6 form-group col-6">
                                             <label for="exampleInpSubject" class="col-2">idPc:</label>
                                             <div class="col-10">
                                                 <input type="number"
@@ -141,13 +149,26 @@
                                             </div>
                                         </div>
                                         <div class="row form-group col-12" *ngIf="data.rotadorMensajes">
+                                            <button type="button" class="btn btn-primary" (click)="agregarMasRotador()">Agregar Mas</button>
                                             <ul class="list-group">
-                                                <li class="list-group-item" *ngFor="let item of data.listRotador">
-                                                    <button type="button" class="btn btn-success" (click)="pushImg( item )" >Agregar Mas Imagen</button>
+                                                <li class="list-group-item" *ngFor="let item of data.listRotador; let i=index;">
+                                                    <h1>Mensaje: {{ i }}</h1>
+                                                    <!--<button type="button" class="btn btn-success" (click)="pushImg( item )" >Agregar Mas Imagen</button>-->
+                                                    <br>
+                                                    <div>
+                                                        <ngx-dropzone (change)="onSelects($event, item); subirFile( item )">
+                                                            <ngx-dropzone-label>Subir Fotos</ngx-dropzone-label>
+                                                            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of item.files" [file]="f"
+                                                                [removable]="true" (removed)="onRemoves(f, item)" multiple="true" accept="image/jpeg,image/jpg,image/png"
+                                                                maxFileSize="1500000">
+                                                                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                                            </ngx-dropzone-image-preview>
+                                                        </ngx-dropzone>
+                                                    </div>
                                                     <ul *ngIf="item.galeriaList">
                                                         <li *ngFor="let key of item.galeriaList">
                                                             <img style="width: 155px; border-radius: 20px;" [src]="key.foto" alt="">
-                                                            <input type="text" aria-label="..." [(ngModel)]="key.foto" (change)="updateImgList( key )">
+                                                            <!--<input type="text" aria-label="..." [(ngModel)]="key.foto" (change)="updateImgList( key )">-->
                                                             <button type="button" class="btn btn-danger" (click)="eliminarFoto( item, key.id )" >Eliminar Foto</button>
                                                         </li>
                                                     </ul>
@@ -168,7 +189,7 @@
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button type="button" [routerLink]="[ '/dashboard/mensajes' ]"
-                                                        class="btn btn-default"><i class="fa fa-times"></i>
+                                                        class="btn btn-danger"><i class="fa fa-times"></i>
                                                         Cancelar</button>
                                                 </div>
                                                 <div class="btn-group">

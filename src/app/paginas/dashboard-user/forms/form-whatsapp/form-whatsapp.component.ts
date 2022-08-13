@@ -13,6 +13,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/services/excel.service';
+import { ArchivosService } from 'src/app/services-components/archivos.service';
 
 export interface Fruit {
   id?: any;
@@ -35,8 +36,8 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     listEmails: [],
     listRotador: [],
     pausar: true,
-    cantidadTiempoMensaje: 30,
-    tiempoMsxPausa: 120,
+    cantidadTiempoMensaje: 25,
+    tiempoMsxPausa: 60,
     cantidadMsxPausa: 10,
     rotadorMensajes: true
   };
@@ -54,6 +55,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
 
   listNumerosGr = [];
   listCompletaNumeroGr = [];
+  files:any = [];
 
   constructor(
     private activate: ActivatedRoute,
@@ -63,7 +65,8 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     private _tools: ToolsService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private excelSrv: ExcelService
+    private excelSrv: ExcelService,
+    private _archivos: ArchivosService
   ) { 
     this.editor();
     this._store.subscribe((store: any) => {
@@ -112,7 +115,16 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this.data = res;
       if( this.data.empresa ) this.data.empresa = this.data.empresa.id;
       this.data.listEmails = [];
+      try {
+        this.data.listRotador = _.map( this.data.listRotador, ( item:any )=>{
+          return {
+            files: [],
+            ...item
+          }
+        })
+      } catch (error) { }
       this.ProsesoMensajes();
+      console.log( this.data)
     });
   }
 
@@ -134,7 +146,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   }
 
   getEmpresas(){
-    this._empresas.get({ where: { }, limit: -1}).subscribe((res:any)=>{
+    this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
       this.listPlataforma = res.data;
     });
   }
@@ -151,11 +163,18 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if(!result) return false;
-      this.data.listEmails = result;
+      this.data.listEmails = _.map( result, ( item:any )=>{
+        return {
+          username: item.nombre,
+          telefono: item.usu_telefono,
+          email: item.usu_email,
+          ...item
+        }
+      });
     }); 
   }
 
-  enviar(){
+  async enviar(){
     this.btnDisabled=true;
     let data = _.omit( this.data, ['listEmails']);
     this._tools.ProcessTime({ title: 'cargando', tiempo: 9000 });
@@ -314,9 +333,10 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   }
 
   agregarMasRotador(){
-    if( !this.data.listRotador ) this.data.listRotador = [];
+    if( !this.data.listRotador ) this.data.listRotador = [ { files: [] }];
     this.data.listRotador.push({
-      id: this.codigo()
+      id: this.codigo(),
+      files: []
     });
   }
 
@@ -388,6 +408,45 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   updateImgList( item:any ){
     this.nexProceso();
   }
+
+  onSelects(event: any, item:any ): void {
+    //console.log( event );
+    item.files= event.addedFiles;
+  }
+
+  async subirFile( item:any ) {
+    return new Promise( async ( resolve ) =>{
+      for( let row of item.files ){
+        let form: any = new FormData();
+        form.append('file', row );
+        this._tools.ProcessTime({});
+        //console.log( form, this.files )
+        if( !item.galeriaList ) item.galeriaList = [];
+        let resultFile = await this.createFile( form );
+        if( !resultFile ) continue;
+        item.galeriaList.push( { id: this._tools.codigo(), foto: resultFile } );
+        this.nexProceso();
+      }
+      resolve( true );
+    });
+  }
+
+  createFile( form:any ){
+    return new Promise( resolve =>{
+      this._archivos.create( form ).subscribe((res: any) => {
+        //console.log(res);
+        this._tools.presentToast("Exitoso");
+        resolve( res.files );
+      }, (error) => { console.error(error); this._tools.presentToast("Error de servidor"); resolve( false ); });
+    });
+  }
+
+  onRemoves( event:any, item:any ) {
+    //console.log(event);
+    item.files.splice( item.files.indexOf( event ), 1 );
+  }
+
+
 }
 
 

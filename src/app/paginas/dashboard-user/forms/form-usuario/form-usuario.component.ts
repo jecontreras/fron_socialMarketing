@@ -20,7 +20,7 @@ export class FormUsuarioComponent implements OnInit {
   query:any = {
     where:{},
     page: 0,
-    limit: 10
+    limit: 1000000
   };
   listRow:any = [];
   listSeleccion:any = [];
@@ -77,7 +77,15 @@ export class FormUsuarioComponent implements OnInit {
           usu_telefono: "57"+row.celular,
           ...row
         };
-      }else{
+      }else if( this.id.slug == "rocketfy"){
+        return {
+          usu_nombre:  row.cliente,
+          usu_email: row.email,
+          usu_telefono:  "57"+row.telefono,
+          ... row
+        };
+      }
+      else{
         return {
           ...row,
           usu_telefono: `${ ( row.usu_indicativo || 57 ) }${ row.usu_telefono }`
@@ -132,6 +140,7 @@ export class FormUsuarioComponent implements OnInit {
 
   select( item:any ){
     item.check=!item.check;
+    console.log("***", item)
     if( item.check ) this.listSeleccion.push( { id: item.id, nombre: item.usu_nombre, usu_email: item.usu_email, usu_telefono: item.usu_telefono } );
     else this.listSeleccion = this.listSeleccion.filter( ( row:any )=> row.id !== item.id );
   }

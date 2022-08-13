@@ -23,16 +23,23 @@ export class FormPlataformasComponent implements OnInit {
   btnDisabled:boolean = false;
   titulo:string = "Crear Plataforma";
   dataTable: DataTable;
+  dataTable2: DataTable;
   pagina = 10;
   paginas = 0;
   loader = true;
   query:any = {
     where:{},
     sort: "createdAt DESC",
-    page: 0
+    page: 1
   };
   Header:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
   $:any;
+  query2:any = {
+    where:{},
+    sort: "createdAt DESC",
+    page: 0
+  };
+  Header2:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
   public datoBusqueda = '';
 
   notscrolly:boolean=true;
@@ -59,7 +66,13 @@ export class FormPlataformasComponent implements OnInit {
         footerRow: this.Header,
         dataRows: []
       };
+      this.dataTable2 = {
+        headerRow: this.Header,
+        footerRow: this.Header,
+        dataRows: []
+      };
       this.cargarTodos();
+      this.cargarTodos2();
     }
   }
 
@@ -102,7 +115,7 @@ export class FormPlataformasComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
-     this._usuarioPlataforma.get(this.query)
+     this._usuarioPlataforma.get( this.query )
      .subscribe(
        (response: any) => {
         this.coint= response.count;
@@ -110,6 +123,37 @@ export class FormPlataformasComponent implements OnInit {
          this.dataTable.footerRow = this.dataTable.footerRow;
          this.dataTable.dataRows.push(... response.data);
          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+         this.loader = false;
+           this.spinner.hide();
+          
+           if (response.data.length === 0 ) {
+             this.notEmptyPost =  false;
+           }
+           this.notscrolly = true;
+       },
+       error => {
+         console.log('Error', error);
+       });
+   }
+
+   onScroll2(){
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       this.cargarTodos2();
+     }
+   }
+
+   cargarTodos2() {
+     this.spinner.show();
+     this._usuarioPlataforma.get( this.query2 )
+     .subscribe(
+       (response: any) => {
+        this.coint= response.count;
+         this.dataTable2.headerRow = this.dataTable2.headerRow;
+         this.dataTable2.footerRow = this.dataTable2.footerRow;
+         this.dataTable2.dataRows.push(... response.data);
+         this.dataTable2.dataRows =_.unionBy(this.dataTable2.dataRows || [], response.data, 'id');
          this.loader = false;
            this.spinner.hide();
           
