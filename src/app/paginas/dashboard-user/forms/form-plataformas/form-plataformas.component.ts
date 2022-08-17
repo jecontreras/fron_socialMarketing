@@ -34,12 +34,6 @@ export class FormPlataformasComponent implements OnInit {
   };
   Header:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
   $:any;
-  query2:any = {
-    where:{},
-    sort: "createdAt DESC",
-    page: 0
-  };
-  Header2:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
   public datoBusqueda = '';
 
   notscrolly:boolean=true;
@@ -71,8 +65,9 @@ export class FormPlataformasComponent implements OnInit {
         footerRow: this.Header,
         dataRows: []
       };
+      this.query.where.plataforma = this.id;
       this.cargarTodos();
-      this.cargarTodos2();
+      //this.cargarTodos2();
     }
   }
 
@@ -135,36 +130,4 @@ export class FormPlataformasComponent implements OnInit {
          console.log('Error', error);
        });
    }
-
-   onScroll2(){
-    if (this.notscrolly && this.notEmptyPost) {
-       this.notscrolly = false;
-       this.query.page++;
-       this.cargarTodos2();
-     }
-   }
-
-   cargarTodos2() {
-     this.spinner.show();
-     this._usuarioPlataforma.get( this.query2 )
-     .subscribe(
-       (response: any) => {
-        this.coint= response.count;
-         this.dataTable2.headerRow = this.dataTable2.headerRow;
-         this.dataTable2.footerRow = this.dataTable2.footerRow;
-         this.dataTable2.dataRows.push(... response.data);
-         this.dataTable2.dataRows =_.unionBy(this.dataTable2.dataRows || [], response.data, 'id');
-         this.loader = false;
-           this.spinner.hide();
-          
-           if (response.data.length === 0 ) {
-             this.notEmptyPost =  false;
-           }
-           this.notscrolly = true;
-       },
-       error => {
-         console.log('Error', error);
-       });
-   }
-
 }

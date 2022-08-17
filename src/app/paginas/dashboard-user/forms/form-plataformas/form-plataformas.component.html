@@ -100,87 +100,7 @@
             <div class="row">
                 <div class="col-12">
                     <mat-tab-group mat-align-tabs="center">
-                        <mat-tab label="Vendedores">
-                            <div class="email-new-nano">
-                                <div class="email-new-nano-content">
-                                    <div id="email-new-inner">
-                                        <div id="email-new-title" class="clearfix">
-                                            <span class="subject">Lista de Clientes</span>
-                                        </div>
-                                        <div>
-                                            <div id="email-new-header content">
-                                                <div class="row container">
-                                                    <div class="col-12">
-                                                        <div class="row">
-                                                            <div class="card-body">
-                                                                <div>
-                                                                    <p class="text-danger">Cantidad Total de Usuarios:
-                                                                        {{ coint }}
-                                                                    </p>
-                                                                    <table
-                                                                        style="overflow-x: scroll; overflow-y: scroll;"
-                                                                        infiniteScroll [infiniteScrollDistance]="3"
-                                                                        [infiniteScrollThrottle]="50"
-                                                                        (scrolled)="onScroll()" id="datatables"
-                                                                        class="material-datatables table table-striped table-no-bordered table-hover"
-                                                                        cellspacing="0" width="100%" style="width:100%">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th
-                                                                                    *ngFor="let row of dataTable2.headerRow">
-                                                                                    {{ row
-                                                                                    }}</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tfoot>
-                                                                            <tr>
-                                                                                <th
-                                                                                    *ngFor="let row of dataTable2.headerRow">
-                                                                                    {{ row
-                                                                                    }}</th>
-                                                                            </tr>
-                                                                        </tfoot>
-                                                                        <tbody>
-                                                                            <tr
-                                                                                *ngFor="let row of dataTable2.dataRows; let idx=index">
-                                                                                <td>
-                                                                                    <img style="width: 81px; border-radius: 30px;"
-                                                                                        [src]="row.logo" alt="">
-                                                                                </td>
-                                                                                <td>{{row['cliente']}}</td>
-                                                                                <td>{{row['telefono']}}</td>
-                                                                                <td>{{row['email']}}</td>
-                                                                                <td>{{row['createdAt'] | date:'medium'}}
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <nav aria-label="Page navigation example"
-                                                                        *ngIf="notEmptyPost">
-                                                                        <ul class="pagination justify-content-end">
-                                                                            <li class="page-item">
-                                                                                <a class="page-link mouse"
-                                                                                    (click)="onScroll2()">VER
-                                                                                    MAS</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </nav>
-                                                                    <ngx-spinner bdOpacity=0.9 bdColor="" size="default"
-                                                                        color="#581f87" type="ball-pulse-sync"
-                                                                        [fullScreen]="false">
-                                                                    </ngx-spinner>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Cliente">
+                        <mat-tab label="Usuarios">
                             <div class="email-new-nano">
                                 <div class="email-new-nano-content">
                                     <div id="email-new-inner">
@@ -225,7 +145,7 @@
                                                                                 *ngFor="let row of dataTable.dataRows; let idx=index">
                                                                                 <td>
                                                                                     <img style="width: 81px; border-radius: 30px;"
-                                                                                        [src]="row.logo" alt="">
+                                                                                        [src]="row['logo']" alt="">
                                                                                 </td>
                                                                                 <td>{{row['cliente']}}</td>
                                                                                 <td>{{row['telefono']}}</td>
