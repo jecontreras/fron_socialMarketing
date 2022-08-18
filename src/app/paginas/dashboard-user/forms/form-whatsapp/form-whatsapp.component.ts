@@ -182,7 +182,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this._tools.presentToast("Whatsapp Enviados");
       this.id = res.data.id;
       if( this.data.listEmails[0] ) this.procesoGuardarNumeros();
-      else this._mensajes.getPlataformas( { url: res.data.empresa.urlRespuesta, id: this.id, cantidadLista: this.data.cantidadLista } ).subscribe(( res:any )=>{ this.btnDisabled=false; }, error => this.btnDisabled=false );
+      else this._mensajes.getPlataformas( { url: res.data.empresa.urlRespuesta, id: this.id, cantidadLista: this.data.cantidadLista, plataforma: this.data.empresa } ).subscribe(( res:any )=>{ this.btnDisabled=false; }, error => this.btnDisabled=false );
       this.getMensaje(); 
       this.data = {};
     },(error)=> { this._tools.presentToast("Error al envio de Whatsapp"); this.btnDisabled=false;})
