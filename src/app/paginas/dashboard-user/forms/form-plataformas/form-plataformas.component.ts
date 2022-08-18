@@ -57,22 +57,24 @@ export class FormPlataformasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dataTable = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
+    this.dataTable2 = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
     this.id = (this.activate.snapshot.paramMap.get('id'));
+    this.query.where.plataforma = this.id;
+    this.query2.where.plataforma = this.id;
     if( this.id) {
       this.titulo = "Editar Plataforma";
       this.getRow();
-      this.dataTable = {
-        headerRow: this.Header,
-        footerRow: this.Header,
-        dataRows: []
-      };
-      this.dataTable2 = {
-        headerRow: this.Header,
-        footerRow: this.Header,
-        dataRows: []
-      };
       this.cargarTodos();
-      this.cargarTodos2();
+      //this.cargarTodos2();
     }
   }
 
