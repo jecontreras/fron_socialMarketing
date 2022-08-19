@@ -45,8 +45,16 @@
 
                                         <div class="row form-group col-6 col-sm-6">
                                             <label for="exampleInpCc" class="col-2">Plataforma:</label>
-                                            <select class="form-control form-control-sm" [(ngModel)]="data.empresa">
+                                            <select class="form-control form-control-sm" [(ngModel)]="data.empresa" (change)="onSelectPlt( )">
                                                 <option [value]="item.id" *ngFor="let item of listPlataforma">
+                                                    {{ item.titulo }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="row form-group col-6 col-sm-6" *ngIf="listDePlataforma.length">
+                                            <label for="exampleInpCc" class="col-2">Lista Plataforma:</label>
+                                            <select class="form-control form-control-sm" [(ngModel)]="data.idLista">
+                                                <option [value]="item.id" *ngFor="let item of listDePlataforma">
                                                     {{ item.titulo }}</option>
                                             </select>
                                         </div>
