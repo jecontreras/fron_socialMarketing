@@ -131,9 +131,10 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   }
 
   onSelectPlt( ){
+    this.listDePlataforma=[];
     let filtro = _.find( this.listPlataforma, ( item:any )=> item.id == this.data.empresa );
     console.log("***", this.data, filtro )
-    if( !filtro ) return false;
+    if( !filtro ) {return false};
     if( !filtro.cantidadLista ) return false;
     for(let i=0; i< filtro.cantidadLista; i++ ){
       this.listDePlataforma.push ( { titulo: "lista "+Number( i + 1 ), id: i+1 } );
