@@ -30,7 +30,7 @@ export class FormPlataformasComponent implements OnInit {
   query:any = {
     where:{},
     sort: "createdAt DESC",
-    page: 1
+    page: 0
   };
   Header:any = ["Fotos",'Nombre','Celular','Email','Fecha Registro' ];
   $:any;
@@ -51,20 +51,20 @@ export class FormPlataformasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dataTable = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
+    this.dataTable2 = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
     this.id = (this.activate.snapshot.paramMap.get('id'));
     if( this.id) {
       this.titulo = "Editar Plataforma";
       this.getRow();
-      this.dataTable = {
-        headerRow: this.Header,
-        footerRow: this.Header,
-        dataRows: []
-      };
-      this.dataTable2 = {
-        headerRow: this.Header,
-        footerRow: this.Header,
-        dataRows: []
-      };
       this.query.where.plataforma = this.id;
       this.cargarTodos();
       //this.cargarTodos2();
