@@ -371,10 +371,11 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       listRotador: this.data.listRotador.filter(( item:any ) => item.mensajes )
     };
     if( !data.id ) { this.btnDisabled = false; return false; }
+    for( let item of this.data.listRotador ) item.files = [];
     this._mensajes.editar( data ).subscribe(( res:any )=>{
-      this._tools.tooast( { title: 'Actualizado rotador mensajes...'});
+      this._tools.presentToast( 'Actualizado rotador mensajes...' );
       this.btnDisabled = false;
-    },(error)=>{ this._tools.tooast( { title: 'Error al actualizar...'}); this.btnDisabled = false; });
+    },(error)=>{ this._tools.presentToast( 'Error al actualizar...' ); this.btnDisabled = false; });
   }
 
   onFileChange(evt: any) {
@@ -432,7 +433,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       for( let row of item.files ){
         let form: any = new FormData();
         form.append('file', row );
-        this._tools.ProcessTime({});
+        //this._tools.ProcessTime({});
         //console.log( form, this.files )
         if( !item.galeriaList ) item.galeriaList = [];
         let resultFile = await this.createFile( form );
@@ -440,6 +441,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
         item.galeriaList.push( { id: this._tools.codigo(), foto: resultFile } );
         this.nexProceso();
       }
+      item.files = [];
       resolve( true );
     });
   }
