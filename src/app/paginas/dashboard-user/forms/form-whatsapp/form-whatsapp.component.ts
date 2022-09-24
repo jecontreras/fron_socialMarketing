@@ -57,6 +57,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   listCompletaNumeroGr = [];
   files:any = [];
   listDePlataforma:any = [];
+  counstNumero:number = 0;
 
   constructor(
     private activate: ActivatedRoute,
@@ -147,10 +148,12 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       for( let row of res ){
         this.listCompletaNumeroGr.push( row );
         for( let key of row.numerosPendientes || []){
+          this.counstNumero++;
           this.data.listEmails.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
           this.listNumerosGr.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id} );
         }
         for( let key of row.numerosCompletados || [] ){
+          this.counstNumero++;
           this.data.listEmails.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
           this.listNumerosGr.push( { username: key.username || ' ', telefono: key.telefono || '000', id: row.id } );
         }
