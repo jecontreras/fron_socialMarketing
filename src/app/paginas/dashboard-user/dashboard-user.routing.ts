@@ -13,6 +13,8 @@ import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
 import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
 import { PlataformasComponent } from './components/plataformas/plataformas.component';
 import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
+import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
 
 const routes: Routes = [
     {
@@ -84,6 +86,18 @@ const routes: Routes = [
           {
             path: 'plataformaform/:id',
             component: FormPlataformasComponent
+          },
+          {
+            path: 'galeria',
+            component: GaleriaComponent
+          },
+          {
+            path: 'galeriaform',
+            component: FormGaleriaComponent
+          },
+          {
+            path: 'galeriaform/:id',
+            component: FormGaleriaComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]

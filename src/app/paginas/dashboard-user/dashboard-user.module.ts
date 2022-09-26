@@ -28,6 +28,8 @@ import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
 import { FormWhatsappComponent } from './forms/form-whatsapp/form-whatsapp.component';
 import { PlataformasComponent } from './components/plataformas/plataformas.component';
 import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
+import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
 
 
 
@@ -35,7 +37,7 @@ import { FormPlataformasComponent } from './forms/form-plataformas/form-platafor
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
