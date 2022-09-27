@@ -45,12 +45,10 @@
                   <a></a>
                 </div>
                 <div class="name" (click)="editar( item )">
-                  <span *ngIf="item.tipoEnvio == 0">{{ item.emails | slice: 0: 200 }}</span>
-                  <span *ngIf="item.tipoEnvio == 1">{{ item['empresa']?.titulo }}</span>
+                  <span>{{ item.titulo }}</span>
                 </div>
                 <div class="message">
                   <span class="label label-success">Nuevo</span>
-                  <span class="subject">{{ item.subtitulo }} -</span>
                   <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
                 </div>
                 <div class="meta-info">

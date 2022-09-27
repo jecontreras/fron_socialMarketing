@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { APPINT } from 'src/app/interfaces/interfasapp';
 import { ArchivosService } from 'src/app/services-components/archivos.service';
+import { GaleriaMensajeService } from 'src/app/services-components/galeria-mensaje.service';
 import { GaleriaService } from 'src/app/services-components/galeria.service';
 import { ToolsService } from 'src/app/services/tools.service';
 
@@ -23,6 +24,7 @@ export class FormGaleriaComponent implements OnInit {
   listPlataforma:any = [];
   dataUser:any = {};
   btnDisabled:boolean = false;
+  @Input() _dataConfig: any;
   
   visible = true;
   selectable = true;
@@ -42,7 +44,8 @@ export class FormGaleriaComponent implements OnInit {
     private _tools: ToolsService,
     public dialog: MatDialog,
     private _archivos: ArchivosService,
-    private _galeria: GaleriaService
+    private _galeria: GaleriaService,
+    private _galeriaMensaje: GaleriaMensajeService
   ) { 
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -51,7 +54,14 @@ export class FormGaleriaComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log( this._dataConfig )
     this.id = (this.activate.snapshot.paramMap.get('id'));
+    if( this.id && !this._dataConfig ) this.getGaleria();
+    setTimeout( ()=>{
+      if( this._dataConfig ){
+        if( this._dataConfig.vista == 'whatsap' ) if( this._dataConfig.id ) this.id = this._dataConfig.id; this.getGaleria();
+      }
+    }, 4000 );
     this.agregarMasRotador();
   }
 
@@ -59,14 +69,60 @@ export class FormGaleriaComponent implements OnInit {
     clearInterval( this.intervalo );
   }
 
-  submit(){
+  getGaleria(){
+    return new Promise( resolve =>{
+      if( !this.id ) return resolve( false );
+      this._galeria.get( { where: { id: this.id } } ).subscribe( ( res:any )=>{
+        res = res.data[0];
+        this.data = res;
+        resolve( true );
+      },()=> resolve( false ) );
+    });
+  }
 
+  async submit(){
+    if( this.btnDisabled ) return false;
+    this.btnDisabled = true;
+    if( !this.id ) await this.crearGaleria();
+    else this.actualizarGaleria();
+    this.btnDisabled = false;
+  }
+
+  crearPadre(){
+    return new Promise( resolve =>{
+      let data:any = {
+        titulo: this.data.titulo
+      };
+      this._galeria.saved( data ).subscribe( ( res:any ) =>{
+        this.id = res.id;
+        resolve( res );
+      },( )=> resolve( false ) );
+    });
+  }
+
+  crearGaleria(){
+    return new Promise( async( resolve ) =>{
+      this._galeria.saved( { data: this.data } ).subscribe( ( res:any ) =>{
+        this._tools.presentToast("Agregado Galeria...");
+        resolve( true );
+      },( ) => resolve( false ) );
+    });
+
+  }
+
+  actualizarGaleria(){
+    return new Promise( resolve =>{
+      this._galeria.editar( this.data ).subscribe( ( res:any )=>{
+        this._tools.presentToast("Actualizado Correcto...");
+        resolve( true );
+      },()=> { this._tools.presentToast("Problemas al Actualizado..."); resolve( false ); });
+    });
   }
 
   agregarMasRotador(){
     if( !this.data.listRotador ) this.data.listRotador = [ { files: [] }];
     this.data.listRotador.push({
-      id: this._tools.codigo(),
+      //id: this._tools.codigo(),
       files: []
     });
   }
@@ -89,6 +145,7 @@ export class FormGaleriaComponent implements OnInit {
         item.galeriaList.push( { id: this._tools.codigo(), foto: resultFile } );
       }
       item.files = [];
+      if( this.id ) this.submit();
       resolve( true );
     });
   }
@@ -111,16 +168,20 @@ export class FormGaleriaComponent implements OnInit {
   eliminarFoto( item:any, id:any ){
     //console.log( item, id )
     item.galeriaList = item.galeriaList.filter( ( row:any ) => row.id != id );
+    if( this.id ) this.submit();
   }
 
   eliminarMensajes( item:any ){
-    this.data.listRotador = this.data.listRotador.filter( ( row:any ) => row.id != item.id );
+    this._galeriaMensaje.delete( item ).subscribe( ( res:any )=>{
+      this._tools.presentToast("Mensaje eliminado...");
+      this.data.listRotador = this.data.listRotador.filter( ( row:any ) => row.id != item.id );
+    } ,( )=> this._tools.presentToast("Problemas para eliminar...") );
   }
+  
 
   guardarMensajes(){
     if( !this.id ) return false;
-    if( this.btnDisabled ) return false;
-    this.btnDisabled = true;
+    this.submit();
   }
 
   nexProceso(){

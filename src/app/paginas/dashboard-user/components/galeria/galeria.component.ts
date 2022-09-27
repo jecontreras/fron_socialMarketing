@@ -25,6 +25,7 @@ export class GaleriaComponent implements OnInit {
   loader:boolean = false;
   query:any = {
     where:{
+      estado: 0
     },
     sort: "createdAt DESC",
     page: 0,
@@ -122,7 +123,7 @@ export class GaleriaComponent implements OnInit {
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
     this.dataTable.dataRows = [];
-    this.query = { where:{ estado: 0, tipoEnvio: [ 0,1 ] }, page: 0 };
+    this.query = { where:{ estado: 0 }, page: 0 };
     if (this.datoBusqueda !== '') {
       this.query.page = 0;
       this.query.where.or = [

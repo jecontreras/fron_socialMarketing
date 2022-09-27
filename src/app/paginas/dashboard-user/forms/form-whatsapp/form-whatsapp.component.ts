@@ -14,11 +14,18 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ArchivosService } from 'src/app/services-components/archivos.service';
+import { GaleriaService } from 'src/app/services-components/galeria.service';
 
 export interface Fruit {
   id?: any;
   nombre?: string;
   usu_email: string;
+}
+
+declare interface DataTable {
+  headerRow: string[];
+  footerRow: string[];
+  dataRows: any[][];
 }
 
 
@@ -58,6 +65,25 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   files:any = [];
   listDePlataforma:any = [];
   counstNumero:number = 0;
+  notscrolly:boolean=true;
+  notEmptyPost:boolean = true;
+  coint:number;
+
+  dataTable: DataTable;
+  pagina = 10;
+  loader:boolean = false;
+  query:any = {
+    where:{
+      estado: 0
+    },
+    sort: "createdAt DESC",
+    page: 0,
+    limit: 10
+  };
+  Header:any = [ 'Acciones','Mensaje de','Para de','Mandado','Mensaje','Oferta','Estado', 'Creado' ];
+  dataConfig:any = {
+    vista: "whatsap"
+  };
 
   constructor(
     private activate: ActivatedRoute,
@@ -68,7 +94,8 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
     private excelSrv: ExcelService,
-    private _archivos: ArchivosService
+    private _archivos: ArchivosService,
+    private _galeria: GaleriaService
   ) { 
     this.editor();
     this._store.subscribe((store: any) => {
@@ -77,7 +104,13 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.dataTable = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
+    await this.cargarTodos();
     this.id = (this.activate.snapshot.paramMap.get('id'));
     if( this.id ) { 
       this.getMensaje(); 
@@ -91,6 +124,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this.agregarMasRotador();
     }
     this.getEmpresas();
+
   }
 
   ngOnDestroy(){
@@ -118,6 +152,9 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       if( this.data.empresa ) this.data.empresa = this.data.empresa.id;
       this.data.listEmails = [];
       this.onSelectPlt( );
+      let selecciono = this.dataTable.dataRows.find( ( item:any ) => item.id == this.data.listRotador2 );
+      this.dataConfig.id = this.data.listRotador2;
+      this.seleccion( selecciono );
       try {
         this.data.listRotador = _.map( this.data.listRotador, ( item:any )=>{
           return {
@@ -392,6 +429,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       const data = <any[]>this.excelSrv.importFromFile(bstr);
       const importedData = data.slice(1, -1);
       console.log( "esto es",importedData );
+      this.counstNumero = importedData.length
       let lista:any = [];
       for( let row of importedData ){
         if( !row[1] ) continue;
@@ -464,6 +502,50 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     item.files.splice( item.files.indexOf( event ), 1 );
   }
 
+  onScroll(){
+    console.log("*************Men")
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       this.cargarTodos();
+     }
+   }
+
+   cargarTodos() {
+    return new Promise( resolve =>{
+      this.spinner.show();
+      this._galeria.get(this.query)
+      .subscribe(
+        (response: any) => {
+          this.coint= response.count;
+          this.dataTable.headerRow = this.dataTable.headerRow;
+          this.dataTable.footerRow = this.dataTable.footerRow;
+          this.dataTable.dataRows.push(... response.data);
+          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+          this.loader = false;
+            this.spinner.hide();
+            
+            if (response.data.length === 0 ) {
+              this.notEmptyPost =  false;
+            }
+            this.notscrolly = true;
+            resolve( true );
+        },
+        error => {
+          console.log('Error', error);
+          this.loader = false;
+          resolve( false );
+        });
+    });
+   }
+
+   seleccion( item:any ){
+    console.log("**", item )
+    for(let row of this.dataTable.dataRows ) row['check'] = false;
+    item.check = !item.check;
+    this.data.listRotador2 = item.id;
+   }
+
 
 }
 
@@ -474,3 +556,38 @@ export class Contact {
   phone: string = "";
   address: string = "";
 }
+
+/*
+                                                    <div class="row form-group col-12" *ngIf="data.rotadorMensajes">
+                                                        <button type="button" class="btn btn-primary" (click)="agregarMasRotador()">Agregar Mas</button>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item" *ngFor="let item of data.listRotador; let i=index;">
+                                                                <h1>Mensaje: {{ i }}</h1>
+                                                                <!--<button type="button" class="btn btn-success" (click)="pushImg( item )" >Agregar Mas Imagen</button>-->
+                                                                <br>
+                                                                <div>
+                                                                    <ngx-dropzone (change)="onSelects($event, item); subirFile( item )">
+                                                                        <ngx-dropzone-label>Subir Fotos</ngx-dropzone-label>
+                                                                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of item.files" [file]="f"
+                                                                            [removable]="true" (removed)="onRemoves(f, item)" multiple="true" accept="image/jpeg,image/jpg,image/png"
+                                                                            maxFileSize="1500000">
+                                                                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                                                        </ngx-dropzone-image-preview>
+                                                                    </ngx-dropzone>
+                                                                </div>
+                                                                <ul *ngIf="item.galeriaList">
+                                                                    <li *ngFor="let key of item.galeriaList">
+                                                                        <img style="width: 155px; border-radius: 20px;" [src]="key.foto" alt="">
+                                                                        <!--<input type="text" aria-label="..." [(ngModel)]="key.foto" (change)="updateImgList( key )">-->
+                                                                        <button type="button" class="btn btn-danger" (click)="eliminarFoto( item, key.id )" >Eliminar Foto</button>
+                                                                    </li>
+                                                                </ul>
+                                                                <textarea class="form-control" [(ngModel)]="item.mensajes" rows="4" placeholder="Mensajes...."></textarea>
+                                                                <button type="button" class="btn btn-danger" (click)="eliminarMensajes( item )" >Eliminar Mensajes</button>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <button type="button" class="btn btn-primary" (click)="agregarMasRotador()">Agregar Mas</button>
+                                                                <button type="button" class="btn btn-success" (click)="guardarMensajes()" *ngIf="data.id">Guardar Mensajes</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>*/
