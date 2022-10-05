@@ -63,12 +63,12 @@
                                                                 <button type="button" class="btn btn-danger" (click)="eliminarFoto( item, key.id )" >Eliminar Foto</button>
                                                             </li>
                                                         </ul>
-                                                        <textarea class="form-control" [(ngModel)]="item.mensajes" rows="4" placeholder="Mensajes...."></textarea>
-                                                        <button type="button" class="btn btn-danger" (click)="eliminarMensajes( item )" >Eliminar Mensajes</button>
+                                                        <textarea class="form-control" [(ngModel)]="item.mensaje" rows="4" placeholder="Mensajes...."></textarea>
+                                                        <button type="button" class="btn btn-danger" (click)="eliminarMensajes( item )" >Eliminar Galeria</button>
                                                     </li>
                                                     <li class="list-group-item">
                                                         <button type="button" class="btn btn-primary" (click)="agregarMasRotador()">Agregar Mas</button>
-                                                        <button type="button" class="btn btn-success" (click)="guardarMensajes()" *ngIf="data.id">Guardar Mensajes</button>
+                                                        <button type="button" class="btn btn-success" (click)="guardarMensajes()" *ngIf="data.id">Guardar Galeria</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -91,7 +91,7 @@
                                                             class="fas fa-pencil-alt"></i>Actualizar Datos</button>
                                                     <button type="button" [disabled]="btnDisabled" *ngIf="!id"
                                                         class="btn btn-success" (click)="submit()"><i
-                                                            class="fa fa-send"></i>Enviar Whatsapp</button>
+                                                            class="fa fa-send"></i>Gaurdar Galeria</button>
                                                     <!-- <button type="button" [disabled]="btnDisabled" *ngIf="id"
                                                         class="btn btn-success" (click)="renvio()"><i
                                                             class="fas fa-redo"></i>Renvio Whatsapp</button> -->

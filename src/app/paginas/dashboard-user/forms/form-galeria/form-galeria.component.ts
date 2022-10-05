@@ -24,7 +24,7 @@ export class FormGaleriaComponent implements OnInit {
   listPlataforma:any = [];
   dataUser:any = {};
   btnDisabled:boolean = false;
-  @Input() _dataConfig: any;
+  @Input() _dataConfig: any = {};
   
   visible = true;
   selectable = true;
@@ -55,13 +55,20 @@ export class FormGaleriaComponent implements OnInit {
 
   ngOnInit() {
     console.log( this._dataConfig )
-    this.id = (this.activate.snapshot.paramMap.get('id'));
-    if( this.id && !this._dataConfig ) this.getGaleria();
-    setTimeout( ()=>{
-      if( this._dataConfig ){
-        if( this._dataConfig.vista == 'whatsap' ) if( this._dataConfig.id ) this.id = this._dataConfig.id; this.getGaleria();
-      }
-    }, 4000 );
+    try {
+      if( !this._dataConfig.vista ) this.id = (this.activate.snapshot.paramMap.get('id'));
+      if( this.id && !this._dataConfig.vista ) this.getGaleria();
+      setTimeout( ()=>{
+        if( this._dataConfig ){
+          if( this._dataConfig.vista == 'whatsap' && this._dataConfig.id ) { if( this._dataConfig.id ) this.id = this._dataConfig.id; this.getGaleria(); }
+          else {
+            if( !this._dataConfig.vista ) this.id = (this.activate.snapshot.paramMap.get('id'));
+          }
+        }
+      }, 4000 ); 
+    } catch (error) {
+      
+    }
     this.agregarMasRotador();
   }
 
@@ -74,7 +81,7 @@ export class FormGaleriaComponent implements OnInit {
       if( !this.id ) return resolve( false );
       this._galeria.get( { where: { id: this.id } } ).subscribe( ( res:any )=>{
         res = res.data[0];
-        this.data = res;
+        this.data = res || {};
         resolve( true );
       },()=> resolve( false ) );
     });
@@ -187,7 +194,7 @@ export class FormGaleriaComponent implements OnInit {
   nexProceso(){
     let data:any = {
       id: this.data.id,
-      listRotador: this.data.listRotador.filter(( item:any ) => item.mensajes )
+      listRotador: this.data.listRotador.filter(( item:any ) => item.mensaje )
     };
     if( !data.id ) { this.btnDisabled = false; return false; }
     for( let item of this.data.listRotador ) item.files = [];

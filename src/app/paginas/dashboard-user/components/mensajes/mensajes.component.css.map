@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "mensajes.component.scss"
+    ],
+    "names": [],
+    "file": "mensajes.component.css"
+}

@@ -541,6 +541,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
 
    seleccion( item:any ){
     console.log("**", item )
+    if( !item ) return;
     for(let row of this.dataTable.dataRows ) row['check'] = false;
     item.check = !item.check;
     this.data.listRotador2 = item.id;

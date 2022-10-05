@@ -19,6 +19,12 @@
     },
     {
       "icon": "assignment_turned_in",
+      "name": "Galeria",
+      "redirectTo": "./galeria",
+      "submenu":[]
+    },
+    {
+      "icon": "assignment_turned_in",
       "name": "Whatsapp",
       "redirectTo": "./whatsapp",
       "submenu":[]
@@ -27,12 +33,6 @@
       "icon": "assignment_turned_in",
       "name": "Plataforma",
       "redirectTo": "./plataforma",
-      "submenu":[]
-    },
-    {
-      "icon": "assignment_turned_in",
-      "name": "Galeria",
-      "redirectTo": "./galeria",
       "submenu":[]
     }
   ]

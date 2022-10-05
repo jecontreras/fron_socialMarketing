@@ -161,13 +161,18 @@
                                         </div>
                                         <div class="col-12">
                                             <mat-tab-group mat-align-tabs="center">
-                                                <mat-tab label="Lista de Galeria">
+                                                <mat-tab label="Lista de Galeria" (click)="cargarTodos()">
                                                     <div id="" class="email-content-nano">
                                                         <div class="email-content-nano-content">
+                                                            <div class="d-flex justify-content-center">
+                                                                <div>
+                                                                    <button type="submit" class="btn btn-primary" (click)="this.dataTable.dataRows = []; cargarTodos()">Actualizar</button>
+                                                                </div>
+                                                            </div>
                                                           <ul id="email-list">
                                                             <li class="unread clickable-row" *ngFor="let item of this.dataTable.dataRows" [ngClass]="{'check': item.check == true }">
                                                               <div class="chbox">
-                                                                <mat-checkbox color="primary" class="example-margin" [(ngModel)]="item.checks"></mat-checkbox>
+                                                                <mat-checkbox color="primary" disabled class="example-margin" [(ngModel)]="item.check"></mat-checkbox>
                                                               </div>
                                                               <div class="star">
                                                                 <a></a>

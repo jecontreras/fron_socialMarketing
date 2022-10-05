@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,kBAAkB,CAAC;EACf,KAAK,EAAE,IAAI;CACZ",
+    "sources": [
+        "form-mensajes.component.scss"
+    ],
+    "names": [],
+    "file": "form-mensajes.component.css"
+}
