@@ -47,8 +47,7 @@
                                                         <!--<button type="button" class="btn btn-success" (click)="pushImg( item )" >Agregar Mas Imagen</button>-->
                                                         <br>
                                                         <div>
-                                                            <ngx-dropzone (change)="onSelects($event, item); subirFile( item )" accept="image/jpeg,image/jpg,image/png" multiple="true"
-                                                            maxFileSize="1500000">
+                                                            <ngx-dropzone (change)="onSelects($event, item); subirFile( item )" accept="image/jpeg,image/jpg,image/png" multiple="true">
                                                                 <ngx-dropzone-label>Subir Fotos</ngx-dropzone-label>
                                                                 <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of item.files" [file]="f"
                                                                     [removable]="true" (removed)="onRemoves(f, item)">
