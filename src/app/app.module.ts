@@ -21,8 +21,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthInterceptor } from './services/authInterceptor';
 import { GlobalErrorHandler } from './services/globalErrorHandler';
 
-
-
 @NgModule({
   declarations: [
     AppComponent

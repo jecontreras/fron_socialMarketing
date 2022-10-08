@@ -30,6 +30,7 @@ import { PlataformasComponent } from './components/plataformas/plataformas.compo
 import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 
@@ -47,7 +48,8 @@ import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.componen
     NgxSpinnerModule,
     InfiniteScrollModule,
     AngularEditorModule,
-    MyOwnCustomMaterialModule
+    MyOwnCustomMaterialModule,
+    QRCodeModule
   ],
   exports: [
     DashboardComponent

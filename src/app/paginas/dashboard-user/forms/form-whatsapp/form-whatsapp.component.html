@@ -32,7 +32,9 @@
                                     <div class="row container">
 
                                         <div class="row form-group col-12" *ngIf="data.imagenWhat">
-                                            <img class="anchosWet" [src]="data.imagenWhat">
+                                            <!--<img class="anchosWet" [src]="data.imagenWhat">-->
+                                            <label for="exampleInpSubject" class="col-2">Codigo de Whatsapp:</label>
+                                            <qrcode [qrdata]="data.imagenWhat" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
                                         </div>
 
                                         <div class="col-sm-6 form-group col-6">
