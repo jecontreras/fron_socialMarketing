@@ -69,12 +69,45 @@
                                             </div>
                                         </div>
                                         <div class="row form-group col-12 col-sm-4">
+                                            <label for="exampleInpSubject" class="col-2">Importar excel:</label>
+                                            <input type="file" accept=".xls,.xlsx" (blur)="onFileChange($event)">
+                                            <button type="button" class="btn btn-success">Importar</button>
+                                        </div>
+                                        <div class="row form-group col-12 col-sm-4">
                                             <label for="exampleInpSubject" class="col-2">Cantidad de lista:</label>
                                             <div class="col-10">
                                                 <input type="text" placeholder="Enter subject"
                                                     class="form-control form-control-sm"
                                                     [(ngModel)]="data.cantidadLista" disabled />
                                             </div>
+                                        </div>
+                                        <div class="row form-group col-12">
+                                            <table
+                                                style="overflow-x: scroll; overflow-y: scroll;"
+                                                infiniteScroll [infiniteScrollDistance]="3"
+                                                [infiniteScrollThrottle]="50"
+                                                (scrolled)="onScroll2()" id="datatables"
+                                                class="material-datatables table table-striped table-no-bordered table-hover"
+                                                cellspacing="0" width="100%" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th *ngFor="let row of dataTable3.headerRow"> {{ row }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th *ngFor="let row of dataTable3.headerRow"> {{ row }} </th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let row of dataTable3.dataRows; let idx=index">
+                                                        <td>{{row['nombre']}}</td>
+                                                        <td>{{row['cliente']}}</td>
+                                                        <td>{{row['lista']}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

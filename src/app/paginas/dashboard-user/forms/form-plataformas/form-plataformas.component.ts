@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UsuarioPlataformaService } from 'src/app/services-components/usuario-plataforma.service';
+import { ExcelService } from 'src/app/services/excel.service';
 declare interface DataTable {
   headerRow: string[];
   footerRow: string[];
@@ -24,6 +25,7 @@ export class FormPlataformasComponent implements OnInit {
   titulo:string = "Crear Plataforma";
   dataTable: DataTable;
   dataTable2: DataTable;
+  dataTable3: DataTable;
   pagina = 10;
   paginas = 0;
   loader = true;
@@ -39,6 +41,7 @@ export class FormPlataformasComponent implements OnInit {
   notscrolly:boolean=true;
   notEmptyPost:boolean = true;
   coint:number;
+  counstNumero:number = 0;
 
 
   constructor(
@@ -47,7 +50,8 @@ export class FormPlataformasComponent implements OnInit {
     private activate: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private Router: Router,
-    private _usuarioPlataforma: UsuarioPlataformaService
+    private _usuarioPlataforma: UsuarioPlataformaService,
+    private excelSrv: ExcelService,
   ) { }
 
   ngOnInit() {
@@ -59,6 +63,11 @@ export class FormPlataformasComponent implements OnInit {
     this.dataTable2 = {
       headerRow: this.Header,
       footerRow: this.Header,
+      dataRows: []
+    };
+    this.dataTable3 = {
+      headerRow: ["Numero","Nombre","Lista"],
+      footerRow: ["Numero","Nombre","Lista"],
       dataRows: []
     };
     this.id = (this.activate.snapshot.paramMap.get('id'));
@@ -99,6 +108,47 @@ export class FormPlataformasComponent implements OnInit {
       this.btnDisabled = false;
     },( error )=> { this._tools.presentToast("Error al crear la plataforma..."); this.btnDisabled = false; });
   }
+
+  onFileChange(evt: any) {
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    if (target.files.length !== 1) return false;
+
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+
+      const bstr: string = e.target.result;
+      const data = <any[]>this.excelSrv.importFromFile(bstr);
+      const importedData = data.slice(1, -1);
+      console.log( "esto es",importedData );
+      this.counstNumero = importedData.length
+      let lista:any = [];
+      for( let row of importedData ){
+        if( !row[1] ) continue;
+        lista.push( {
+          username: row[0] || " ",
+          telefono: row[1]
+        });
+      }
+      this.trasnFormVer( lista );
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+
+  trasnFormVer( lista:any ){
+    for(let row of lista) {
+      let filtro = this.data.listEmails.find( ( item:any ) => item.telefono == row.telefono );
+      if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } ); 
+    }
+  }
+
+  onScroll2(){
+    console.log("*************Men")
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       //this.cargarTodos();
+     }
+   }
 
   onScroll(){
     if (this.notscrolly && this.notEmptyPost) {
