@@ -110,6 +110,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       footerRow: this.Header,
       dataRows: []
     };
+    this.getEmpresas();
     await this.cargarTodos();
     this.id = (this.activate.snapshot.paramMap.get('id'));
     if( this.id ) { 
@@ -123,7 +124,6 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this.data.creadoEmail = this.dataUser.email;
       this.agregarMasRotador();
     }
-    this.getEmpresas();
 
   }
 
@@ -168,7 +168,8 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectPlt( ){
+  async onSelectPlt( ){
+    if( this.listPlataforma.length === 0 ) await this.getEmpresas();;
     this.listDePlataforma=[];
     let filtro = _.find( this.listPlataforma, ( item:any )=> item.id == this.data.empresa );
     console.log("***", this.data, filtro )
@@ -199,9 +200,12 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   }
 
   getEmpresas(){
-    this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
-      this.listPlataforma = res.data;
-    });
+    return new Promise( resolve =>{
+      this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
+        this.listPlataforma = res.data;
+        resolve( true );
+      });
+    })
   }
 
   openUsurios(){
