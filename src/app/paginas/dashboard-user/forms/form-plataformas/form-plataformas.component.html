@@ -128,12 +128,21 @@
                             <div class="btn-group">
                                 <button type="button" [disabled]="btnDisabled" *ngIf="id" class="btn btn-success"
                                     (click)="actualizar()"><i class="fas fa-pencil-alt"></i>Actualizar Datos</button>
+                                    <button type="button" [disabled]="btnDisabled" *ngIf="id" class="btn btn-warning"
+                                    (click)="paginateList()"><i class="fas fa-pencil-alt"></i>Paginando Lista</button>
                                 <button type="button" [disabled]="btnDisabled" *ngIf="!id" class="btn btn-success"
                                     (click)="enviar()"><i class="fa fa-send"></i>Guardar Plataforma</button>
                                 <!-- <button type="button" [disabled]="btnDisabled" *ngIf="id"
                                     class="btn btn-success" (click)="renvio()"><i
                                         class="fas fa-redo"></i>Renvio Whatsapp</button> -->
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-10 col-md-offset-2" *ngIf="btnDisabled">
+                        <div class="pull-right" style=" width: 100%; ">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div></div>
                         </div>
                     </div>
                 </div>

@@ -24,4 +24,7 @@ export class UsuarioPlataformaService {
   delete (query: any){
     return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/'+query.id, query, 'delete');
   }
+  Paginate (query: any){
+    return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/paginate', query, 'post');
+  }
 }

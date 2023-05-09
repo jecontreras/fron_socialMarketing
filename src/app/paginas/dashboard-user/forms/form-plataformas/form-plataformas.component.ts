@@ -106,7 +106,6 @@ export class FormPlataformasComponent implements OnInit {
     data = _.omitBy( data, _.isNull);
     this._plataforma.editar( data ).subscribe((res:any)=>{
       this._tools.presentToast("Whatsapp Actualizado");
-      this.btnDisabled=false;
       this.createUserPlatform();
     },(error)=> { this._tools.presentToast("Error en el Actualizado"); this.btnDisabled=false;})
   }
@@ -114,6 +113,7 @@ export class FormPlataformasComponent implements OnInit {
   createUserPlatform(){
     this._usuarioPlataforma.saved( { listEmails: _.filter( this.dataTable.dataRows, key=> !key.id ), idPlatform: this.id } ).subscribe( res => {
       this._tools.presentToast("Completado...");
+      this.btnDisabled=false;
     });
   }
 
@@ -205,5 +205,12 @@ export class FormPlataformasComponent implements OnInit {
        error => {
          console.log('Error', error);
        });
+   }
+   paginateList(){
+    this.btnDisabled=true;
+    this._usuarioPlataforma.Paginate( { where:{ plataforma: this.id } } ).subscribe(res=> {
+      this._tools.presentToast("Completado...")
+      this.btnDisabled=false;
+    })
    }
 }
