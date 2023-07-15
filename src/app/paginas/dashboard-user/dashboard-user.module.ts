@@ -31,6 +31,8 @@ import { FormPlataformasComponent } from './forms/form-plataformas/form-platafor
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { GuiaComponent } from './components/guia/guia.component';
+import { FormsGuiaComponent } from './forms/forms-guia/forms-guia.component';
 
 
 
@@ -38,7 +40,7 @@ import { QRCodeModule } from 'angularx-qrcode';
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent, GuiaComponent, FormsGuiaComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
