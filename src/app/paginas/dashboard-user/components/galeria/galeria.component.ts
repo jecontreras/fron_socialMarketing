@@ -5,6 +5,9 @@ import { MensajesService } from 'src/app/services-components/mensajes.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
 import { GaleriaService } from 'src/app/services-components/galeria.service';
+import { APPINT } from 'src/app/interfaces/interfasapp';
+import { Store } from '@ngrx/store';
+import { USER } from 'src/app/interfaces/user';
 
 declare interface DataTable {
   headerRow: string[];
@@ -39,12 +42,21 @@ export class GaleriaComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   btnDisabled:boolean = false;
+  dataUser: USER;
+
   constructor(
     private _galeria: GaleriaService,
     private spinner: NgxSpinnerService,
     private _tools: ToolsService,
-    private Router: Router
-  ) { }
+    private Router: Router,
+    private _store: Store<APPINT>,
+  ) {
+    this._store.subscribe((store: any) => {
+      console.log(store);
+      store = store.name;
+      this.dataUser = store.user;
+    });
+  }
 
   ngOnInit() {
     this.dataTable = {
@@ -95,6 +107,7 @@ export class GaleriaComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
+     this.query.where.user = this.dataUser.id;
      this._galeria.get(this.query)
      .subscribe(
        (response: any) => {
@@ -105,7 +118,7 @@ export class GaleriaComponent implements OnInit {
          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
          this.loader = false;
            this.spinner.hide();
-          
+
            if (response.data.length === 0 ) {
              this.notEmptyPost =  false;
            }
@@ -118,7 +131,7 @@ export class GaleriaComponent implements OnInit {
    }
    buscar() {
     this.loader = true;
-    this.notscrolly = true 
+    this.notscrolly = true
     this.notEmptyPost = true;
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
@@ -132,7 +145,7 @@ export class GaleriaComponent implements OnInit {
             contains: this.datoBusqueda|| ''
           }
         }
-      ]; 
+      ];
     }
     this.cargarTodos();
   }

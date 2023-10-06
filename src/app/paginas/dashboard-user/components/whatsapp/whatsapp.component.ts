@@ -4,6 +4,9 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { APPINT } from 'src/app/interfaces/interfasapp';
+import { Store } from '@ngrx/store';
+import { USER } from 'src/app/interfaces/user';
 
 declare interface DataTable {
   headerRow: string[];
@@ -38,12 +41,21 @@ export class WhatsappComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   btnDisabled:boolean = false;
+  dataUser: USER;
+
   constructor(
     private _mensajes: MensajesService,
     private spinner: NgxSpinnerService,
     private _tools: ToolsService,
-    private Router: Router
-  ) { }
+    private Router: Router,
+    private _store: Store<APPINT>,
+  ) {
+    this._store.subscribe((store: any) => {
+      console.log(store);
+      store = store.name;
+      this.dataUser = store.user;
+    });
+  }
 
   ngOnInit() {
     this.dataTable = {
@@ -93,6 +105,7 @@ export class WhatsappComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
+     this.query.where.creado = this.dataUser.id;
      this._mensajes.get(this.query)
      .subscribe(
        (response: any) => {
@@ -103,7 +116,7 @@ export class WhatsappComponent implements OnInit {
          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
          this.loader = false;
            this.spinner.hide();
-          
+
            if (response.data.length === 0 ) {
              this.notEmptyPost =  false;
            }
@@ -116,7 +129,7 @@ export class WhatsappComponent implements OnInit {
    }
   buscar() {
     this.loader = true;
-    this.notscrolly = true 
+    this.notscrolly = true
     this.notEmptyPost = true;
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
@@ -145,7 +158,7 @@ export class WhatsappComponent implements OnInit {
             contains: this.datoBusqueda|| ''
           }
         },
-      ]; 
+      ];
     }
     this.cargarTodos();
   }
@@ -153,7 +166,7 @@ export class WhatsappComponent implements OnInit {
   async activarMensaje( obj:any ){
     console.log("Hey");
     let confirm = await this._tools.confirm( {title:"Renviar mensaje", detalle:"Estas seguro de enviar mensaje este proceso volvera a enviar este mensaje", confir:"Si Eliminar"} );
-    if(!confirm.value) return false;    
+    if(!confirm.value) return false;
     let data = {
       id: obj.id,
       estadoActividad: false
