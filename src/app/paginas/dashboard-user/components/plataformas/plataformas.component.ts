@@ -4,6 +4,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { PlataformaService } from 'src/app/services-components/plataforma.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
+import { APPINT } from 'src/app/interfaces/interfasapp';
+import { Store } from '@ngrx/store';
 
 declare interface DataTable {
   headerRow: string[];
@@ -17,7 +19,7 @@ declare interface DataTable {
   styleUrls: ['./plataformas.component.scss']
 })
 export class PlataformasComponent implements OnInit {
-  
+
   dataTable: DataTable;
   pagina = 10;
   paginas = 0;
@@ -37,13 +39,23 @@ export class PlataformasComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   btnDisabled:boolean = false;
+  dataUser:any = {};
 
   constructor(
     private spinner: NgxSpinnerService,
     private _tools: ToolsService,
     private Router: Router,
-    private _plataforma: PlataformaService
-  ) { }
+    private _plataforma: PlataformaService,
+    private _store: Store<APPINT>,
+  ) {
+
+    this._store.subscribe((store: any) => {
+      console.log(store);
+      store = store.name;
+      this.dataUser = store.user;
+    });
+
+  }
 
   ngOnInit() {
     this.dataTable = {
@@ -71,6 +83,7 @@ export class PlataformasComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
+     if( this.dataUser.rol !== '6520612bf48bb70d888bffe3' ) this.query.where.id = "6456728a45ce5d0014db2870";
      this._plataforma.get(this.query)
      .subscribe(
        (response: any) => {
@@ -81,7 +94,7 @@ export class PlataformasComponent implements OnInit {
          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
          this.loader = false;
            this.spinner.hide();
-          
+
            if (response.data.length === 0 ) {
              this.notEmptyPost =  false;
            }
@@ -93,7 +106,7 @@ export class PlataformasComponent implements OnInit {
    }
   buscar() {
     this.loader = false;
-    this.notscrolly = true 
+    this.notscrolly = true
     this.notEmptyPost = true;
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();

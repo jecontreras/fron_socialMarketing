@@ -203,6 +203,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     return new Promise( resolve =>{
       this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
         this.listPlataforma = res.data;
+        if( this.dataUser.rol !== '6520612bf48bb70d888bffe3' ) this.listPlataforma = this.listPlataforma.filter( row => row.id === '6456728a45ce5d0014db2870');
         resolve( true );
       });
     })
