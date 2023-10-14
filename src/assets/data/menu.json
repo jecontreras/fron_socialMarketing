@@ -34,6 +34,11 @@
       "name": "Plataforma",
       "redirectTo": "./plataforma",
       "submenu":[]
+    },
+    {
+      "icon": "assignment_turned_in",
+      "name": "Logica de Whatsapp",
+      "redirectTo": "./logicWhsatsapp",
+      "submenu":[]
     }
   ]
-  

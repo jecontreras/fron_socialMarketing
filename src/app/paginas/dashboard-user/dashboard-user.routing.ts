@@ -15,6 +15,7 @@ import { PlataformasComponent } from './components/plataformas/plataformas.compo
 import { FormPlataformasComponent } from './forms/form-plataformas/form-plataformas.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
+import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsatsapp.component';
 
 const routes: Routes = [
     {
@@ -98,6 +99,10 @@ const routes: Routes = [
           {
             path: 'galeriaform/:id',
             component: FormGaleriaComponent
+          },
+          {
+            path: 'logicWhsatsapp',
+            component: LogicWhsatsappComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]
