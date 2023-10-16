@@ -34,6 +34,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { GuiaComponent } from './components/guia/guia.component';
 import { FormsGuiaComponent } from './forms/forms-guia/forms-guia.component';
 import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsatsapp.component';
+import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-logic-whatsapp.component';
 
 
 
@@ -41,7 +42,7 @@ import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsa
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent, GuiaComponent, FormsGuiaComponent, LogicWhsatsappComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent, GuiaComponent, FormsGuiaComponent, LogicWhsatsappComponent, FormLogicWhatsappComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

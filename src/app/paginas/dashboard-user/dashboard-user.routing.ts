@@ -16,6 +16,7 @@ import { FormPlataformasComponent } from './forms/form-plataformas/form-platafor
 import { GaleriaComponent } from './components/galeria/galeria.component';
 import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
 import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsatsapp.component';
+import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-logic-whatsapp.component';
 
 const routes: Routes = [
     {
@@ -103,6 +104,14 @@ const routes: Routes = [
           {
             path: 'logicWhsatsapp',
             component: LogicWhsatsappComponent
+          },
+          {
+            path: 'logicWhsatsappform',
+            component: FormLogicWhatsappComponent
+          },
+          {
+            path: 'logicWhsatsappform/:id',
+            component: FormLogicWhatsappComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]

@@ -15,6 +15,26 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-8">
+        <input type="text" class="form-control" placeholder="Buscar..." (change)="buscar()" [disabled]="loader">
+      </div>
+      <div class="col-4">
+        <div class="">
+          <button class="btn btn-primary" type="button" title="Refresh" data-toggle="tooltip" data-placement="bottom"
+            (click)="buscar()" [disabled]="loader">
+            <i class="fa fa-refresh"></i>
+          </button>
+          <button class="btn btn-primary" type="button" title="Erase" data-toggle="tooltip" data-placement="bottom"
+            (click)="procesoDelete()" [disabled]="btnDisabled">
+            <i class="fa fa-trash-o"></i>
+          </button>
+          <button [routerLink]="[ '/dashboard/logicWhsatsappform' ]" class="btn btn-primary pull-right">
+            <i class="fa fa-plus-circle fa-lg"></i> Agregar logica Whatsapp
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="col-12">
       <div id="" class="email-content-nano">
         <div class="email-content-nano-content">
@@ -27,12 +47,11 @@
                 <a></a>
               </div>
               <div class="name" (click)="editar( item )">
-                <span *ngIf="item.tipoEnvio == 0">{{ item.emails | slice: 0: 200 }}</span>
-                <span *ngIf="item.tipoEnvio == 1">{{ item['empresa']?.titulo }}</span>
+                <span >{{ item.titulo | slice: 0: 200 }}</span>
               </div>
               <div class="message">
                 <span class="label label-success">Nuevo</span>
-                <span class="subject">{{ item.subtitulo }} -</span>
+                <span class="subject">{{ item.numero }} -</span>
                 <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
               </div>
               <div class="meta-info">
