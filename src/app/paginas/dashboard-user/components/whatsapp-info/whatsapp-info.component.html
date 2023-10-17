@@ -7,9 +7,9 @@
             <div class="pull-left">
               <ol class="breadcrumb">
                 <li><a [routerLink]="['/dashboard/home']">Inicio</a></li>
-                <li class="active"><span>Logica de Whatsapp </span></li>
+                <li class="active"><span>Lista de Whatsapp </span></li>
               </ol>
-              <h1>Logica de Whatsapp</h1>
+              <h1>Lista de Whatsapp</h1>
             </div>
           </div>
         </div>
@@ -29,8 +29,8 @@
             (click)="procesoDelete()" [disabled]="btnDisabled">
             <i class="fa fa-trash-o"></i>
           </button>
-          <button [routerLink]="[ '/dashboard/logicWhsatsappform' ]" class="btn btn-primary pull-right">
-            <i class="fa fa-plus-circle fa-lg"></i> Agregar logica Whatsapp
+          <button [routerLink]="[ '/dashboard/whatsappInfoform' ]" class="btn btn-primary pull-right">
+            <i class="fa fa-plus-circle fa-lg"></i> Agregar lista Whatsapp
           </button>
         </div>
       </div>
@@ -51,7 +51,7 @@
               </div>
               <div class="message">
                 <span class="label label-success">Nuevo</span>
-                <span class="subject">{{ item['numero']?.numero }} - </span>
+                <span class="subject">{{ item.numero }} - </span>
                 <span class="body" [innerHtml]="item.descripcion | slice: 0: 200"></span>
               </div>
               <div class="meta-info">

@@ -17,6 +17,8 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
 import { FormGaleriaComponent } from './forms/form-galeria/form-galeria.component';
 import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsatsapp.component';
 import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-logic-whatsapp.component';
+import { WhatsappInfoComponent } from './components/whatsapp-info/whatsapp-info.component';
+import { FormWhatsappInfoComponent } from './forms/form-whatsapp-info/form-whatsapp-info.component';
 
 const routes: Routes = [
     {
@@ -112,6 +114,18 @@ const routes: Routes = [
           {
             path: 'logicWhsatsappform/:id',
             component: FormLogicWhatsappComponent
+          },
+          {
+            path: 'whatsappInfo',
+            component: WhatsappInfoComponent
+          },
+          {
+            path: 'whatsappInfoform',
+            component: FormWhatsappInfoComponent
+          },
+          {
+            path: 'whatsappInfoform/:id',
+            component: FormWhatsappInfoComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]

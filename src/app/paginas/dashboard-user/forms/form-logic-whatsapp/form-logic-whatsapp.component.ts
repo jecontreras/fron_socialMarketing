@@ -6,6 +6,7 @@ import { LogicWhatsappService } from 'src/app/services-components/logic-whatsapp
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
 import { GaleriaService } from 'src/app/services-components/galeria.service';
+import { WhatsappInfoService } from 'src/app/services-components/whatsapp-info.service';
 
 @Component({
   selector: 'app-form-logic-whatsapp',
@@ -16,6 +17,7 @@ export class FormLogicWhatsappComponent implements OnInit {
   data:any = {
 
   };
+  titulo:string="Crear"
   listLogic:any = [
     {
       indicador: "He visto esto en Facebook",
@@ -130,6 +132,7 @@ export class FormLogicWhatsappComponent implements OnInit {
   id:string;
   dataUser:any = {};
   listGaleria:any = [];
+  listWhatsappInfo:any = [];
 
   constructor(
     private _logicWhatsapp: LogicWhatsappService,
@@ -137,7 +140,8 @@ export class FormLogicWhatsappComponent implements OnInit {
     private Router: Router,
     private activate: ActivatedRoute,
     private _store: Store<APPINT>,
-    private _galeria: GaleriaService
+    private _galeria: GaleriaService,
+    private _whatsappInfo: WhatsappInfoService
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -149,13 +153,20 @@ export class FormLogicWhatsappComponent implements OnInit {
     this.id = (this.activate.snapshot.paramMap.get('id'));
     if( this.id ) this.getId();
     this.getGaleria();
+    this.getWhatsappInfo();
   }
 
   getId(){
+    this.titulo = "actualizar"
     this._logicWhatsapp.get( { where: { id: this.id } } ).subscribe( res => {
       res = res.data[0];
       this.data = res;
       this.listLogic = res.listLogic;
+      try {
+        this.data.numero = res.numero.id;
+      } catch (error) {
+
+      }
     })
   }
 
@@ -163,6 +174,16 @@ export class FormLogicWhatsappComponent implements OnInit {
     this._galeria.get( { where: { user: this.dataUser.id }, limit: 100000 } ).subscribe( res => {
       this.listGaleria = res.data;
     });
+  }
+
+  getWhatsappInfo(){
+    this._whatsappInfo.get( { where: { user: this.dataUser.id }, limit: 100000 } ).subscribe( res => {
+      this.listWhatsappInfo = res.data;
+    });
+  }
+
+  handleDropList(){
+    this.listLogic = [];
   }
 
 
@@ -215,6 +236,7 @@ export class FormLogicWhatsappComponent implements OnInit {
 
   handleUpdateDetails( item:any ){
     return new Promise( resolve =>{
+      if( !item.id ) resolve( true );
       this._logicWhatsapp.updateWhatsappDetalle( {
         detalle: {
           estado: 1

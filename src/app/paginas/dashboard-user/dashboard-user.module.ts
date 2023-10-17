@@ -35,6 +35,8 @@ import { GuiaComponent } from './components/guia/guia.component';
 import { FormsGuiaComponent } from './forms/forms-guia/forms-guia.component';
 import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsatsapp.component';
 import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-logic-whatsapp.component';
+import { WhatsappInfoComponent } from './components/whatsapp-info/whatsapp-info.component';
+import { FormWhatsappInfoComponent } from './forms/form-whatsapp-info/form-whatsapp-info.component';
 
 
 
@@ -42,7 +44,7 @@ import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-log
   entryComponents:[
     FormUsuarioComponent
   ],
-  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent, GuiaComponent, FormsGuiaComponent, LogicWhsatsappComponent, FormLogicWhatsappComponent],
+  declarations: [DashboardComponent, MainComponent, ContenidoComponent, MenuComponent, HeaderComponent, SettingsComponent, FormContratoComponent, UsuariosComponent, MensajesComponent, FormUsuarioComponent, FormMensajesComponent, FormMandadosComponent, PerfilComponent, WhatsappComponent, FormWhatsappComponent, PlataformasComponent, FormPlataformasComponent, GaleriaComponent, FormGaleriaComponent, GuiaComponent, FormsGuiaComponent, LogicWhsatsappComponent, FormLogicWhatsappComponent, WhatsappInfoComponent, FormWhatsappInfoComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -39,10 +39,14 @@
                                   </div>
                                   <div class="row form-gr oup col-6">
                                     <label for="exampleInpCc" class="col-2">Numero:</label>
-                                    <div class="col-6">
+                                    <select class="form-control form-control-sm" [(ngModel)]="data.numero">
+                                      <option [value]="item.id" *ngFor="let item of listWhatsappInfo">
+                                          {{ item.titulo }} - {{ item.numero }} </option>
+                                    </select>
+                                    <!--<div class="col-6">
                                       <input type="text" placeholder="Numero de la tienda"
                                           class="form-control form-control-sm" [(ngModel)]="data.numero" />
-                                  </div>
+                                    </div>-->
                                 </div>
                                 <div class="row form-gr oup col-12">
                                   <label for="exampleInpCc" class="col-2">Descripcion:</label>
@@ -66,7 +70,15 @@
                             </div>
                           </div>
                           <div id="email-new-title" class="clearfix">
-                            <span class="subject">Logica de Whatsapp</span>
+                            <div class="d-flex justify-content-between">
+                              <div>
+                                <span class="subject">Logica de Whatsapp</span>
+                              </div>
+                              <div></div>
+                              <div>
+                                <button type="button" class="btn btn-danger" (click)="handleDropList()" *ngIf="!id">Limpiar lista</button>
+                              </div>
+                            </div>
                           </div>
                           <div>
                             <div id="email-new-header content">
