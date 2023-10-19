@@ -23,4 +23,25 @@ export class WhatsappInfoService {
   delete (query: any){
     return this._model.querys<WHATSAPPINFO>('whatsappInfo/'+query.id, query, 'delete');
   }
+  getWhatsapp(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappTxt/querys', query, 'post');
+  }
+  savedWhatsapp(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappTxt/init', query, 'post');
+  }
+  editarWhatsapp(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappTxt/'+query.id, query, 'put');
+  }
+  getWhatsappHistorial(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappHistorial/querys', query, 'post');
+  }
+  savedWhatsappHistorial(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappHistorial/init', query, 'post');
+  }
+  editarWhatsappHistorial(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappHistorial/'+query.id, query, 'put');
+  }
+  sendChat(query: any){
+    return this._model.querys<WHATSAPPINFO>('WhatsappHistorial/send', query, 'post');
+  }
 }

@@ -19,6 +19,7 @@ import { LogicWhsatsappComponent } from './components/logic-whsatsapp/logic-whsa
 import { FormLogicWhatsappComponent } from './forms/form-logic-whatsapp/form-logic-whatsapp.component';
 import { WhatsappInfoComponent } from './components/whatsapp-info/whatsapp-info.component';
 import { FormWhatsappInfoComponent } from './forms/form-whatsapp-info/form-whatsapp-info.component';
+import { ChatWhatsappComponent } from './components/chat-whatsapp/chat-whatsapp.component';
 
 const routes: Routes = [
     {
@@ -126,6 +127,14 @@ const routes: Routes = [
           {
             path: 'whatsappInfoform/:id',
             component: FormWhatsappInfoComponent
+          },
+          {
+            path: 'chatWhatsapp',
+            component: ChatWhatsappComponent
+          },
+          {
+            path: 'chatWhatsapp/:id',
+            component: ChatWhatsappComponent
           },
           {path: '**', redirectTo: 'home', pathMatch: 'full'}
         ]
