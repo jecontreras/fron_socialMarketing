@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UsuariosService } from 'src/app/services-components/usuarios.service';
 import { ToolsService } from 'src/app/services/tools.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -32,20 +30,18 @@ export class FormUsuarioComponent implements OnInit {
   constructor(
     private _user: UsuariosService,
     private _tools: ToolsService,
-    public dialogRef: MatDialogRef<FormUsuarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public datas: any,
     private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit() {
-    if(Object.keys(this.datas).length > 0) {
+    /*if(Object.keys(this.datas).length > 0) {
       console.log(this.datas);
       this.id = this.datas;
       this.urlPlataforma = this.id.urlConfirmacion;
       this.getUser();
-    }
+    }*/
   }
-  
+
   pageEvent(ev:any){
     console.log(ev);
     this.query.page = ev.pageIndex;
@@ -154,7 +150,7 @@ export class FormUsuarioComponent implements OnInit {
   }
 
   seleccionados(){
-    this.dialogRef.close( this.listSeleccion );
+
   }
 
 }

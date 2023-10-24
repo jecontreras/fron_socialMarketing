@@ -81,7 +81,7 @@
                                                     [(ngModel)]="data.cantidadLista" disabled />
                                             </div>
                                         </div>
-                                        <div class="row form-group col-12">
+                                        <!--<div class="row form-group col-12">
                                             <table
                                                 style="overflow-x: scroll; overflow-y: scroll;"
                                                 infiniteScroll [infiniteScrollDistance]="3"
@@ -102,13 +102,13 @@
                                                 <tbody>
                                                     <tr
                                                         *ngFor="let row of dataTable3.dataRows; let idx=index">
-                                                        <td>{{row['nombre']}}</td>
-                                                        <td>{{row['cliente']}}</td>
+                                                        <td>{{row['username']}}</td>
+                                                        <td>{{row['telefono']}}</td>
                                                         <td>{{row['lista']}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -128,12 +128,21 @@
                             <div class="btn-group">
                                 <button type="button" [disabled]="btnDisabled" *ngIf="id" class="btn btn-success"
                                     (click)="actualizar()"><i class="fas fa-pencil-alt"></i>Actualizar Datos</button>
+                                    <button type="button" [disabled]="btnDisabled" *ngIf="id" class="btn btn-warning"
+                                    (click)="paginateList()"><i class="fas fa-pencil-alt"></i>Paginando Lista</button>
                                 <button type="button" [disabled]="btnDisabled" *ngIf="!id" class="btn btn-success"
                                     (click)="enviar()"><i class="fa fa-send"></i>Guardar Plataforma</button>
                                 <!-- <button type="button" [disabled]="btnDisabled" *ngIf="id"
                                     class="btn btn-success" (click)="renvio()"><i
                                         class="fas fa-redo"></i>Renvio Whatsapp</button> -->
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-10 col-md-offset-2" *ngIf="btnDisabled">
+                        <div class="pull-right" style=" width: 100%; ">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div></div>
                         </div>
                     </div>
                 </div>
@@ -155,9 +164,23 @@
                                                         <div class="row">
                                                             <div class="card-body">
                                                                 <div>
-                                                                    <p class="text-danger">Cantidad Total de Usuarios:
-                                                                        {{ coint }}
-                                                                    </p>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <div>
+                                                                            <p class="text-danger">Cantidad Total de Usuarios:
+                                                                                {{ coint }}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div></div>
+                                                                        <div>
+                                                                            <label for="exampleInpCc" class="col-2">Numero de lista:</label>
+                                                                                <select class="form-control form-control-sm" [(ngModel)]="filter.idList" (change)="filterGet()">
+                                                                                    <option [value]="item.id" *ngFor="let item of listDePlataforma">
+                                                                                        {{ item.titulo }}</option>
+                                                                                </select>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    
                                                                     <table
                                                                         style="overflow-x: scroll; overflow-y: scroll;"
                                                                         infiniteScroll [infiniteScrollDistance]="3"

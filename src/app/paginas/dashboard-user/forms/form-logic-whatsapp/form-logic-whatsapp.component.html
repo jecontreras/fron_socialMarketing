@@ -1,0 +1,137 @@
+<div id="content-wrapper" class="contents">
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div id="content-header" class="clearfix">
+                      <div class="pull-left">
+                          <ol class="breadcrumb">
+                              <li><a [routerLink]="[ '/dashboard/home' ]">Home</a></li>
+                              <li><a [routerLink]="[ '/dashboard/logicWhsatsapp' ]">Logica Whatsapp</a></li>
+                              <li class="active"><span>{{ titulo }}</span></li>
+                          </ol>
+                          <h1> {{ titulo }} Logica Whatsapp</h1>
+                      </div>
+                      <div class="text-right">
+                          <button [routerLink]="[ '/dashboard/logicWhsatsapp' ]" class="btn btn-light" type="button">
+                              Volver
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="email-new-nano">
+                  <div class="email-new-nano-content">
+                      <div id="email-new-inner">
+                          <div id="email-new-title" class="clearfix">
+                              <span class="subject">Detalle Inicial</span>
+                          </div>
+                          <div>
+                            <div id="email-new-header content">
+                              <div class="row container">
+                                  <div class="row form-gr oup col-6">
+                                      <label for="exampleInpCc" class="col-2">Titulo:</label>
+                                      <div class="col-6">
+                                        <input type="text" placeholder="Titulo De la Tienda"
+                                            class="form-control form-control-sm" [(ngModel)]="data.titulo" />
+                                    </div>
+                                  </div>
+                                  <div class="row form-gr oup col-6">
+                                    <label for="exampleInpCc" class="col-2">Numero:</label>
+                                    <select class="form-control form-control-sm" [(ngModel)]="data.numero">
+                                      <option [value]="item.id" *ngFor="let item of listWhatsappInfo">
+                                          {{ item.titulo }} - {{ item.numero }} </option>
+                                    </select>
+                                    <!--<div class="col-6">
+                                      <input type="text" placeholder="Numero de la tienda"
+                                          class="form-control form-control-sm" [(ngModel)]="data.numero" />
+                                    </div>-->
+                                </div>
+                                <div class="row form-gr oup col-12">
+                                  <label for="exampleInpCc" class="col-2">Descripcion:</label>
+                                  <div class="col-10">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="data.descripcion" rows="3"></textarea>
+                                  </div>
+                                </div>
+                                <div class="row form-gr oup col-6">
+                                  <div class="col-12">
+                                    <div class="d-flex flex-row-reverse bd-highlight">
+                                      <div class="p-2 bd-highlight">
+                                        <button type="button" class="btn btn-success" (click)="handleSubmit()">
+                                          <span *ngIf="!id">Guardar</span>
+                                          <span *ngIf="id">Update</span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div id="email-new-title" class="clearfix">
+                            <div class="d-flex justify-content-between">
+                              <div>
+                                <span class="subject">Logica de Whatsapp</span>
+                              </div>
+                              <div></div>
+                              <div>
+                                <button type="button" class="btn btn-danger" (click)="handleDropList()" *ngIf="!id">Limpiar lista</button>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div id="email-new-header content">
+                              <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let item of listLogic">
+                                  <div class="row container">
+                                    <div class="row form-group col-12">
+                                      <div class="col-12">
+                                        <div class="d-flex flex-row-reverse bd-highlight">
+                                          <div class="p-2 bd-highlight">
+                                            <button type="button" class="btn btn-primary" (click)="handlePushList()">Agregar Mas</button>
+                                            <button type="button" class="btn btn-danger" (click)="handleDrop(item)">Borrar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row form-group col-6">
+                                        <label for="exampleInpSubject" class="col-2">Numero / indicador:</label>
+                                        <input type="text"
+                                                    class="form-control form-control-sm" placeholder="Ejemplo 01 / inicial..." [(ngModel)]="item.indicador" />
+                                    </div>
+                                    <div class="row form-group col-6">
+                                      <label for="exampleInpSubject" class="col-2">urlMedios:</label>
+                                      <select class="form-control form-control-sm" [(ngModel)]="item.urlMedios">
+                                        <option [value]="item.id" *ngFor="let item of listGaleria">
+                                            {{ item.titulo }}</option>
+                                      </select>
+                                    </div>
+                                    <div class="row form-group col-6">
+                                      <label for="exampleInpSubject" class="col-2">Respuesta:</label>
+                                      <textarea class="form-control" [(ngModel)]="item.respuesta" rows="4" placeholder="Mensajes...."></textarea>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="row form-gr oup col-6">
+                            <div class="col-12">
+                              <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                  <button type="button" class="btn btn-success" (click)="handleSubmit()">
+                                    <span *ngIf="!id">Guardar</span>
+                                    <span *ngIf="id">Update</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -38,7 +38,7 @@ import { GlobalErrorHandler } from './services/globalErrorHandler';
     MyOwnCustomMaterialModule,
     HttpClientModule,
     InfiniteScrollModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   providers: [
     {
@@ -47,7 +47,7 @@ import { GlobalErrorHandler } from './services/globalErrorHandler';
       multi   : true,
     },
     {
-      provide: ErrorHandler, 
+      provide: ErrorHandler,
       useClass: GlobalErrorHandler
     }
   ],

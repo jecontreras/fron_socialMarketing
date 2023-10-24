@@ -16,12 +16,15 @@ export class UsuarioPlataformaService {
     return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/querys', query, 'post');
   }
   saved (query: any){
-    return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/create', query, 'post');
+    return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/createUser', query, 'post');
   }
   editar (query: any){
     return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/'+query.id, query, 'put');
   }
   delete (query: any){
     return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/'+query.id, query, 'delete');
+  }
+  Paginate (query: any){
+    return this._model.querys<USUARIOPLATAFORMA>('UsuarioPlataforma/paginate', query, 'post');
   }
 }

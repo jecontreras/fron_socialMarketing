@@ -20,7 +20,9 @@ declare interface DataTable {
 export class FormPlataformasComponent implements OnInit {
   
   id:any = "";
-  data:any = {};
+  data:any = {
+    listEmails: []
+  };
   btnDisabled:boolean = false;
   titulo:string = "Crear Plataforma";
   dataTable: DataTable;
@@ -42,6 +44,11 @@ export class FormPlataformasComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   counstNumero:number = 0;
+  listDePlataforma:any = [];
+
+  filter = {
+    idList: 1
+  };
 
 
   constructor(
@@ -85,6 +92,11 @@ export class FormPlataformasComponent implements OnInit {
       res = res.data[0];
       if( !res ) return false;
       this.data = res;
+      this.data.listEmails = [];
+      this.listDePlataforma=[];
+      for(let i=0; i< this.data.cantidadLista; i++ ){
+        this.listDePlataforma.push ( { titulo: "lista "+Number( i + 1 ), id: i+1 } );
+      }
     })
   }
 
@@ -94,8 +106,15 @@ export class FormPlataformasComponent implements OnInit {
     data = _.omitBy( data, _.isNull);
     this._plataforma.editar( data ).subscribe((res:any)=>{
       this._tools.presentToast("Whatsapp Actualizado");
-      this.btnDisabled=false;
+      this.createUserPlatform();
     },(error)=> { this._tools.presentToast("Error en el Actualizado"); this.btnDisabled=false;})
+  }
+
+  createUserPlatform(){
+    this._usuarioPlataforma.saved( { listEmails: _.filter( this.dataTable.dataRows, key=> !key.id ), idPlatform: this.id } ).subscribe( res => {
+      this._tools.presentToast("Completado...");
+      this.btnDisabled=false;
+    });
   }
 
   enviar(){
@@ -106,6 +125,7 @@ export class FormPlataformasComponent implements OnInit {
       this.id = res.id;
       this.data.id = res.id;
       this.btnDisabled = false;
+      this.createUserPlatform();
     },( error )=> { this._tools.presentToast("Error al crear la plataforma..."); this.btnDisabled = false; });
   }
 
@@ -139,16 +159,22 @@ export class FormPlataformasComponent implements OnInit {
       let filtro = this.data.listEmails.find( ( item:any ) => item.telefono == row.telefono );
       if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } ); 
     }
+    this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], this.data.listEmails, 'telefono');
+    console.log("****143", this.data.listEmails.length)
   }
 
-  onScroll2(){
-    console.log("*************Men")
-    if (this.notscrolly && this.notEmptyPost) {
-       this.notscrolly = false;
-       this.query.page++;
-       //this.cargarTodos();
-     }
-   }
+  paginate(array, page_size, page_number) {
+    // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
+    return array.slice((page_number - 1) * page_size, page_number * page_size);
+  }
+
+  filterGet(){
+    this.query.page = 0;
+    this.notscrolly = false;
+    this.query.where.idLista = this.filter.idList;
+    this.dataTable.dataRows = [];
+    this.cargarTodos();
+  }
 
   onScroll(){
     if (this.notscrolly && this.notEmptyPost) {
@@ -179,5 +205,12 @@ export class FormPlataformasComponent implements OnInit {
        error => {
          console.log('Error', error);
        });
+   }
+   paginateList(){
+    this.btnDisabled=true;
+    this._usuarioPlataforma.Paginate( { where:{ plataforma: this.id } } ).subscribe(res=> {
+      this._tools.presentToast("Completado...")
+      this.btnDisabled=false;
+    })
    }
 }

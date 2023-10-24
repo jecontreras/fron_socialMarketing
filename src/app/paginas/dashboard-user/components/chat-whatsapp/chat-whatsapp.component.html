@@ -1,0 +1,68 @@
+<div id="content-wrapper" class="contents">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="content-header" class="clearfix">
+            <div class="pull-left">
+              <ol class="breadcrumb">
+                <li><a [routerLink]="['/dashboard/home']">Inicio</a></li>
+                <li class="active"><span>Lista de Chat </span></li>
+              </ol>
+              <h1>Lista de Chat</h1>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="chat-list">
+            <div *ngFor="let chat of chats" (click)="showChatDetail(chat)">
+              <img [src]="'./assets/imagenes/perfil.png'" alt="Chat Logo">
+              <div class="chat-info">
+                <h6>{{ chat.Sinfrom }}</h6>
+                <p>{{ chat.urlMedios ? "Foto" : ( chat.txt | slice:0:10 ) }}</p>
+                <span>{{ chat.date }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-sm-8">
+          <div class="chat-detail">
+            <!-- Encabezado, lista de mensajes y pie de página -->
+            <div class="header">
+              <img [src]="'./assets/imagenes/perfil.png'" alt="Chat Logo">
+              <h5>{{ chat.name }}</h5>
+              <p>Last seen: {{ chat.lastSeen }}</p>
+            </div>
+
+            <div class="message-list">
+              <!-- Lista de mensajes con scroll -->
+              <div class="messages" #messageList *ngFor="let message of chat.messages">
+                <!-- Ejemplo de mensaje enviado por ti -->
+                <div class="message sent" *ngIf="message.quien == 1" style="background: #032f5b;">
+                  <p *ngIf="message.txt">{{ message.txt }} </p>
+                  <p *ngIf="message.urlMedios"> <img [src]="message.urlMedios" alt="" srcset=""></p>
+                  <span class="timestamp">{{ message.date }} </span>
+                </div>
+
+                <!-- Ejemplo de mensaje recibido -->
+                <div class="message received" *ngIf="message.quien == 0">
+                  <p *ngIf="message.txt">{{ message.txt }} </p>
+                  <p *ngIf="message.urlMedios"> <img [src]="message.urlMedios" alt="" srcset=""></p>
+                  <span class="timestamp">{{ message.date}} </span>
+                </div>
+
+                <!-- Agrega más mensajes como este -->
+              </div>
+            </div>
+
+            <!-- Área fija para el input de enviar mensaje -->
+            <div class="footer">
+              <textarea [(ngModel)]="newMessage" (change)="sendMessage()" placeholder="Escribe mensaje"></textarea>
+              <button (click)="sendMessage()">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

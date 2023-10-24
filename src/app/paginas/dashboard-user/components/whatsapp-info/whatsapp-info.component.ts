@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { PlataformaService } from 'src/app/services-components/plataforma.service';
+import { APPINT } from 'src/app/interfaces/interfasapp';
+import { USER } from 'src/app/interfaces/user';
+import { LogicWhatsappService } from 'src/app/services-components/logic-whatsapp.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
-import { APPINT } from 'src/app/interfaces/interfasapp';
-import { Store } from '@ngrx/store';
+import { WhatsappInfoService } from 'src/app/services-components/whatsapp-info.service';
 
 declare interface DataTable {
   headerRow: string[];
@@ -14,16 +16,16 @@ declare interface DataTable {
 }
 
 @Component({
-  selector: 'app-plataformas',
-  templateUrl: './plataformas.component.html',
-  styleUrls: ['./plataformas.component.scss']
+  selector: 'app-whatsapp-info',
+  templateUrl: './whatsapp-info.component.html',
+  styleUrls: ['./whatsapp-info.component.scss']
 })
-export class PlataformasComponent implements OnInit {
+export class WhatsappInfoComponent implements OnInit {
 
   dataTable: DataTable;
   pagina = 10;
   paginas = 0;
-  loader = true;
+  loader:boolean = false;
   query:any = {
     where:{
       estado: 0
@@ -31,7 +33,7 @@ export class PlataformasComponent implements OnInit {
     sort: "createdAt DESC",
     page: 0
   };
-  Header:any = [ 'Acciones','Titulo','Nit','urlRespuesta','UrlConfirmacion','Fecha Registro','Estado' ];
+  Header:any = [ 'Acciones','Titulo','Numero','Estado', 'Creado' ];
   $:any;
   public datoBusqueda = '';
 
@@ -39,25 +41,23 @@ export class PlataformasComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   btnDisabled:boolean = false;
-  dataUser:any = {};
+  dataUser: USER;
 
   constructor(
     private spinner: NgxSpinnerService,
     private _tools: ToolsService,
     private Router: Router,
-    private _plataforma: PlataformaService,
     private _store: Store<APPINT>,
+    private _whatsappInfo: WhatsappInfoService
   ) {
-
     this._store.subscribe((store: any) => {
-      console.log(store);
       store = store.name;
       this.dataUser = store.user;
     });
-
   }
 
-  ngOnInit() {
+
+   ngOnInit() {
     this.dataTable = {
       headerRow: this.Header,
       footerRow: this.Header,
@@ -69,8 +69,30 @@ export class PlataformasComponent implements OnInit {
   crear(obj:any){
 
   }
+  async delete(obj:any){
+    let data = {
+      id: obj.id,
+      estado: 1
+    };
+    return new Promise(resolve=>{
+      this._whatsappInfo.editar(data).subscribe((res:any)=>{
+        this.dataTable.dataRows = this.dataTable.dataRows.filter( (row:any) => row.id !== obj.id );
+        this._tools.presentToast("Eliminado");
+        resolve(true);
+      },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve(false) })
+    })
+  }
+
+  async procesoDelete(){
+    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
+    if(!confirm.value) return false;
+    this.btnDisabled = true;
+    for(let row of this.dataTable.dataRows ) if( row['checks'] ) await this.delete( row );
+    this.btnDisabled = false;
+  }
+
   editar(obj:any){
-    this.Router.navigate(['/dashboard/plataformaform', obj.id]);
+    this.Router.navigate(['/dashboard/whatsappInfoform', obj.id]);
   }
 
   onScroll(){
@@ -83,8 +105,8 @@ export class PlataformasComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
-     if( this.dataUser.rol !== '6520612bf48bb70d888bffe3' ) this.query.where.id = "6456728a45ce5d0014db2870";
-     this._plataforma.get(this.query)
+     this.query.where.user = this.dataUser.id;
+     this._whatsappInfo.get(this.query)
      .subscribe(
        (response: any) => {
         this.coint= response.count;
@@ -102,68 +124,33 @@ export class PlataformasComponent implements OnInit {
        },
        error => {
          console.log('Error', error);
+         this.loader = false;
        });
    }
-  buscar() {
-    this.loader = false;
+   buscar() {
+    this.loader = true;
     this.notscrolly = true
     this.notEmptyPost = true;
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
     this.dataTable.dataRows = [];
-    if (this.datoBusqueda === '') {
-      this.query = {where:{ estado:0 },page: 0};
-      this.cargarTodos();
-    } else {
+    this.query = { where:{ estado: 0 }, page: 0 };
+    if (this.datoBusqueda !== '') {
       this.query.page = 0;
       this.query.where.or = [
         {
-          nombre: {
+          titulo: {
             contains: this.datoBusqueda|| ''
           }
         },
         {
-          email: {
+          numero: {
             contains: this.datoBusqueda|| ''
           }
-        },
-        {
-          apellido: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          celular: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
+        }
       ];
-      this.cargarTodos();
     }
-  }
-
-  async procesoDelete(){
-    let confirm = await this._tools.confirm( {title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"} );
-    if(!confirm.value) return false;
-    this.btnDisabled = true;
-    for(let row of this.dataTable.dataRows ) if( row['checks'] ) await this.delete( row );
-    this.btnDisabled = false;
-  }
-
-
-  async delete(obj:any){
-    let data = {
-      id: obj.id,
-      estado: 1
-    };
-    return new Promise(resolve=>{
-      //return resolve( true )
-      this._plataforma.editar( data ).subscribe( (res:any)=>{
-        this.dataTable.dataRows = this.dataTable.dataRows.filter( (row:any) => row.id !== obj.id );
-        this._tools.presentToast("Eliminado");
-        resolve(true);
-      },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve(false) })
-    });
+    this.cargarTodos();
   }
 
 }

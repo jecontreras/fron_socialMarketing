@@ -52,7 +52,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   listPlataforma:any = [];
   dataUser:any = {};
   btnDisabled:boolean = false;
-  
+
   visible = true;
   selectable = true;
   removable = true;
@@ -96,7 +96,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     private excelSrv: ExcelService,
     private _archivos: ArchivosService,
     private _galeria: GaleriaService
-  ) { 
+  ) {
     this.editor();
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -110,10 +110,11 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       footerRow: this.Header,
       dataRows: []
     };
+    this.getEmpresas();
     await this.cargarTodos();
     this.id = (this.activate.snapshot.paramMap.get('id'));
-    if( this.id ) { 
-      this.getMensaje(); 
+    if( this.id ) {
+      this.getMensaje();
       this.intervalo = setInterval(()=>{
         this.getFoto();
       }, 3000)
@@ -123,7 +124,6 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this.data.creadoEmail = this.dataUser.email;
       this.agregarMasRotador();
     }
-    this.getEmpresas();
 
   }
 
@@ -168,7 +168,8 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectPlt( ){
+  async onSelectPlt( ){
+    if( this.listPlataforma.length === 0 ) await this.getEmpresas();;
     this.listDePlataforma=[];
     let filtro = _.find( this.listPlataforma, ( item:any )=> item.id == this.data.empresa );
     console.log("***", this.data, filtro )
@@ -199,9 +200,13 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   }
 
   getEmpresas(){
-    this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
-      this.listPlataforma = res.data;
-    });
+    return new Promise( resolve =>{
+      this._empresas.get({ where: { estado: 0 }, limit: -1}).subscribe((res:any)=>{
+        this.listPlataforma = res.data;
+        if( this.dataUser.rol !== '6520612bf48bb70d888bffe3' ) this.listPlataforma = this.listPlataforma.filter( row => row.id === '6456728a45ce5d0014db2870');
+        resolve( true );
+      });
+    })
   }
 
   openUsurios(){
@@ -224,7 +229,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
           ...item
         }
       });
-    }); 
+    });
   }
 
   async enviar(){
@@ -236,7 +241,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
       this.id = res.data.id;
       if( this.data.listEmails[0] ) this.procesoGuardarNumeros();
       else this._mensajes.getPlataformas( { url: res.data.empresa.urlRespuesta, id: this.id, cantidadLista: this.data.cantidadLista, plataforma: this.data.empresa, idLista: this.data.idLista } ).subscribe(( res:any )=>{ this.btnDisabled=false; }, error => this.btnDisabled=false );
-      this.getMensaje(); 
+      this.getMensaje();
       this.data = {};
     },(error)=> { this._tools.presentToast("Error al envio de Whatsapp"); this.btnDisabled=false;})
   }
@@ -445,7 +450,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
   trasnFormVer( lista:any ){
       for(let row of lista) {
         let filtro = this.data.listEmails.find( ( item:any ) => item.telefono == row.telefono );
-        if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } ); 
+        if( !filtro ) this.data.listEmails.push( { username: row.username, telefono: row.telefono } );
       }
   }
 
@@ -514,6 +519,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
    cargarTodos() {
     return new Promise( resolve =>{
       this.spinner.show();
+      this.query.where.user = this.dataUser.id;
       this._galeria.get(this.query)
       .subscribe(
         (response: any) => {
@@ -524,7 +530,7 @@ export class FormWhatsappComponent implements OnInit, OnDestroy {
           this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
           this.loader = false;
             this.spinner.hide();
-            
+
             if (response.data.length === 0 ) {
               this.notEmptyPost =  false;
             }
