@@ -7,6 +7,12 @@ import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
 import { GaleriaService } from 'src/app/services-components/galeria.service';
 import { WhatsappInfoService } from 'src/app/services-components/whatsapp-info.service';
+import { MatChipInputEvent } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+
+export interface Indicador {
+  txt?: string;
+}
 
 @Component({
   selector: 'app-form-logic-whatsapp',
@@ -55,12 +61,12 @@ export class FormLogicWhatsappComponent implements OnInit {
       urlMedios: "",
       respuesta: `
       *Para el proceso de hacer pedido los requisitos son*
-      1. Foto o modelo del producto interesado?
-      2. Ciudad de Destino?
-      3. Nombre de la persona a recibir?
-      4. Talla interesado?
-      5. ¿Direccion a recibir?
-      6. ¿Telefono de quien lo recibe?
+      *. Foto o modelo del producto interesado?
+      *. Ciudad de Destino?
+      *. Nombre de la persona a recibir?
+      *. Talla interesado?
+      *. ¿Direccion a recibir?
+      *. ¿Telefono de quien lo recibe?
 
       ¡Nota! Una vez nos manda toda la información nosotros nos encargamos del proceso de validación de tu pedido y en breve te mandaremos el número de guía.
 
@@ -71,16 +77,21 @@ export class FormLogicWhatsappComponent implements OnInit {
       `
     },
     {
+      indicador: "3",
+      urlMedios: "",
+      respuesta: ` *En unos Momentos un Asesor se Comunicara contigo*! `
+    },
+    {
       indicador: "4",
       urlMedios: "64ae40b5802dc8001412ac05",
       respuesta: `
       *Para el proceso de hacer pedido los requisitos son*
-                    1. Foto o modelo del producto interesado?
-                    2. Ciudad de Destino?
-                    3. Nombre de la persona a recibir?
-                    4. Talla interesado?
-                    5. ¿Direccion a recibir?
-                    6. ¿Telefono de quien lo recibe?
+                    *. Foto o modelo del producto interesado?
+                    *. Ciudad de Destino?
+                    *. Nombre de la persona a recibir?
+                    *. Talla interesado?
+                    *. ¿Direccion a recibir?
+                    *. ¿Telefono de quien lo recibe?
 
                     ¡Nota! Una vez nos manda toda la información nosotros nos encargamos del proceso de validación de tu pedido y en breve te mandaremos el número de guía.
                     Recuerda que todos nuestros envíos son dé forma *Gratuita*
@@ -92,12 +103,12 @@ export class FormLogicWhatsappComponent implements OnInit {
       urlMedios: "64af63db865a1300140ee306",
       respuesta: `
       *Para el proceso de hacer pedido los requisitos son*
-                    1. Foto o modelo del producto interesado?
-                    2. Ciudad de Destino?
-                    3. Nombre de la persona a recibir?
-                    4. Talla interesado?
-                    5. ¿Direccion a recibir?
-                    6. ¿Telefono de quien lo recibe?
+                    *. Foto o modelo del producto interesado?
+                    *. Ciudad de Destino?
+                    *. Nombre de la persona a recibir?
+                    *. Talla interesado?
+                    *. ¿Direccion a recibir?
+                    *. ¿Telefono de quien lo recibe?
 
                     ¡Nota! Una vez nos manda toda la información nosotros nos encargamos del proceso de validación de tu pedido y en breve te mandaremos el número de guía.
                     Recuerda que todos nuestros envíos son dé forma *Gratuita*
@@ -105,16 +116,16 @@ export class FormLogicWhatsappComponent implements OnInit {
       `
     },
     {
-      indicador: "5",
+      indicador: "6",
       urlMedios: "64af63db865a1300140ee306",
       respuesta: `
       *Para el proceso de hacer pedido los requisitos son*
-                    1. Foto o modelo del producto interesado?
-                    2. Ciudad de Destino?
-                    3. Nombre de la persona a recibir?
-                    4. Talla interesado?
-                    5. ¿Direccion a recibir?
-                    6. ¿Telefono de quien lo recibe?
+                    *. Foto o modelo del producto interesado?
+                    *. Ciudad de Destino?
+                    *. Nombre de la persona a recibir?
+                    *. Talla interesado?
+                    *. ¿Direccion a recibir?
+                    *. ¿Telefono de quien lo recibe?
 
                     ¡Nota! Una vez nos manda toda la información nosotros nos encargamos del proceso de validación de tu pedido y en breve te mandaremos el número de guía.
                     Recuerda que todos nuestros envíos son dé forma *Gratuita*
@@ -122,9 +133,30 @@ export class FormLogicWhatsappComponent implements OnInit {
       `
     },
     {
-      indicador: "He visto esto en Facebook",
+      indicador: "7",
+      urlMedios: "64af63db865a1300140ee306",
+      respuesta: `
+      *Para el proceso de hacer pedido los requisitos son*
+                    *. Foto o modelo del producto interesado?
+                    *. Ciudad de Destino?
+                    *. Nombre de la persona a recibir?
+                    *. Talla interesado?
+                    *. ¿Direccion a recibir?
+                    *. ¿Telefono de quien lo recibe?
+
+                    ¡Nota! Una vez nos manda toda la información nosotros nos encargamos del proceso de validación de tu pedido y en breve te mandaremos el número de guía.
+                    Recuerda que todos nuestros envíos son dé forma *Gratuita*
+                    ¡Gracias por tu compra y por preferirnos Feliz día!
+      `
+    },
+    {
+      indicador: "0",
       urlMedios: "",
-      respuesta: `En Un Momento un Asesor se Comunica contigo..
+      respuesta: `¡Hola Buen Día! Bienvenidos a la Tienda Virtual @liam_stilos
+        01. Ver catalogó!
+        02. Hacer pedido!
+        03. ¡Chatear con un asesor!
+        00. Volver al menú principal!
       `
     },
   ];
@@ -133,6 +165,11 @@ export class FormLogicWhatsappComponent implements OnInit {
   dataUser:any = {};
   listGaleria:any = [];
   listWhatsappInfo:any = [];
+
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private _logicWhatsapp: LogicWhatsappService,
@@ -171,7 +208,7 @@ export class FormLogicWhatsappComponent implements OnInit {
   }
 
   getGaleria(){
-    this._galeria.get( { where: { user: this.dataUser.id }, limit: 100000 } ).subscribe( res => {
+    this._galeria.get( { where: { user: this.dataUser.id, estado: 0 }, limit: 100000 } ).subscribe( res => {
       this.listGaleria = res.data;
     });
   }
@@ -183,7 +220,7 @@ export class FormLogicWhatsappComponent implements OnInit {
   }
 
   handleDropList(){
-    this.listLogic = [];
+    this.listLogic = [{}];
   }
 
 
@@ -191,8 +228,13 @@ export class FormLogicWhatsappComponent implements OnInit {
     this.listLogic.push( { } );
   }
 
-  handleDrop(item){
-    this.handleUpdateDetails( item );
+  handleDrop(item, idx){
+    console.log("***221", item, idx)
+    if ( item.id ) {
+      this.handleUpdateDetails( item );
+      this.listLogic.splice(idx, 1);
+    }
+    else this.listLogic.splice(idx, 1);
   }
 
   handleSubmit(){
@@ -247,6 +289,40 @@ export class FormLogicWhatsappComponent implements OnInit {
         resolve( true );
       }, ()=> resolve( false ) );
     });
+  }
+
+  add(event: MatChipInputEvent, item ): void {
+    const input = event.input;
+    const value = event.value;
+    console.log( value )
+    if( !item.deepIndicator ) item.deepIndicator = []
+    // Add our fruit
+    if ((value || '').trim()) {
+      item.deepIndicator.push(
+        {
+          txt: value
+        });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  async remove(fruit: Indicador, item) {
+    const index = item.deepIndicator.indexOf(fruit);
+
+    if (index >= 0) {
+      console.log( item.deepIndicator[index] );
+      item.deepIndicator.splice(index, 1);
+    }
+  }
+
+  handleDouble( item:any ){
+      let data = _.clone( item );
+      data.indicador = "clone " + data.indicador;
+      this.listLogic.push( { ...data } );
   }
 
 }

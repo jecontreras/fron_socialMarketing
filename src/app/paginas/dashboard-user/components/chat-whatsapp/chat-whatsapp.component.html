@@ -30,8 +30,9 @@
             <!-- Encabezado, lista de mensajes y pie de página -->
             <div class="header">
               <img [src]="'./assets/imagenes/perfil.png'" alt="Chat Logo">
-              <h5>{{ chat.name }}</h5>
-              <p>Last seen: {{ chat.lastSeen }}</p>
+              <h5>Nombre: {{ chat.name }}</h5>
+              <h5>Numero de Guia: {{ chat.numberGuide }} Transportadora: {{ chat.trasport }} </h5>
+              <p>Estado: {{ chat.estado }}</p>
             </div>
 
             <div class="message-list">
@@ -59,6 +60,7 @@
             <div class="footer">
               <textarea [(ngModel)]="newMessage" (change)="sendMessage()" placeholder="Escribe mensaje"></textarea>
               <button (click)="sendMessage()">Enviar</button>
+              <button (click)="handleopenAlertGuide()">Numero de Guia</button>
             </div>
           </div>
         </div>

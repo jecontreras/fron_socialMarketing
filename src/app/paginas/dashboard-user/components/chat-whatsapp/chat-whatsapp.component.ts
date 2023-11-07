@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { APPINT } from 'src/app/interfaces/interfasapp';
 import { WhatsappInfoService } from 'src/app/services-components/whatsapp-info.service';
 import { ToolsService } from 'src/app/services/tools.service';
-
+//import { Socket } from 'ngx-socket-io';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-chat-whatsapp',
   templateUrl: './chat-whatsapp.component.html',
@@ -19,19 +20,24 @@ export class ChatWhatsappComponent implements OnInit {
   newMessage: string;
   dataUser:any = {};
   btnDisabled:boolean = false;
-
+  chatId:any;
+  vandera:boolean = true;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private _whatsapp: WhatsappInfoService,
     private _store: Store<APPINT>,
-    private _tools: ToolsService
+    private _tools: ToolsService,
+    //private socket: Socket
   ) {
     this._store.subscribe((store: any) => {
       console.log(store);
       store = store.name;
       this.dataUser = store.user;
     });
+    /*socket.fromEvent('newMessage').subscribe((message) => {
+      console.log("**37",message )
+    });*/
   }
 
   showChatDetail(chat: any) {
@@ -40,12 +46,36 @@ export class ChatWhatsappComponent implements OnInit {
 
   async ngOnInit() {
     this.route.paramMap.subscribe(async(params) => {
-      const chatId = params.get('id'); // Replace with your logic to get chat based on ID
+      this.chatId = params.get('id'); // Replace with your logic to get chat based on ID
       this.chat = {}
-      this.chat = ( await this.getChatDetails(chatId) ) || {};
+      this.chat = ( await this.getChatDetails( this.chatId ) ) || {};
+      window.document.scrollingElement.scrollTop=1000000000;
     });
     this.chats = await this.getWhatsapp( { where: { user: this.dataUser.id }} );
+    if( this.vandera ){
+      this.vandera = false;
+      setInterval(async()=>{
+        let newsData:any = await this.getWhatsapp( { where: { user: this.dataUser.id }} );
+        for( let row of newsData ){
+          let index = _.findIndex(this.chats, ['id', row.id]);
+          if( index >= 0 ) this.chats[index].txt = row.txt;
+          else this.chats.unshift( row );
+        }
+        if( this.chatId ){
+          let newsData:any = await this.getChatDetails( this.chatId );
+          for( let row of newsData.messages ){
+            let index = _.findIndex(this.chat.messages, ['id', row.id]);
+            if( index >= 0 ) this.chat['messages'][index].txt = row.txt;
+            else {
+              this.chat.messages.push( row );
+              window.document.scrollingElement.scrollTop=1000000000;
+            }
+          }
+        }
+      }, 2000);
+    }
   }
+
 
   getWhatsapp( querys ){
     return new Promise( resolve =>{
@@ -70,7 +100,7 @@ export class ChatWhatsappComponent implements OnInit {
     if( !ds ) return {};
     ds = ds[0];
     let listChat = await this.getWhatsappHistorial( { where: { whatsappTxt: ds.id }, limit: 1000000 } );
-    console.log("**", listChat, ds)
+    //console.log("**", listChat, ds)
     return {
       id: chatId,
       logo: ds.logo,
@@ -81,8 +111,38 @@ export class ChatWhatsappComponent implements OnInit {
       Sinto: ds.Sinto,
       from: ds.from,
       Sinfrom: ds.Sinfrom,
+      numberGuide: ds.numberGuide,
+      estado: ds.estado,
+      trasport: ds.tipeGuide
 
     };
+  }
+
+  async handleopenAlertGuide(){
+    let alert:any = await this._tools.alertInput( { title: "Numero de Guia ¡Sin punto ni comas!", input: "text", confirme: "Enviar" });
+    console.log("******120", alert )
+    alert = alert.value;
+    let ds = {
+      id: this.chat.id,
+      numberGuide: alert,
+      tipeGuide: "varios"
+    };
+    alert = await this._tools.alertInput( { title: "Que Plataforma se Envio!", input: "text", placeholder: "envia,interrapidisimo,servientrega,tcc,coordinadora", confirme: "Enviar" });
+    console.log("******120", alert )
+    ds.tipeGuide = alert.value;
+    ds = _.omitBy(ds, _.isNull);
+    let result:any = await this.handleUpdateChat( ds );
+    if( result === false ) return this._tools.tooast( { title:"Error no podimos actualizar el numero de guia", icon: "error" } );
+    this.newMessage = "Ok mira Tu Numero de Guia: " + ds.numberGuide + " Transportadora: " + ds.tipeGuide;
+    this.sendMessage();
+  }
+
+  handleUpdateChat( data:any ){
+    return new Promise( resolve =>{
+      this._whatsapp.editarWhatsapp( data ).subscribe( res =>{
+        resolve( res );
+      },()=> resolve( false ) )
+    })
   }
 
   sendMessage() {

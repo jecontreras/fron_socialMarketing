@@ -70,7 +70,11 @@ export class LogicWhsatsappComponent implements OnInit {
   async delete(obj:any){
     let data = {
       id: obj.id,
-      estado: 1
+      detalle:{
+        id: obj.id,
+        estado: 1
+      },
+      listDetails: []
     };
     return new Promise(resolve=>{
       this._logicWhatsapp.editar(data).subscribe((res:any)=>{

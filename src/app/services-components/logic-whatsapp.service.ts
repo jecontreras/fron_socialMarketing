@@ -33,7 +33,7 @@ export class LogicWhatsappService {
     return this._model.querys<LOGICWHATSAPP>('InfoWhatsappDetallado/'+query.id, query, 'put');
   }
   updateWhatsappDetalle (query: any){
-    return this._model.querys<LOGICWHATSAPP>('InfoWhatsappDetallado/updateWhatsappDetalle', query, 'post');
+    return this._model.querys<LOGICWHATSAPP>('InfoWhatsapp/updateWhatsappDetalle', query, 'post');
   }
   deleteDetail (query: any){
     return this._model.querys<LOGICWHATSAPP>('InfoWhatsappDetallado/'+query.id, query, 'delete');

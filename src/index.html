@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  
+
   <script src="./assets/js/demo-rtl.js"></script>
 
 
@@ -37,8 +37,10 @@
   <link rel="stylesheet" href="./assets/css/libs/weather-icons.css" type="text/css" />
   <link rel="stylesheet" href="./assets/css/libs/morris.css" type="text/css" />
   <link type="image/x-icon" href="favicon.png" rel="shortcut icon" />
-  <script type="text/javascript" autoconnect="false" src="https://backendmanda.herokuapp.com/dependencies/sails.io.js"></script>
-
+  <script type="text/javascript" autoconnect="false" src="http://localhost:1335/dependencies/sails.io.js"></script>
+  <script>
+    var global = global || window;
+</script>
 </head>
 <body>
   <app-root></app-root>
@@ -66,7 +68,7 @@
     <script src="./assets/js/morris.js"></script>
     <script src="./assets/js/scripts.js"></script>
     <script src="./assets/js/pace.min.js"></script>
-    
+
     <script src="./assets/js/jquery.maskedinput.min.js"></script>
     <script src="./assets/js/bootstrap-datepicker.js"></script>
     <script src="./assets/js/daterangepicker.js"></script>
@@ -75,7 +77,7 @@
     <script src="./assets/js/hogan.js"></script>
     <script src="./assets/js/typeahead.min.js"></script>
     <script src="./assets/js/jquery.pwstrength.js"></script>
-    
+
     <script src="./assets/js/dropzone.js"></script>
 
     <script src="./assets/js/scripts.js"></script>
@@ -345,34 +347,34 @@
 
 		//nice select boxes
 		$('#sel2').select2();
-		
+
 		$('#sel2Multi').select2({
 			placeholder: 'Select a Country',
 			allowClear: true
 		});
-	
+
 		//masked inputs
 		$("#maskedDate").mask("99/99/9999");
 		$("#maskedPhone").mask("(999) 999-9999");
 		$("#maskedPhoneExt").mask("(999) 999-9999? x99999");
 		$("#maskedTax").mask("99-9999999");
 		$("#maskedSsn").mask("999-99-9999");
-		
+
 		$("#maskedProductKey").mask("a*-999-a999",{placeholder:" ",completed:function(){alert("You typed the following: "+this.val());}});
-		
+
 		$.mask.definitions['~']='[+-]';
 		$("#maskedEye").mask("~9.99 ~9.99 999");
-	
+
 		//datepicker
 		$('#datepickerDate').datepicker({
 		  format: 'mm-dd-yyyy'
 		});
 
 		$('#datepickerDateComponent').datepicker();
-		
+
 		//daterange picker
 		$('#datepickerDateRange').daterangepicker();
-		
+
 		//timepicker
 		$('#timepicker').timepicker({
 			minuteStep: 5,
@@ -383,30 +385,30 @@
 		}).focus(function() {
 			$(this).next().trigger('click');
 		});
-		
+
 		//autocomplete simple
-		$('#exampleAutocompleteSimple').typeahead({                              
+		$('#exampleAutocompleteSimple').typeahead({
 			prefetch: '/data/countries.json',
 			limit: 10
 		});
-		
+
 		//autocomplete with templating
-		$('#exampleAutocomplete').typeahead({                              
-			name: 'twitter-oss',                                                        
-			prefetch: '/data/repos.json',                                             
-			template: [                                                              
-				'<p class="repo-language">{{language}}</p>',                              
-				'<p class="repo-name">{{name}}</p>',                                      
-				'<p class="repo-description">{{description}}</p>'                         
-			].join(''),                                                                 
-			engine: Hogan                                                               
+		$('#exampleAutocomplete').typeahead({
+			name: 'twitter-oss',
+			prefetch: '/data/repos.json',
+			template: [
+				'<p class="repo-language">{{language}}</p>',
+				'<p class="repo-name">{{name}}</p>',
+				'<p class="repo-description">{{description}}</p>'
+			].join(''),
+			engine: Hogan
 		});
-		
+
 		//password strength meter
 		$('#examplePwdMeter').pwstrength({
 			label: '.pwdstrength-label'
 		});
-		
+
 	});
 </script>
 </body>

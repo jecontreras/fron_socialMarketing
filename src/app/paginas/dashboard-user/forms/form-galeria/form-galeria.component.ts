@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { APPINT } from 'src/app/interfaces/interfasapp';
 import { ArchivosService } from 'src/app/services-components/archivos.service';
@@ -45,7 +45,8 @@ export class FormGaleriaComponent implements OnInit {
     public dialog: MatDialog,
     private _archivos: ArchivosService,
     private _galeria: GaleriaService,
-    private _galeriaMensaje: GaleriaMensajeService
+    private _galeriaMensaje: GaleriaMensajeService,
+    private Router: Router,
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -113,6 +114,7 @@ export class FormGaleriaComponent implements OnInit {
       this.data.user = this.dataUser.id;
       this._galeria.saved( { data: this.data } ).subscribe( ( res:any ) =>{
         this._tools.presentToast("Agregado Galeria...");
+        this.Router.navigate( ['/dashboard/galeriaform', res.id ] );
         resolve( true );
       },( ) => resolve( false ) );
     });

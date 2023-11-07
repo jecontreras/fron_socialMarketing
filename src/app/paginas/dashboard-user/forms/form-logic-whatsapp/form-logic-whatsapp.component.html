@@ -77,20 +77,22 @@
                               <div></div>
                               <div>
                                 <button type="button" class="btn btn-danger" (click)="handleDropList()" *ngIf="!id">Limpiar lista</button>
+                                <button type="button" class="btn btn-primary" (click)="handlePushList()">Agregar Mas</button>
                               </div>
                             </div>
                           </div>
                           <div>
                             <div id="email-new-header content">
                               <ul class="list-group list-group-flush">
-                                <li class="list-group-item" *ngFor="let item of listLogic">
+                                <li class="list-group-item" *ngFor="let item of listLogic; let i=index;">
                                   <div class="row container">
                                     <div class="row form-group col-12">
                                       <div class="col-12">
                                         <div class="d-flex flex-row-reverse bd-highlight">
                                           <div class="p-2 bd-highlight">
                                             <button type="button" class="btn btn-primary" (click)="handlePushList()">Agregar Mas</button>
-                                            <button type="button" class="btn btn-danger" (click)="handleDrop(item)">Borrar</button>
+                                            <button type="button" class="btn btn-warning" (click)="handleDouble( item )">Duplicar</button>
+                                            <button type="button" class="btn btn-danger" (click)="handleDrop( item, i )">Borrar</button>
                                           </div>
                                         </div>
                                       </div>
@@ -101,15 +103,34 @@
                                                     class="form-control form-control-sm" placeholder="Ejemplo 01 / inicial..." [(ngModel)]="item.indicador" />
                                     </div>
                                     <div class="row form-group col-6">
+                                        <mat-form-field class="example-chip-list">
+                                          <mat-chip-list #chipList aria-label="Indicador Profundo">
+                                              <mat-chip *ngFor="let key of item.deepIndicator"
+                                                  [selectable]="selectable" [removable]="removable"
+                                                  (removed)="remove( key, item )">
+                                                  {{ key.txt }}
+                                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                              </mat-chip>
+                                              <input placeholder="Indicador Profundo" [matChipInputFor]="chipList"
+                                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                  [matChipInputAddOnBlur]="addOnBlur"
+                                                  (matChipInputTokenEnd)="add($event, item)">
+                                          </mat-chip-list>
+                                      </mat-form-field>
+                                    </div>
+                                    <div class="row form-group col-6">
                                       <label for="exampleInpSubject" class="col-2">urlMedios:</label>
                                       <select class="form-control form-control-sm" [(ngModel)]="item.urlMedios">
+                                        <option value="">
+                                          None
+                                        </option>
                                         <option [value]="item.id" *ngFor="let item of listGaleria">
                                             {{ item.titulo }}</option>
                                       </select>
                                     </div>
                                     <div class="row form-group col-6">
                                       <label for="exampleInpSubject" class="col-2">Respuesta:</label>
-                                      <textarea class="form-control" [(ngModel)]="item.respuesta" rows="4" placeholder="Mensajes...."></textarea>
+                                      <textarea class="form-control" [(ngModel)]="item.respuesta" rows="6" placeholder="Mensajes...."></textarea>
                                     </div>
                                   </div>
                                 </li>

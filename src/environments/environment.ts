@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   url: "http://localhost:1335",
-  urlFile: "https://backlocompro.herokuapp.com",
+  urlFile: "https://apilokomprojs-7681dc4951e1.herokuapp.com",
+  urlSocket: "http://localhost:1335",
   //url: 'https://whatsappapiweb.herokuapp.com'
 };
 
