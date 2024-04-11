@@ -20,7 +20,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthInterceptor } from './services/authInterceptor';
 import { GlobalErrorHandler } from './services/globalErrorHandler';
-
+//import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+//const config: SocketIoConfig = { url: environment.urlSocket, options: {} };
 @NgModule({
   declarations: [
     AppComponent
@@ -38,7 +39,8 @@ import { GlobalErrorHandler } from './services/globalErrorHandler';
     MyOwnCustomMaterialModule,
     HttpClientModule,
     InfiniteScrollModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    //SocketIoModule.forRoot(config)
   ],
   providers: [
     {
@@ -47,7 +49,7 @@ import { GlobalErrorHandler } from './services/globalErrorHandler';
       multi   : true,
     },
     {
-      provide: ErrorHandler, 
+      provide: ErrorHandler,
       useClass: GlobalErrorHandler
     }
   ],

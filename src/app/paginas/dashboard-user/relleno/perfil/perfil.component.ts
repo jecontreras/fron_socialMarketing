@@ -13,7 +13,7 @@ import { UserAction } from 'src/app/redux/app.actions';
   styleUrls: ['./perfil.component.scss']
 })
 export class PerfilComponent implements OnInit {
-  
+
   data:any = {};
   btnDisabled:boolean = false;
   id:any;
@@ -23,12 +23,13 @@ export class PerfilComponent implements OnInit {
     private _user: UsuariosService,
     private _tools: ToolsService,
     private Router: Router
-  ) { 
+  ) {
 
     this._store.subscribe((store: any) => {
       console.log(store);
       store = store.name;
-      this.data = store.user;
+      this.data = _.clone( store.user ) || {};
+      console.log("***32",this.data)
     });
 
   }
@@ -36,7 +37,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit() {
   }
 
-  submit(){ 
+  submit(){
     this.update();
   }
 

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: "https://socialmarketingapi-baf712cf13d8.herokuapp.com",
-  urlFile: "https://backlocompro.herokuapp.com"
+  url: "http://localhost:1335",
+  urlFile: "https://apilokomproaqui1-9219656b6da1.herokuapp.com"
   //url: 'https://backsocialmarketing.herokuapp.com'
 };
 

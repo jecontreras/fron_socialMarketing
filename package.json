@@ -29,6 +29,7 @@
     "moment": "^2.24.0",
     "ngx-dropzone": "^2.5.0",
     "ngx-infinite-scroll": "^8.0.1",
+    "ngx-socket-io": "^2.1.1",
     "ngx-spinner": "^8.1.0",
     "rxjs": "~6.4.0",
     "sweetalert2": "^9.7.2",

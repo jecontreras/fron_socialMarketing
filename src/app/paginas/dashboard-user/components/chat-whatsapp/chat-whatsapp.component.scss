@@ -1,0 +1,129 @@
+/* Estilos para el listado de chats */
+.chat-list {
+  max-height: 730px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;
+}
+
+/* Estilo para cada elemento del chat */
+.chat-list div {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc; /* Línea separadora entre los chats */
+}
+
+/* Otros estilos según tus necesidades */
+
+.chat-list div:hover {
+  background-color: #f0f0f0;
+}
+
+.chat-list img {
+  width: 50px; /* Ajusta el tamaño del logo */
+  height: 50px; /* Ajusta el tamaño del logo */
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-list .chat-info {
+  flex: 1;
+}
+
+.chat-list .chat-info h5 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.chat-list .chat-info p, .chat-list .chat-info span {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+/* Otros estilos según tus necesidades */
+
+/* Estilos para la visualización detallada de un chat */
+.chat-detail {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.chat-detail img {
+  width: 100px; /* Ajusta el tamaño del logo */
+  height: 100px; /* Ajusta el tamaño del logo */
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.chat-detail h5 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.chat-detail p {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+.chat-detail .messages {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.chat-detail .messages div {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-detail .messages div:last-child {
+  border: none;
+}
+
+.chat-detail .messages p {
+  margin: 0;
+}
+
+.chat-detail textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-top: 10px;
+  resize: none;
+}
+
+.chat-detail button {
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+/* Otros estilos según tus necesidades */
+
+
+/* Estilos para mensajes enviados (derecha) */
+.chat-detail .messages .message.sent {
+  text-align: right;
+}
+
+/* Estilos para mensajes recibidos (izquierda) */
+.chat-detail .messages .message.received {
+  text-align: left;
+}
+
+/* Estilos para el timestamp de los mensajes */
+.chat-detail .messages .message span.timestamp {
+  display: block;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Otros estilos según tus necesidades */
+
+/* Estilo para la lista de mensajes con scroll */
+.chat-detail .message-list {
+  height: calc(100vh - 540px); /* Ajusta según tu diseño */
+  overflow-y: auto;
+}
+
+/* Otros estilos según tus necesidades */

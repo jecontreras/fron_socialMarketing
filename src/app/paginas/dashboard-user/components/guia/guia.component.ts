@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MensajesService } from 'src/app/services-components/mensajes.service';
-import { ToolsService } from 'src/app/services/tools.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToolsService } from 'src/app/services/tools.service';
 import * as _ from 'lodash';
-import { APPINT } from 'src/app/interfaces/interfasapp';
-import { Store } from '@ngrx/store';
-import { USER } from 'src/app/interfaces/user';
+import { GuiaService } from 'src/app/services-components/guia.service';
 
 declare interface DataTable {
   headerRow: string[];
@@ -15,11 +12,11 @@ declare interface DataTable {
 }
 
 @Component({
-  selector: 'app-mensajes',
-  templateUrl: './mensajes.component.html',
-  styleUrls: ['./mensajes.component.scss']
+  selector: 'app-guia',
+  templateUrl: './guia.component.html',
+  styleUrls: ['./guia.component.scss']
 })
-export class MensajesComponent implements OnInit {
+export class GuiaComponent implements OnInit {
 
   dataTable: DataTable;
   pagina = 10;
@@ -27,11 +24,11 @@ export class MensajesComponent implements OnInit {
   loader:boolean = false;
   query:any = {
     where:{
-      estado: 0,
-      tipoEnvio: [ 0,1 ]
+      estado: 0
     },
     sort: "createdAt DESC",
-    page: 0
+    page: 0,
+    limit: 10
   };
   Header:any = [ 'Acciones','Mensaje de','Para de','Mandado','Mensaje','Oferta','Estado', 'Creado' ];
   $:any;
@@ -41,23 +38,12 @@ export class MensajesComponent implements OnInit {
   notEmptyPost:boolean = true;
   coint:number;
   btnDisabled:boolean = false;
-  dataUser: USER;
-
   constructor(
-    private _mensajes: MensajesService,
+    private _guia: GuiaService,
     private spinner: NgxSpinnerService,
     private _tools: ToolsService,
-    private Router: Router,
-    private _store: Store<APPINT>,
-  ) {
-
-    this._store.subscribe((store: any) => {
-      console.log(store);
-      store = store.name;
-      this.dataUser = store.user;
-    });
-
-  }
+    private Router: Router
+  ) { }
 
   ngOnInit() {
     this.dataTable = {
@@ -77,7 +63,7 @@ export class MensajesComponent implements OnInit {
       estado: 1
     };
     return new Promise(resolve=>{
-      this._mensajes.editar(data).subscribe((res:any)=>{
+      this._guia.editar(data).subscribe((res:any)=>{
         this.dataTable.dataRows = this.dataTable.dataRows.filter( (row:any) => row.id !== obj.id );
         this._tools.presentToast("Eliminado");
         resolve(true);
@@ -94,10 +80,11 @@ export class MensajesComponent implements OnInit {
   }
 
   editar(obj:any){
-    this.Router.navigate(['/dashboard/mensajesform', obj.id]);
+    this.Router.navigate(['/dashboard/galeriaform', obj.id]);
   }
 
   onScroll(){
+    console.log("*************Men")
     if (this.notscrolly && this.notEmptyPost) {
        this.notscrolly = false;
        this.query.page++;
@@ -107,8 +94,7 @@ export class MensajesComponent implements OnInit {
 
    cargarTodos() {
      this.spinner.show();
-     this.query.where.creado = this.dataUser.id;
-     this._mensajes.get(this.query)
+     this._guia.get(this.query)
      .subscribe(
        (response: any) => {
         this.coint= response.count;
@@ -136,30 +122,15 @@ export class MensajesComponent implements OnInit {
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
     this.dataTable.dataRows = [];
-    this.query = { where:{ estado: 0, tipoEnvio: [ 0,1 ] }, page: 0 };
+    this.query = { where:{ estado: 0 }, page: 0 };
     if (this.datoBusqueda !== '') {
       this.query.page = 0;
       this.query.where.or = [
         {
-          nombre: {
+          titulo: {
             contains: this.datoBusqueda|| ''
           }
-        },
-        {
-          email: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          apellido: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          celular: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
+        }
       ];
     }
     this.cargarTodos();

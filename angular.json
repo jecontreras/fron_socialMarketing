@@ -126,5 +126,8 @@
         }
       }
     }},
-  "defaultProject": "pasarelaPago"
+  "defaultProject": "pasarelaPago",
+  "cli": {
+    "analytics": "ebb9ae64-7c7b-41af-ae5e-050f2f35384f"
+  }
 }

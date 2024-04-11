@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { APPINT } from 'src/app/interfaces/interfasapp';
 import { ArchivosService } from 'src/app/services-components/archivos.service';
@@ -25,7 +25,7 @@ export class FormGaleriaComponent implements OnInit {
   dataUser:any = {};
   btnDisabled:boolean = false;
   @Input() _dataConfig: any = {};
-  
+
   visible = true;
   selectable = true;
   removable = true;
@@ -45,8 +45,9 @@ export class FormGaleriaComponent implements OnInit {
     public dialog: MatDialog,
     private _archivos: ArchivosService,
     private _galeria: GaleriaService,
-    private _galeriaMensaje: GaleriaMensajeService
-  ) { 
+    private _galeriaMensaje: GaleriaMensajeService,
+    private Router: Router,
+  ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       this.dataUser = store.user || {};
@@ -65,9 +66,9 @@ export class FormGaleriaComponent implements OnInit {
             if( !this._dataConfig.vista ) this.id = (this.activate.snapshot.paramMap.get('id'));
           }
         }
-      }, 4000 ); 
+      }, 4000 );
     } catch (error) {
-      
+
     }
     this.agregarMasRotador();
   }
@@ -98,7 +99,8 @@ export class FormGaleriaComponent implements OnInit {
   crearPadre(){
     return new Promise( resolve =>{
       let data:any = {
-        titulo: this.data.titulo
+        titulo: this.data.titulo,
+        user: this.dataUser.id
       };
       this._galeria.saved( data ).subscribe( ( res:any ) =>{
         this.id = res.id;
@@ -109,8 +111,10 @@ export class FormGaleriaComponent implements OnInit {
 
   crearGaleria(){
     return new Promise( async( resolve ) =>{
+      this.data.user = this.dataUser.id;
       this._galeria.saved( { data: this.data } ).subscribe( ( res:any ) =>{
         this._tools.presentToast("Agregado Galeria...");
+        this.Router.navigate( ['/dashboard/galeriaform', res.id ] );
         resolve( true );
       },( ) => resolve( false ) );
     });
@@ -184,7 +188,7 @@ export class FormGaleriaComponent implements OnInit {
       this.data.listRotador = this.data.listRotador.filter( ( row:any ) => row.id != item.id );
     } ,( )=> this._tools.presentToast("Problemas para eliminar...") );
   }
-  
+
 
   guardarMensajes(){
     if( !this.id ) return false;

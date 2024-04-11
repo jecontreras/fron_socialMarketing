@@ -7,13 +7,13 @@ import * as _ from 'lodash';
   providedIn: 'root'
 })
 export class ToolsService {
-  
+
   loading:any;
 
   constructor(
     private snackBar: MatSnackBar
   ) { }
- 
+
   async presentToast(mensaje:string, type='completado') {
     this.snackBar.open(mensaje, type, {duration: 5000});
   }
@@ -92,9 +92,51 @@ export class ToolsService {
     })
   }
 
+  alertInput( opciones ){
+    return new Promise( resolve => {
+      Swal.fire({
+        title: opciones.title || 'Input',
+        input: opciones.input || 'text',
+        inputValue: opciones.value || '',
+        inputPlaceholder: opciones.placeholder || "",
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: opciones.confirme || 'Siguiente',
+        showLoaderOnConfirm: true,
+        preConfirm: ( txt ) => {
+          return txt;
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      }).then((result) => {
+        resolve( result ) ;
+      })
+    });
+  }
+
+  processPhoto( data ){
+    Swal.fire({
+      imageUrl: data.photo || 'https://placeholder.pics/svg/300x1500',
+      imageHeight: 500,
+      imageAlt: data.title || 'A tall image'
+    })
+  }
+
+  openFotoAlert( foto:string ){
+    Swal.fire({
+      title: '',
+      text: '',
+      imageUrl: foto,
+      imageWidth: 400,
+      imageHeight: 200,
+      imageAlt: '',
+    })
+  }
+
   transSlug( text:string="" ){
     return _.deburr( ( text.toLowerCase() ) );
   }
-  
+
 
 }
