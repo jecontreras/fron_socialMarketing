@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:1335",
+  url: "https://socialmarketingapi-baf712cf13d8.herokuapp.com",
   urlFile: "https://backlocompro.herokuapp.com"
   //url: 'https://backsocialmarketing.herokuapp.com'
 };
